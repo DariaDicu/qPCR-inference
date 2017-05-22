@@ -1,12 +1,13 @@
 #include <math.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <time.h>
 #include <gsl/gsl_linalg.h>
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
+#include <inttypes.h>
 
 //#define THIN 100
 #define ADAPTIVE_THRESHOLD 100
@@ -15,15 +16,56 @@
 #define ADAPTIVE_EPS 0.00001
 #define MAX_ACCEPTED 100000
 #define BURNIN 5000
-#define M 100 // Number of particles for bootstrap filter.
+#define M 200 // Number of particles for bootstrap filter.
 
-#define X0 20
+
 #define TRUE_ALPHA 0.05
 #define TRUE_P 0.8
 #define TRUE_SIGMA 100.0
 
+// To be used in log-sum-exp calculations.
+#define LOG_EPS -34 // ln(2^-53)
+#define LOG_M 5.29831736655 // ln(200)
+
+const int dilution_series_size = 4;
+const uint64_t dilution_series[4] = {32, 16, 8, 4};
+
 // Random number generator from GSL library used to sample from binomial.
 gsl_rng *gsl_rand;
+
+// Sample from normal distribution N(0, 1).
+double rand_N() {
+	// The method produces two independent random samples from N(0, 1). Using
+	// static variables to return the second one on every second call.
+	static unsigned int call = 0;
+	static double z0, z1;
+	if (call == 1) {
+		call = 0;
+		return z1;
+	}
+	double r1 = drand48();
+	double r2 = drand48();
+	z0 = sqrt(-2*log(r1))*cos(2*M_PI*r2);
+	z1 = sqrt(-2*log(r1))*sin(2*M_PI*r2);
+	call = 1;
+	return z0;
+}
+
+uint64_t binomial_sample(double p, uint64_t x) {
+	if ((double)x*p > 5.0 && (double)x*(1-p) > 5.0) {
+		// Approximate with normal and return.
+		// Sample from N(0, 1).
+		double N_sample = rand_N();
+		// Shift and scale to get N(xp, xp(1-p)).
+		double result = N_sample*sqrt(x*p*(1-p)) + x*p;
+		if (result < 0) {
+			printf("negative sample from binomial!!! overflow?\n");
+		}
+		return (uint64_t)result;
+	}
+	// Otherwise use GSL to sample.
+	return gsl_ran_binomial(gsl_rand, p, x);
+}
 
 // Sample uniformly from range (x, y).
 double uniform_in_range(double x, double y) {
@@ -32,11 +74,14 @@ double uniform_in_range(double x, double y) {
 
 // Samples from a discrete distribution according to the normalized array p.
 // Assumes normalized p is array of size M (number of particles in SMC).
+// int *samples is the array of indices that were sampled.
 void sample_discrete(const double* p, int* samples) {
 	double cdf[M];
 	int i, step;
 	cdf[0] = p[0];
 	for (i = 1; i < M; i++) cdf[i] = cdf[i-1] + p[i];
+	//for (i = 0; i < M; i++) printf("%G %G -- ", p[i], cdf[i]);
+	//printf("\n\n\n");
 	// First compute cumulative distribution.
 	for (int s = 0; s < M; s++) {
 		double r = uniform_in_range(0, 1);
@@ -59,62 +104,78 @@ double log_posterior(const double *F, int n, const double *theta) {
 	double alpha = theta[0];
 	double p = theta[1];
 	double sigma = theta[2];
-	int x0 = X0;
-	int x[M]; // Latent variable value at current time (initially t = 0).
+	uint64_t x[M]; // Latent variable value at current time (initially t = 0).
 	double w[M]; // Particle weights at current time.
 	double ll = 0;
-	
 	// Add on Jeffreys prior for sigma.
 	ll -= log(sigma);
+	// Compute likelihood independently for each dilution series.
+	for (int d = 0; d < dilution_series_size; d++) {
+		// Initialize particles at t = 0.
+		for (int k = 0; k < M; k++) {
+			x[k] = dilution_series[d];
+			w[k] = 1.0/M;
+		}
+		for (int i = 1; i <= n; i++) {
+			// Resample according to w.
+			int sampled_indices[M];
+			uint64_t x_samples[M];
+			sample_discrete(w, sampled_indices);
+			// Replace sample index sample[i] with x[sample[i]] (in place).
+			for (int k = 0; k < M; k++) x_samples[k] = x[sampled_indices[k]];
+			
+			// First compute the maximum from all the negative numbers to apply
+			// exp-normalize: norm(i) = exp(pi - max_p) / sum_j(exp(pj - max_p))
+			double max_p, prob;
+			for (int k = 0; k < M; k++) {
+				x[k] = x_samples[k] + binomial_sample(p, x_samples[k]);
+				prob = -(F[d*(n+1)+i] - alpha*x[k])*(F[d*(n+1)+i] - alpha*x[k])/
+					(2*sigma);
+				if (k == 0) max_p = prob;
+				if (max_p < prob) max_p = prob;
+			}
+			// Now rewrite x[k].
+			// Propagate each particle forward according to p(x_(t+1) | x_t)
+			// (i.e. sample from a binomial).
+			// Assign new weights.
+			double sum_exp_weights = 0.0;
+			double ll_weight = 0.0;
+			for (int k = 0; k < M; k++) {
+				// Compute the probability based on the existing x values.
+				// TODO: store p values instead of x to avoid recomputation.
+				prob = -(F[d*(n+1)+i] - alpha*x[k])*(F[d*(n+1)+i] - alpha*x[k])/
+					(2*sigma);
+				// Assign w[k] to be log(p(y_t | x_t)). Subtract max_p to avoid
+				// underflow.
+				w[k] = prob - max_p;
+				sum_exp_weights += (w[k] >= (LOG_EPS - LOG_M)) ?
+					exp(w[k]) : 0;
 
-	// Initialize particles at t = 0.
-	for (int k = 0; k < M; k++) {
-		x[k] = x0;
-		w[k] = 1.0/M;
-	}
-	for (int i = 1; i <= n; i++) {
-		// Resample according to w.
-		int samples[M];
-		sample_discrete(w, samples);
-		// Replace sample index sample[i] with x[sample[i]] (in place).
-		for (int k = 0; k < M; k++) samples[k] = x[samples[k]];
-		// First compute the maximum from all the negative numbers to apply
-		// exp-normalize: norm(i) = exp(pi - max_p) / sum_j(exp(pj - max_p)).
-		double max_p, prob;
-		for (int k = 0; k < M; k++) {
-			x[k] = samples[k] + gsl_ran_binomial(gsl_rand, p, samples[k]);
-			prob = -(F[i] - alpha*x[k])*(F[i] - alpha*x[k])/(2*sigma);
-			if (k == 0) max_p = prob;
-			if (max_p < prob) max_p = prob;
-		}
-		// Now rewrite x[k].
-		// Propagate each particle forward according to p(x_(t+1) | x_t) (i.e.
-		// sample from a binomial).
-		// Assign new weights.
-		double total_weights = 0;
-		for (int k = 0; k < M; k++) {
-			// Compute the probability based on the x values computed before.
-			// TODO: store p values instead of x to avoid recomputation.
-			prob = -(F[i] - alpha*x[k])*(F[i] - alpha*x[k])/(2*sigma);
-			// Assign w[k] to be p(y_t | x_t). Subtract max_p to avoid
+				// Add on all the weights for the final log likelihood.
+				ll_weight += exp(w[k]);
+			}
+
+			// Normalize the weights so they add up to 1. Move from log space
+			// to linear.
+			for (int k = 0; k < M; k++) {
+				w[k] = (w[k] >= (LOG_EPS - LOG_M)) ? 
+					(exp(w[k] - log(sum_exp_weights))) : 
+					0;
+			}
+			/*
+			if (i == n) {
+				for (int k = 0; k < M; k++) {
+					printf("%"PRIu64" ", x_samples[k]);
+				}
+				printf("\n\n\n\n");
+			}*/
+			// Normally log(2*M_PI*sigma)/2 is part of all w[k], but we
+			// subtract it only when computing the likelihood to avoid
+			// dealing with very small numbers (since it is constant for
+			// fixed sigma, so doesn't matter when weights are normalized).
+			// Add log(exp(max_p)) since it was factored out to avoid
 			// underflow.
-			w[k] = exp(prob - max_p);
-			total_weights += w[k];
-		}
-		for (int k = 0; k < M; k++) w[k] /= total_weights;
-		if (total_weights/M < DBL_MIN) {
-			// Hack to avoid taking log(0), but leads to incorrect results!
-			// User should see error/warning and ignore results in that case.
-			ll += log(DBL_MIN) - log(2*M_PI*sigma)/2 + max_p;
-			printf("Error! Very small weight value in particle filter!\n");
-			//printf("lp: %d %lf %lf\n", x0, p, sigma);
-		} else {
-			// Normally log(2*M_PI*sigma)/2 is part of all w[k], but we subtract
-			// it only when computing the likelihood to avoid dealing with very
-			// small numbers (since it is constant for fixed sigma, so doesn't
-			// matter when weights are normalized).
-			// Add log(exp(max_p)) since it was factored out to avoid underflow.
-			ll += log(total_weights/M) - log(2*M_PI*sigma)/2 + max_p;
+			ll += log(ll_weight) + max_p - log(M) - log(2*M_PI*sigma)/2;
 		}
 	}
 	//printf("lp: %d %lf %lf, p=%lf\n", x0, p, sigma, ll);
@@ -138,24 +199,6 @@ void cholesky(const double *A, double *chol, int n) {
 			chol[i*n+j] = (i < j) ? 0 : gsl_matrix_get (m, i, j);
 		}
 	}
-}
-
-// Sample from normal distribution N(0, 1).
-double rand_N() {
-	// The method produces two independent random samples from N(0, 1). Using
-	// static variables to return the second one on every second call.
-	static unsigned int call = 0;
-	static double z0, z1;
-	if (call == 1) {
-		call = 0;
-		return z1;
-	}
-	double r1 = drand48();
-	double r2 = drand48();
-	z0 = sqrt(-2*log(r1))*cos(2*M_PI*r2);
-	z1 = sqrt(-2*log(r1))*sin(2*M_PI*r2);
-	call = 1;
-	return z0;
 }
 
 // Sample from multivariate normal using an undecomposed covariance. It first
@@ -335,7 +378,7 @@ void simple_metropolis(double *f, int n, int params, double *cov,
 	double *theta_map, int iters) {
 	int out_of_bounds_rejections_count = 0;
 	FILE *fp;
-	fp = fopen("qpcr_posterior_samples.dat", "w");
+	fp = fopen("alpha_posterior_samples.dat", "w");
 	double theta[params];
 	for (int i = 0; i < params; i++) theta[i] = theta_map[i];
 	double lp_sample = log_posterior(f, n, theta);
@@ -405,7 +448,7 @@ void simple_metropolis(double *f, int n, int params, double *cov,
 // Generate fluorescence data F from a fixed theta = [X0 p sigma].
 void generate_data(const double *true_theta, double *F, int n) {
 	FILE *fp;
-	fp = fopen("qpcr_generated_data.dat", "w");
+	fp = fopen("alpha_generated_data.dat", "w");
 	//Print the parameter theta used to generate data.
 	for (int i = 0; i < 3; i++) {
 		fprintf(fp, "%lf ", true_theta[i]);
@@ -415,12 +458,16 @@ void generate_data(const double *true_theta, double *F, int n) {
 	double alpha = true_theta[0];
 	double p = true_theta[1];
 	double sigma = true_theta[2];
-	int x = X0;
-	for (int i = 1; i <= n; i++) {
-		x = x + gsl_ran_binomial(gsl_rand, p, x);
-		// First amplify, then measure fluorescence (since no F0 for x0).
-		F[i] = alpha*x + sqrt(sigma)*rand_N();
-		fprintf(fp, "%lf\n", F[i]);
+
+	for (int d = 0; d < dilution_series_size; d++) {
+		uint64_t x = dilution_series[d];
+		for (int i = 1; i <= n; i++) {
+			x = x + binomial_sample(p, x);
+			// First amplify, then measure fluorescence (since no F0 for x0).
+			F[d*(n+1)+i] = alpha*x + sqrt(sigma)*rand_N();
+			fprintf(fp, "%lf\n", F[d*(n+1)+i]);
+		}
+		fprintf(fp, "*****\n");
 	}
 	fclose(fp);
 }
@@ -442,8 +489,8 @@ int main(int argc, char* argv[]) {
 	srand48(my_seed);
 
 	// Generate fluorescence read data for n cycles.
-	int n = 12;
-	double F[n+1];
+	int n = 25;
+	double F[dilution_series_size*(n+1)];
 
 	// Theta = (X0, p, sigma). 
 	double true_theta[3] = {TRUE_ALPHA, TRUE_P, TRUE_SIGMA};
