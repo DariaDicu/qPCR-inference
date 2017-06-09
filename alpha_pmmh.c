@@ -17,18 +17,19 @@
 #define MAX_ACCEPTED 100000
 #define BURNIN 5000
 #define M 200 // Number of particles for bootstrap filter.
+#define BETA_NORM 3.141592653589793238463 // Beta(0.5, 0.5).
 
 
-#define TRUE_ALPHA 0.05
-#define TRUE_P 0.8
-#define TRUE_SIGMA 100.0
+#define TRUE_ALPHA 6.1940959044e-11
+#define TRUE_P 0.95
+#define TRUE_SIGMA 0.5
 
 // To be used in log-sum-exp calculations.
-#define LOG_EPS -34 // ln(2^-53)
+#define LOG_EPS -36 // ln(2^-53)
 #define LOG_M 5.29831736655 // ln(200)
 
 const int dilution_series_size = 4;
-const uint64_t dilution_series[4] = {32, 16, 8, 4};
+const int64_t dilution_series[4] = {32, 16, 8, 4};
 
 // Random number generator from GSL library used to sample from binomial.
 gsl_rng *gsl_rand;
@@ -51,17 +52,15 @@ double rand_N() {
 	return z0;
 }
 
-uint64_t binomial_sample(double p, uint64_t x) {
+
+int64_t binomial_sample(double p, int64_t x) {
 	if ((double)x*p > 5.0 && (double)x*(1-p) > 5.0) {
 		// Approximate with normal and return.
 		// Sample from N(0, 1).
 		double N_sample = rand_N();
 		// Shift and scale to get N(xp, xp(1-p)).
 		double result = N_sample*sqrt(x*p*(1-p)) + x*p;
-		if (result < 0) {
-			printf("negative sample from binomial!!! overflow?\n");
-		}
-		return (uint64_t)result;
+		return (int64_t)result;
 	}
 	// Otherwise use GSL to sample.
 	return gsl_ran_binomial(gsl_rand, p, x);
@@ -104,9 +103,12 @@ double log_posterior(const double *F, int n, const double *theta) {
 	double alpha = theta[0];
 	double p = theta[1];
 	double sigma = theta[2];
-	uint64_t x[M]; // Latent variable value at current time (initially t = 0).
+	int64_t x[M]; // Latent variable value at current time (initially t = 0).
 	double w[M]; // Particle weights at current time.
 	double ll = 0;
+
+	// Add Beta prior for p.
+	ll -= log(BETA_NORM*sqrt(p)*sqrt(1-p));
 	// Add on Jeffreys prior for sigma.
 	ll -= log(sigma);
 	// Compute likelihood independently for each dilution series.
@@ -119,7 +121,7 @@ double log_posterior(const double *F, int n, const double *theta) {
 		for (int i = 1; i <= n; i++) {
 			// Resample according to w.
 			int sampled_indices[M];
-			uint64_t x_samples[M];
+			int64_t x_samples[M];
 			sample_discrete(w, sampled_indices);
 			// Replace sample index sample[i] with x[sample[i]] (in place).
 			for (int k = 0; k < M; k++) x_samples[k] = x[sampled_indices[k]];
@@ -289,7 +291,7 @@ void simulate_for_MAP(double *F, int n, int params, double *cov,
 	}
 
 	printf("Theta MAP:\n");
-	for (int i = 0; i < params; i++) printf("%lf ", theta_map[i]);
+	for (int i = 0; i < params; i++) printf("%G ", theta_map[i]);
 	printf("\n");
 }
 
@@ -427,7 +429,7 @@ void simple_metropolis(double *f, int n, int params, double *cov,
 		if (i > BURNIN)
 		{
 			for (int j = 0; j < params; j++) {
-				fprintf(fp, "%lf ", theta[j]);
+				fprintf(fp, "%G ", theta[j]);
 			}
 			fprintf(fp, "\n");
 		}
@@ -435,11 +437,11 @@ void simple_metropolis(double *f, int n, int params, double *cov,
 	// Add a single line at the end containing MAP.
 	fprintf(fp, "MAP ");
 	for (int i = 0; i < params; i++) {
-		fprintf(fp, "%lf ", theta_map[i]);
+		fprintf(fp, "%G ", theta_map[i]);
 	}
 	fprintf(fp, "\n");
 	fclose(fp);
-	printf("Accepted: %lf\n", (double)accepted/(double)iters);
+	printf("Accepted: %G\n", (double)accepted/(double)iters);
 	printf("Out of bounds rejections count: %d\n",
 		out_of_bounds_rejections_count);
 
@@ -451,7 +453,7 @@ void generate_data(const double *true_theta, double *F, int n) {
 	fp = fopen("alpha_generated_data.dat", "w");
 	//Print the parameter theta used to generate data.
 	for (int i = 0; i < 3; i++) {
-		fprintf(fp, "%lf ", true_theta[i]);
+		fprintf(fp, "%G ", true_theta[i]);
 	}
 	fprintf(fp, "\n");
 
@@ -460,12 +462,12 @@ void generate_data(const double *true_theta, double *F, int n) {
 	double sigma = true_theta[2];
 
 	for (int d = 0; d < dilution_series_size; d++) {
-		uint64_t x = dilution_series[d];
+		int64_t x = dilution_series[d];
 		for (int i = 1; i <= n; i++) {
 			x = x + binomial_sample(p, x);
 			// First amplify, then measure fluorescence (since no F0 for x0).
 			F[d*(n+1)+i] = alpha*x + sqrt(sigma)*rand_N();
-			fprintf(fp, "%lf\n", F[d*(n+1)+i]);
+			fprintf(fp, "%G\n", F[d*(n+1)+i]);
 		}
 		fprintf(fp, "*****\n");
 	}
@@ -489,7 +491,7 @@ int main(int argc, char* argv[]) {
 	srand48(my_seed);
 
 	// Generate fluorescence read data for n cycles.
-	int n = 25;
+	int n = 37;
 	double F[dilution_series_size*(n+1)];
 
 	// Theta = (X0, p, sigma). 
@@ -502,7 +504,7 @@ int main(int argc, char* argv[]) {
 	double empirical_chol[9];
 	double theta_map[3];
 	double cov[9] = {
-		0.01,0,0,
+		1e-11,0,0,
 		0,0.01,0,
 		0,0,1};
 
@@ -517,7 +519,7 @@ int main(int argc, char* argv[]) {
 	cholesky(empirical_cov, empirical_chol, 3);
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			printf("%lf ", empirical_chol[i*3+j]);
+			printf("%G ", empirical_chol[i*3+j]);
 		}
 		printf("\n");
 	}
@@ -527,7 +529,7 @@ int main(int argc, char* argv[]) {
 	simple_metropolis(F, n, 3, empirical_chol, theta_map, 100000);
 	clock_t end = clock();
 	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-	printf("Total execution time: %lf\n", time_spent);
+	printf("Total execution time: %G\n", time_spent);
 	
 	gsl_rng_free(gsl_rand);
 

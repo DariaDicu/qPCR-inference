@@ -2,7 +2,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 # Constant used in data generation. TODO: Put in .dat file.
-alpha = 0.05
+alpha = 1.2627105436e-10
 
 file_obj = open("qpcr_posterior_samples.dat", "r")
 lines = file_obj.readlines()
@@ -13,8 +13,10 @@ for line in lines:
 	if (theta[0] == "MAP"):
 		# Extract the line containing the theta MAP.
 		theta_map = list(map(lambda theta_i: float(theta_i), theta[1:]))
-		continue
+		break
 	parsed_theta = list(map(lambda theta_i: float(theta_i), theta))
+	#if (parsed_theta[1] > 0.88):
+	#	continue
 	theta_values.append(parsed_theta)
 
 print("Theta MAP: ", theta_map)
@@ -44,16 +46,20 @@ p_trace.plot(theta_values[:, 1])
 sigma_trace.plot(theta_values[:, 2])
 
 # Parse generated training data from corresponding file.
-training_data_file = open("qpcr_generated_data.dat", "r")
+training_data_file = open("real_fluorescence_data.dat", "r")
 lines = training_data_file.readlines()
-true_theta = lines[0].split()
-true_theta = list(map(lambda theta_i: float(theta_i), true_theta))
 
-# Parse the rest of the data, corresponding to the generated fluorescence reads.
-lines = lines[1:]
+# Parse fluorescence data used for inference.
 f_data = []
 for line in lines:
 	f_data.append(float(line))
+
+print(f_data)
+
+theta_mean = [1, 2, 3]
+for i in range(3):
+	theta_mean[i] = np.mean(theta_values[:,i])
+print("Theta mean: ", theta_mean)
 
 cycles = len(f_data)
 
@@ -71,6 +77,7 @@ for theta in theta_values:
 		ampl_curve.append(alpha*molecules)
 	y.append(ampl_curve)
 
+
 # Simulate curve for theta_MAP.
 molecules = theta_map[0]
 y_map = []
@@ -78,14 +85,6 @@ for c in range(cycles):
 	diff = np.random.binomial(molecules, theta_map[1])
 	molecules = molecules + diff
 	y_map.append(alpha*molecules)
-'''
-# Simulate curve for true theta.
-molecules = true_theta[0]
-y_true = [molecules]
-for c in range(cycles):
-	diff = np.random.binomial(molecules, true_theta[1])
-	molecules = molecules + diff
-	y_true.append(molecules)'''
 
 # Get y-value for Q5, Q95 and mean values at each cycle.
 y = np.asarray(y)

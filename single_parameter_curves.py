@@ -10,8 +10,6 @@ p = 0.8
 alpha = 0.05
 sigma = 100
 
-
-
 # Perform multiple simulations for single parameter.
 cycles = 15
 

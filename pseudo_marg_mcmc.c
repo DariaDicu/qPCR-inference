@@ -16,18 +16,19 @@
 #define ADAPTIVE_EPS 0.00001
 #define MAX_ACCEPTED 100000
 #define BURNIN 5000
-#define ALPHA 1.8089892428e-09
+#define ALPHA 3.03125968064e-09
 #define M 200 // Number of particles for bootstrap filter.
 #define MIN_X0 1 // Minimum number of initial molecules.
-#define MAX_X0 100 // Maximum number of initial molecules.
+#define MAX_X0 1000 // Maximum number of initial molecules.
 #define BETA_NORM 3.141592653589793238463 // Beta(0.5, 0.5).
+//#define BETA_NORM 0.00202020202020202020202 // Beta(9, 3) for p in (0.7, 0.9).
 
-#define TRUE_X0 9
-#define TRUE_P 0.95
-#define TRUE_SIGMA 0.001
+#define TRUE_X0 266
+#define TRUE_P 0.9
+#define TRUE_SIGMA 0.1
 
 // To be used in log-sum-exp calculations.
-#define LOG_EPS -34 // ln(2^-53)
+#define LOG_EPS -36 // ln(2^-53)
 #define LOG_M 5.29831736655 // ln(200)
 
 // Random number generator from GSL library used to sample from binomial.
@@ -50,17 +51,14 @@ double rand_N() {
 	return z0;
 }
 
-uint64_t binomial_sample(double p, uint64_t x) {
+int64_t binomial_sample(double p, int64_t x) {
 	if ((double)x*p > 5.0 && (double)x*(1-p) > 5.0) {
 		// Approximate with normal and return.
 		// Sample from N(0, 1).
 		double N_sample = rand_N();
 		// Shift and scale to get N(xp, xp(1-p)).
 		double result = N_sample*sqrt(x*p*(1-p)) + x*p;
-		if (result < 0) {
-			printf("negative sample from binomial!!! overflow?\n");
-		}
-		return (uint64_t)result;
+		return (int64_t)(result > 0 ? result : 0);
 	}
 	// Otherwise use GSL to sample.
 	return gsl_ran_binomial(gsl_rand, p, x);
@@ -97,16 +95,17 @@ void sample_discrete(const double* p, int* samples) {
 
 // Assumes 3 params in theta: x0, p, sigma.
 double log_posterior(const double *F, int n, double alpha, const double *theta) {
-	uint64_t x0 = (uint64_t)theta[0];
+	int64_t x0 = (int64_t)theta[0];
 	double p = theta[1];
 	double sigma = theta[2];
-	uint64_t x[M]; // Latent variable value at current time (initially t = 0).
+	int64_t x[M]; // Latent variable value at current time (initially t = 0).
 	double w[M]; // Particle weights at current time.
 	double ll = 0;
 
 	// Add Beta prior for p.
-	ll -= log(BETA_NORM*sqrt(p)*sqrt(1-p));
-	
+	ll -= log(BETA_NORM) + 0.5*log(p) + 0.5*log(1-p);
+	//ll -= log(BETA_NORM) + 8*log(p) + 2*log(1-p);
+
 	// Add on Jeffreys prior for sigma.
 	ll -= log(sigma);
 
@@ -117,10 +116,10 @@ double log_posterior(const double *F, int n, double alpha, const double *theta) 
 		return NEG_INF;
 	}
 
-	// Add log prior for X0.
-	double c = 0;
-	for (int i = MIN_X0; i <= MAX_X0; i++) c += (1/i);
-	ll += log(c) - log(x0);
+	// Add log prior for X0. TODO: Do we need to compute c actually?
+	// double c = 0;
+	//for (int i = MIN_X0; i <= MAX_X0; i++) c += (1/i);
+	ll -= log(x0);
 
 	// Initialize particles at t = 0.
 	for (int k = 0; k < M; k++) {
@@ -130,7 +129,7 @@ double log_posterior(const double *F, int n, double alpha, const double *theta) 
 	for (int i = 1; i <= n; i++) {
 		// Resample according to w.
 		int sample_indices[M];
-		uint64_t x_samples[M];
+		int64_t x_samples[M];
 		sample_discrete(w, sample_indices);
 		// Replace sample index sample[i] with x[sample[i]] (in place).
 		for (int k = 0; k < M; k++) x_samples[k] = x[sample_indices[k]];
@@ -138,7 +137,7 @@ double log_posterior(const double *F, int n, double alpha, const double *theta) 
 		// exp-normalize: norm(i) = exp(pi - max_p) / sum_j(exp(pj - max_p)).
 		double max_p, prob;
 		for (int k = 0; k < M; k++) {
-			x[k] = x_samples[k] + gsl_ran_binomial(gsl_rand, p, x_samples[k]);
+			x[k] = x_samples[k] + binomial_sample(p, x_samples[k]);
 			prob = -(F[i] - alpha*x[k])*(F[i] - alpha*x[k])/(2*sigma);
 			if (k == 0) max_p = prob;
 			if (max_p < prob) max_p = prob;
@@ -179,7 +178,7 @@ double log_posterior(const double *F, int n, double alpha, const double *theta) 
 		// fixed sigma, so doesn't matter when weights are normalized).
 		// Add log(exp(max_p)) since it was factored out to avoid
 		// underflow.
-		ll += log(ll_weight) + max_p - log(M) - log(2*M_PI*sigma)/2;
+		ll += log(sum_exp_weights) + max_p - log(M) - log(2*M_PI*sigma)/2;
 	}
 	return ll;
 }
@@ -331,6 +330,8 @@ void simulate_adaptive_mh(double *f, int n, int params, double* cov0,
 			// Accept.
 			lp_sample = lp_proposal;
 			accepted += 1;
+			//for (int i = 0; i < params; i++)
+				//printf("%d Old %G, new %G, prob: %G %G\n", i, theta[i], new_theta[i], lp_proposal, lp_sample);
 			memcpy(theta, new_theta, sizeof(new_theta));
 		}
 
@@ -375,11 +376,9 @@ void simulate_adaptive_mh(double *f, int n, int params, double* cov0,
 	printf("Accepted in Adaptive MH: %d out of %d\n", accepted, iters);
 }
 
-void simple_metropolis(double *f, int n, int params, double *cov,
-	double *theta_map, int iters, double alpha) {
+void simple_metropolis(FILE *sample_fp, double *f, int n, int params,
+	double *cov, double *theta_map, int iters, double alpha) {
 	int out_of_bounds_rejections_count = 0;
-	FILE *fp;
-	fp = fopen("qpcr_posterior_samples.dat", "w");
 	double theta[params];
 	for (int i = 0; i < params; i++) theta[i] = theta_map[i];
 	double lp_sample = log_posterior(f, n, alpha, theta);
@@ -428,18 +427,17 @@ void simple_metropolis(double *f, int n, int params, double *cov,
 		if (i > BURNIN)
 		{
 			for (int j = 0; j < params; j++) {
-				fprintf(fp, "%lf ", theta[j]);
+				fprintf(sample_fp, "%lf ", theta[j]);
 			}
-			fprintf(fp, "\n");
+			fprintf(sample_fp, "\n");
 		}
 	}
 	// Add a single line at the end containing MAP.
-	fprintf(fp, "MAP ");
+	fprintf(sample_fp, "MAP ");
 	for (int i = 0; i < params; i++) {
-		fprintf(fp, "%lf ", theta_map[i]);
+		fprintf(sample_fp, "%lf ", theta_map[i]);
 	}
-	fprintf(fp, "\n");
-	fclose(fp);
+	fprintf(sample_fp, "\n");
 	printf("Accepted: %lf\n", (double)accepted/(double)iters);
 	printf("Out of bounds rejections count: %d\n",
 		out_of_bounds_rejections_count);
@@ -447,30 +445,52 @@ void simple_metropolis(double *f, int n, int params, double *cov,
 }
 
 // Generate fluorescence data F from a fixed theta = [X0 p sigma].
-/*
-void generate_data(const double *true_theta, double alpha, double *F, int n) {
+void generate_data(double alpha, double *F, int n) {
 	FILE *fp;
 	fp = fopen("qpcr_generated_data.dat", "w");
-	//Print the parameter theta used to generate data.
-	for (int i = 0; i < 3; i++) {
-		fprintf(fp, "%lf ", true_theta[i]);
-	}
-	fprintf(fp, "\n");
-
-	uint64_t x = true_theta[0];
-	double p = true_theta[1];
-	double sigma = true_theta[2];
+	int64_t x = TRUE_X0;
+	double p = TRUE_P;
+	double sigma = TRUE_SIGMA;
 	for (int i = 1; i <= n; i++) {
-		x = x + gsl_ran_binomial(gsl_rand, p, x);
+		x = x + binomial_sample(p, x);
 		// First amplify, then measure fluorescence (since no F0 for x0).
 		F[i] = alpha*x + sqrt(sigma)*rand_N();
 		fprintf(fp, "%lf\n", F[i]);
 	}
 	fclose(fp);
-}*/
-
-void generate_data(const double *true_theta, double alpha, double *F, int n) {
 }
+
+void read_data_file(double *F, int* n) {
+	FILE *fp;
+	fp = fopen("fluorescence_reads.dat", "r");
+	*n = 0;
+	// F[0] will be 0 (index at 1, since no read for X0).
+	double d;
+	while (fscanf(fp, "%lf", &d) != EOF) {
+		F[++(*n)] = d;
+		printf("%lf\n", F[*n]);
+	}
+	fclose(fp);
+}
+
+void read_alpha_samples(double *alphas, int* alpha_count) {
+	FILE *fp;
+	fp = fopen("sigmoid/alpha_samples_10_03_17.dat", "r");
+	*alpha_count = 0;
+	// F[0] will be 0 (index at 1, since no read for X0).
+	double d;
+	while (fscanf(fp, "%lf", &d) != EOF) {
+		alphas[*alpha_count] = d;
+		(*alpha_count)++;
+		printf("%G\n", alphas[(*alpha_count)-1]);
+	}
+
+	if (*alpha_count == 0) {
+		printf("Error! No alpha found, so no simulations will be run.");
+	}
+	fclose(fp);
+}
+
 int main(int argc, char* argv[]) {
 	int my_seed;
 	// Setup GSL library.
@@ -485,49 +505,67 @@ int main(int argc, char* argv[]) {
 		my_seed = atoi(argv[1]);		
 		printf("Seed = %d\n", my_seed);
 	}
+
+	// Read all the alpha values for which the experiment is performed.
+	double alphas[100];
+	int alpha_count;
+
+	// Use mean alpha.
+	alpha_count = 1;
+	alphas[0] = ALPHA;
+	//read_alpha_samples(alphas, &alpha_count);
+
 	srand48(my_seed);
 
 	// Generate fluorescence read data for n cycles.
-	int n = 37;
-	double F[38] = {0, 72.82785, 72.63712, 72.191, 71.970085, 71.81236, 71.40668, 71.38035, 71.2164, 71.15454, 70.85336, 70.80356, 70.846344, 70.744194, 70.67347, 70.63324, 70.682274, 70.603294, 70.491585, 70.634895, 70.57279, 70.381645, 70.60194, 70.6927, 70.95719, 71.1899, 71.70776, 73.4663, 76.164795, 81.76282, 91.069405, 105.04239, 123.316795, 142.38017, 158.53575, 170.68729, 180.3855, 186.02364};
+	int n = 35;
+	double F[50];
+	read_data_file(F, &n);
 
-	// Theta = (X0, p, sigma). 
-	double true_theta[3] = {TRUE_X0, TRUE_P, TRUE_SIGMA};
-
-	generate_data(true_theta, ALPHA, F, n);
-
-	// Empirical covariance to be derived using Adaptive MH or a simple MH run.
-	double empirical_cov[9];
-	double empirical_chol[9];
-	double theta_map[3];
-	double cov[9] = {
-		1,0,0,
-		0,0.01,0,
-		0,0,1};
-
-	// Run simulation to get MAP estimate.
-	simulate_for_MAP(F, n, 3, cov, theta_map, 10000, ALPHA);
+	FILE *sample_fp;
+	sample_fp = fopen("qpcr_posterior_samples.dat", "w");
 	
-	// Run adaptive MH to get a better covariance estimate.
-	simulate_adaptive_mh(F, n, 3, cov, empirical_cov, theta_map, 10000, ALPHA);
-	
-	
-	printf("\nCholesky factor of empirical covariance from Adaptive MH:\n");
-	cholesky(empirical_cov, empirical_chol, 3);
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++) {
-			printf("%lf ", empirical_chol[i*3+j]);
+	//int n = 33;
+	//double F[34] = {-2.3587244, -2.6983492, -1.9109296, -2.1335807, -1.9479525, -2.071635, -1.7535911, -1.3254243, -1.359431, -0.9234365, -0.6631012, 0.14061485, -0.39528397, -0.28401175, -0.45026642, -0.17291754, -0.34956342, 0.028798621, 0.10734072, 0.14239527, 0.2283379, -0.2097826, -0.0049282406, -0.0034735396, 0.07004842, 0.48085067, 1.5396785, 2.4239457, 4.8140874, 10.187536, 18.863415, 34.54065, 57.119057};
+
+	// Uncomment if simulating experiment in silico.
+	// generate_data(alpha, F, n);
+	for (int run = 0; run < alpha_count; run++) {
+		// Empirical covariance to be derived using Adaptive MH or a simple MH run.
+		double alpha = alphas[run];
+		double empirical_cov[9];
+		double empirical_chol[9];
+		double theta_map[3];
+		double cov[9] = {
+			0.1,0,0,
+			0,0.1,0,
+			0,0,0.1};
+
+		// Run simulation to get MAP estimate.
+		simulate_for_MAP(F, n, 3, cov, theta_map, 1000, alpha);
+		
+		// Run adaptive MH to get a better covariance estimate.
+		simulate_adaptive_mh(F, n, 3, cov, empirical_cov, theta_map, 1000,
+			alpha);
+		
+		printf("\nCholesky factor of empirical covariance from Adaptive MH:\n");
+		cholesky(empirical_cov, empirical_chol, 3);
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				printf("%lf ", empirical_chol[i*3+j]);
+			}
+			printf("\n");
 		}
-		printf("\n");
-	}
 
-	// Run MH with bootstrap particle filter step using covariance estimate
-	// from adaptive MH.
-	simple_metropolis(F, n, 3, empirical_chol, theta_map, 1000000, ALPHA);
+		// Run MH with bootstrap particle filter step using covariance estimate
+		// from adaptive MH.
+		simple_metropolis(sample_fp, F, n, 3, empirical_chol, theta_map, 1000000,
+			alpha);
+	}
 	clock_t end = clock();
 	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 	printf("Total execution time: %lf\n", time_spent);
-	
+	fclose(sample_fp);
 	gsl_rng_free(gsl_rand);
 
 	return 0;

@@ -1,0 +1,50 @@
+.navbar-default {
+	background-color: rgba(75, 72, 74, 0.95);
+	border-color: transparent;
+   	font-size: 14px;
+   	letter-spacing: 1px;
+   	font-weight: 400;
+
+}
+nav a {
+   	border-color: transparent;
+}
+nav ul.navbar-right li a span {
+	color: rgba(255, 255, 255, 0.75);
+   	cursor: pointer;
+}
+nav ul.navbar-right li a span:hover {
+	color: #FFF;
+
+}
+
+nav ul.navbar-left li a i {
+	color: rgba(255, 255, 255, 0.75);
+   	cursor: pointer;
+}
+nav ul.navbar-left li a i:hover {
+	color: rgba(255, 255, 255, 0.75);
+}
+
+.navbar-right {
+	padding-right: 50px;
+}
+.navbar-left {
+	padding-left: 50px;
+}
+.navbar.navbar-default.navbar-static-top.transparent{
+   background-color: transparent;
+   background: transparent;
+   border-color: transparent;
+} 
+.navbar.navbar-static-top{
+	background-color: #000;
+	margin-top: 50px;
+}
+.navbar {
+	padding-top: 10px;
+	text-align: left;
+}
+#header.on_fixed_navbar {
+	margin-top: 120px;
+}
