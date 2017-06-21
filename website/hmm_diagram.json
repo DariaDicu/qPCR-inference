@@ -1,0 +1,13 @@
+{
+  "nodes":[
+		{"name":"X0","group":1},
+		{"name":"X1","group":2},
+		{"name":"X2","group":3},
+		{"name":"X3","group":4}
+	],
+	"links":[
+		{"source":0,"target":1},
+		{"source":1,"target":2},
+		{"source":2,"target":3}
+	]
+}

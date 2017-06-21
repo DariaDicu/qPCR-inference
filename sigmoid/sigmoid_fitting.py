@@ -2,6 +2,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
 import re
+import json
 
 # TODO: + C*f
 def F(C, Fmax, Chalf, k, Fb):
@@ -150,6 +151,13 @@ alpha_plot.set_xticklabels(['BJCOII (02/03/17)', 'BJ-CYB C57 (02/03/17)', 'BJmmM
 #alpha_plot.scatter(range(1, iteration+1), alpha_samples)
 #alpha_plot.axhline(y=np.mean(alpha_samples))
 #alpha_plot.set_ylim([min_v, max_v])
+json_outfile = open("../website/alpha_boxplots.json", "w")
+json_obj = dict([('exp1', alpha_samples_1.tolist()),
+	('exp2', alpha_samples_2.tolist()), 
+	('exp3', alpha_samples_3.tolist()),
+	('exp4', alpha_samples_4.tolist())])
+r = json.dumps(json_obj)
+json_outfile.write(r)
 
 
 plt.show()

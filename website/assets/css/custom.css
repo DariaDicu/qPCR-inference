@@ -1,3 +1,8 @@
+html body p {
+	font-weight: 200;
+	font-family: "Lato","proxima-nova","Helvetica Neue",Arial,sans-serif;
+}
+
 .navbar-default {
 	background-color: rgba(75, 72, 74, 0.95);
 	border-color: transparent;
@@ -17,13 +22,19 @@ nav ul.navbar-right li a span:hover {
 	color: #FFF;
 
 }
-
 nav ul.navbar-left li a i {
 	color: rgba(255, 255, 255, 0.75);
    	cursor: pointer;
 }
 nav ul.navbar-left li a i:hover {
 	color: rgba(255, 255, 255, 0.75);
+}
+nav ul.navbar-left li a span {
+	color: rgba(255, 255, 255, 0.75);
+   	cursor: pointer;
+}
+nav ul.navbar-left li a span:hover {
+	color: #FFF;
 }
 
 .navbar-right {

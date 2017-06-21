@@ -2,7 +2,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 # Constant used in data generation. TODO: Put in .dat file.
-alpha = 1.2627105436e-10
+alpha = 3.03125968064e-09
 
 file_obj = open("qpcr_posterior_samples.dat", "r")
 lines = file_obj.readlines()

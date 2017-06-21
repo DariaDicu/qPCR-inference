@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<!--
+	Photon by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Absolute quantitation of mtDNA</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/custom.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+			<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+			  <div class="container-fluid">
+			  <ul class="nav navbar-nav navbar-left">
+			  	<li><a href="index.html#landing_page">
+			  		<i class="fa fa-line-chart fa-2x" aria-hidden="true"></i>
+			  		</a>
+			  	<li>
+			  </ul>
+	          <ul class="nav navbar-nav navbar-right">
+		        <li><a href="index.html"><span>INTRO<span></a></li>
+		        <li><a href="background.html"><span>BACKGROUND<span></a></li>
+		        <li><a href="model.html"><span>MODEL<span></a></li>
+		        <li><a href="inference.html"><span>INFERENCE<span></a></li>
+		        <li><a href="results.html"><span>RESULTS<span></a></li>
+		        <li><a href="summary.html"><span>SUMMARY<span></a></li>
+		      </ul>
+			  </div>
+			</nav>
+
+		<!-- One -->
+			<section id="one" class="main style1">
+				<div class="container">
+					<div class="row 150%">
+						<div class="8u 12u$(medium)">
+							<header class="major">
+								<h2>Modelling the uncertainty and stochasticity</h2>
+								<p>We wish to obtain a mathematical model for the qPCR experiment that captures both the stochasticity of the amplification at each cycle and the uncertainty in fluorescence reads.
+							</header>
+							<p>For a qPCR experiment with n cycles, our mathematical model has the following random variables:
+							<ul>
+							<li>X0, the initial number of molecules</li>
+							<li>X1, …, Xn, the number of molecules present after each cycle</li>
+							<li>F1, …, Fn, the fluorescence reads observed after each cycle</li>
+							</ul>
+							</p>
+							<p>The aim is to relate these random variables through a model. Then, using an inference method (see <a href="inference.html">Inference)</a>), we can estimate the marginal probability P(X0 = x0 | f1, …, fn) of the initial number of molecules being some constant x0 given a set of known observations f1, …, fn. The inference method additionally estimates other probabilities that may be useful in understanding the results (see <a href="results.html#one">Results)</a>).
+							</p>
+							<p>
+								We view the qPCR experiment as a random branching process with an amplification efficiency r that is constant during the exponential phase. The efficiency indicates how likely it is for each individual molecule to be amplified. A Binomial distribution is used to capture the number of new copies at each cycle, as each molecule undergoes an independent Bernoulli trial with probability r. The following equation relates the number of molecules from consecutive cycles:
+
+								X(i+1) = X(i) + Binom(X(i), r), where i >= 0 
+							</p>
+							<p>
+								The fluorescence intensity emitted by the reporter dye at a given cycle i is proportional to the number of molecules Xi. However, the measurements are made in the presence of background fluorescence, which we model as an additive Gaussian noise. The data we use is background corrected, so the Gaussian distribution has mean 0 and unknown variance s2:
+								F(i) = a*X(i) + N(0, s2).
+							</p>
+						</div>
+						<br/>
+						<div class="4u$ 12u$(medium) important(medium)">
+							*amplification chart*
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section id="two" class="main style1">
+			<div class="container">
+				<div class="row 150%">
+					<div class="6u 12u$(medium)">
+						<!-- Diagram from draw.io -->
+						<div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;toolbar&quot;:&quot;zoom layers lightbox&quot;,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile userAgent=\&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36\&quot; version=\&quot;6.7.10\&quot; editor=\&quot;www.draw.io\&quot; type=\&quot;google\&quot;&gt;&lt;diagram id=\&quot;dd730149-67dd-e423-68cc-359f2c7b0904\&quot; name=\&quot;Page-1\&quot;&gt;7VxNc6s2FP01Xr4OSALjZeImfZtOM5NF06WMZJt5GFwsJ05/fYURXxIk2EEI28kiA1cg4J5zxL1XwhM43xz+SPB2/WdMaDgBFjlM4O8TAKYzi/9PDe+ZwQF2ZlglAclMFcNz8B8VRnHeah8QuqsdyOI4ZMG2bvTjKKI+q9lwksRv9cOWcVi/6havqGJ49nGoWv8OCFtnVs+xSvtPGqzW+ZVtS7QssP9rlcT7SFxvAuDy+Jc1b3Delzh+t8YkfquY4MMEzpM4ZtnW5jCnYera3G3ZeY8trcV9JzRiXU4AHgbezCGEIOJ4ZPpD9PCKwz3NH+F4o+w9d87x8WjagT2B92/rgNHnLfbT1jfOBm5bs00ompdBGM7jME6O56bOAL7P7TuWxL9opYW4C9dx0zPiiAlG2IjvixuiCaOH1qe0C99xStJ4Q1nyzg/J+Si8Ldhou2L/rcQ2N60rsOY2LNi0KjouPco3hFM7OhgpDn6ZADdkqU/2C765Sjet3Mb7r5gVLLhPWN3hdcdGcUQlFIQJh8Eq4rs+9yHl9vvUwwGXwJ1o2ASEpJdpRFgDSJ4EkqeChBpAAjpAcvSqgGDqLRtV4PoeXSz1ONgekwzcTjKwb08G9ph0ML1GHYzqdeB10gG4PR2M6n0wu0YdONaIdJBH/p8IIbo9ITj2iIRga84PiEM9gpqU4IEFdDXlB3JkBIwqATS4WBFCYdriqOZ+9999mjwe3fRjd/TTHT/ABttD2Zj38liV07Gn77gr54BRmcFrlJkceJmVmZqIDy6z77DOsMx05/lGZCbHdWZlpib6g8vsO2g0LDPNZQQzRWXo1l1sVGVqGSG5ZnpDKZIwyu4OxQEakbt0Wir1YYh3u8CvA0EPAXvh29Zvjtj7J2+J+P1VmtLdtM1qdSwlytyW5FZ+a/E+8ekncmU4WVHWcpDTjE8FAKcBgNyW0BCz4LV+n02oiCs8xQF/grb5HDiTcM0eT5xUQqv0YwOpIyR1lLlA6ejIkeKpz6NNfukv0UYLOT7EfWoS9wLodwm/U4EHck1lOiDwHXK7rwDfPpaYHC9mJnmD5EonPJM30CRvmhLWy4+iJGigyTAKNOSD84fJva04+ppiKYnT0GQwBZrSxYsnOZJdbJTkDdnY/HHiwTIv3zYXqLZyur5IbiGXRnKUaFQgaqbXW/TQnolozDby19qH0YPdgtCFhQ8OMhg+9JGmfkAcTflGNhNiLOGALQP3VxMOKFNII/L5pS4NeaMlht6QV8KrIZHvMFt/WS8Ld/zEkcZ4KI/x574sBiUO6IE4ZshhLEhwesJdyYjlOFIn7hprUzpfFWbDQ1moF/mq6FBd6qp4u6r3kgQvQv5ltfLYpqsq2YE3Y5rEQH1NYqABJzFghwUUF8UapwNrjE6B2NJgA6xzaSMvxJE70kmbDgsCxkWbsaQhtjc7890if/Qgd6QT7j5qVjcBN5LWlNjnvhSUtf1yRxrhzkeojnCLsm8Fa4J366K+n+48YcZoEh0twCoX1OXf5qILhBrOYD/KRsgzpmzUR4FhTGtfurz/zWYbVxEAoD7yzKHXOXRZ5mC2XA2kVADIqUDncrXckTcgN3rMREcxpsy68MZszVJeLdzX+hgw4AQXUnPRnwEhNFtQjhlVWPT1OeqQLtkIZqhdqfZY/BxJhT6zBvpomaFGJy3hsE5ewlF8LCs7sv3j2T5cLAfUDS4ebBEAOmlB/Rkuzr9b+dTFxXcsOlyMTLpYzVn/Wuxo8srH2Ti6oaGkAYThhpKTvrs/nefFarBPeV6sDtPBc6O/dKMm6084wbxjmtwQyxsg6InlfLf8Oa8szil/Mg0+/A8=&lt;/diagram&gt;&lt;/mxfile&gt;&quot;}"></div>
+					</div>
+					<div class="6u$ 12u$(medium)">
+						<header class="major">
+							<h2>Hidden Markov Model</h2>
+						</header>
+						<p>
+						These relationships can be integrated in a Hidden Markov Model, where the fluorescence reads are observed states and X1, …, Xn are hidden states. The parameters of the model are the initial number of molecules X0, the efficiency r and the noise s2.
+						</p>
+ 						<p>
+						The model can be extended to account for other sources of uncertainty, and these states integrated in the inference. For example, the stochasticity in the pipetting procedure can be modelled by adding an extra state *add diagram*
+						</p>
+					</div>
+				</div>
+			</div>
+			</section>
+
+		<!-- Footer -->
+			<section id="footer">
+				<ul class="copyright">
+					<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+				</ul>
+			</section>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<!-- High charts -->
+			<script src="https://code.highcharts.com/highcharts.js"></script>
+			<script src="https://code.highcharts.com/modules/exporting.js"></script>
+			<script type="text/javascript" src="https://www.draw.io/js/viewer.min.js"></script>
+
+	</body>
+</html>

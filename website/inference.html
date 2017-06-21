@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<!--
+	Photon by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Absolute quantitation of mtDNA</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/custom.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+			<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+			  <div class="container-fluid">
+			  <ul class="nav navbar-nav navbar-left">
+			  	<li><a href="index.html#landing_page">
+			  		<i class="fa fa-line-chart fa-2x" aria-hidden="true"></i>
+			  		</a>
+			  	<li>
+			  </ul>
+	          <ul class="nav navbar-nav navbar-right">
+		        <li><a href="index.html"><span>INTRO<span></a></li>
+		        <li><a href="background.html"><span>BACKGROUND<span></a></li>
+		        <li><a href="model.html"><span>MODEL<span></a></li>
+		        <li><a href="inference.html"><span>INFERENCE<span></a></li>
+		        <li><a href="results.html"><span>RESULTS<span></a></li>
+		        <li><a href="summary.html"><span>SUMMARY<span></a></li>
+		      </ul>
+			  </div>
+			</nav>
+
+		<!-- One -->
+			<section id="one" class="main style1">
+				<div class="container">
+					<div class="row 150%">
+						<div class="8u 12u$(medium)">
+							<header class="major">
+								<h2>Overview</h2>
+								<p>The goal is to perform parameter inference on the Hidden Markov Model in order to obtain samples from the posterior probability \(P(θ | f_{1:n})\), where \(θ = [x_0</sub>, r, σ^2]\) and \(f_{1:n}\) is the fluorescence data. This project builds on the work of Lalam et al (cite) and uses a specialisation of the Metropolis Hastings (MH) algorithm.</p>
+							</header>
+							<p>
+								Metropolis Hastings is a common method for sampling from the posterior when the posterior itself is difficult to compute, but a function \(g(\theta)\) that is proportional to the posterior is computationally feasible. The function \(f(\theta)\) that we use in this case is the product of the likelihood and the prior probabilities:
+								$$g(\theta| f_{1:n}) = p(f_{1:n} | \theta) p(\theta)$$
+								Many different versions of MH are exist. We use the pseudo-marginal MH in order to account for the hidden states of the Markov Model (see section Inference algorithm). Three subsequent runs of different MH versions are run:
+								<ul>
+								<li>A PMMH run for a limited number of iterations (e.g. 10,000) in order to get a better estimate of \(\theta_{MAP}\).</li>
+								<li>An adaptive PMMH run for a limited number of iterations (discussed below, link) in order to get a better estimate for the proposal covariance.</li>
+								<li>A normal PMMH run using the initial \(\theta_{MAP}\) and the covariance obtained in the previous iterations.</li>
+								</ul>
+ 
+								The code for inference is written in C and available on <a href="https://github.com/DariaDicu/qPCR-inference">GitHub</a>.
+
+							</p>
+						</div>
+						<br/>
+						<div class="4u$ 12u$(medium) important(medium)">
+							*amplification chart*
+						</div>
+					</div>
+				</div>
+			</section>
+
+		<!-- Footer -->
+			<section id="footer">
+				<ul class="copyright">
+					<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+				</ul>
+			</section>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<!-- High charts -->
+			<script src="https://code.highcharts.com/highcharts.js"></script>
+			<script src="https://code.highcharts.com/modules/exporting.js"></script>
+			<script type="text/x-mathjax-config">
+			MathJax.Hub.Config({
+				extensions: ["MatchWebFonts.js"],
+
+				MatchWebFonts: {
+
+				matchFor: {
+
+				  "HTML-CSS": true,
+
+				  NativeMML: false,
+
+				  SVG: false
+
+				},
+
+				fontCheckDelay: 20000,
+
+				fontCheckTimeout: 300 * 1000
+
+				},
+
+				tex2jax: {
+
+				inlineMath: [['\\(','\\)']]
+
+				},
+
+				"HTML-CSS": {
+
+				linebreaks: {
+
+				  automatic: true
+
+				},
+
+				scale: 85,
+
+				preferredFont: "TeX",
+
+				mtextFontInherit: true,
+
+				matchFontHeight: true
+
+				}
+
+				});
+			</script>
+			<script type="text/javascript" async
+			  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+			</script>
+
+	</body>
+</html>

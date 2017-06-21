@@ -16,16 +16,17 @@
 #define ADAPTIVE_EPS 0.00001
 #define MAX_ACCEPTED 100000
 #define BURNIN 5000
+#define THIN 10
 #define ALPHA 3.03125968064e-09
 #define M 200 // Number of particles for bootstrap filter.
 #define MIN_X0 1 // Minimum number of initial molecules.
-#define MAX_X0 1000 // Maximum number of initial molecules.
+#define MAX_X0 100 // Maximum number of initial molecules.
 #define BETA_NORM 3.141592653589793238463 // Beta(0.5, 0.5).
 //#define BETA_NORM 0.00202020202020202020202 // Beta(9, 3) for p in (0.7, 0.9).
 
-#define TRUE_X0 266
-#define TRUE_P 0.9
-#define TRUE_SIGMA 0.1
+#define TRUE_X0 61
+#define TRUE_P 0.75
+#define TRUE_SIGMA 2.0
 
 // To be used in log-sum-exp calculations.
 #define LOG_EPS -36 // ln(2^-53)
@@ -117,9 +118,11 @@ double log_posterior(const double *F, int n, double alpha, const double *theta) 
 	}
 
 	// Add log prior for X0. TODO: Do we need to compute c actually?
-	// double c = 0;
-	//for (int i = MIN_X0; i <= MAX_X0; i++) c += (1/i);
-	ll -= log(x0);
+	/*double c = 0;
+	for (int i = MIN_X0; i <= MAX_X0; i++) c += (1/i);
+	ll -= log(x0);*/
+
+	// NO PRIOR FOR X0 (i.e. uniform).
 
 	// Initialize particles at t = 0.
 	for (int k = 0; k < M; k++) {
@@ -143,7 +146,6 @@ double log_posterior(const double *F, int n, double alpha, const double *theta) 
 			if (max_p < prob) max_p = prob;
 		}
 		double sum_exp_weights = 0.0;
-		double ll_weight = 0.0;
 		for (int k = 0; k < M; k++) {
 			// Compute the probability based on the existing x values.
 			// TODO: store p values instead of x to avoid recomputation.
@@ -153,9 +155,7 @@ double log_posterior(const double *F, int n, double alpha, const double *theta) 
 			w[k] = prob - max_p;
 			sum_exp_weights += (w[k] >= (LOG_EPS - LOG_M)) ?
 				exp(w[k]) : 0;
-
-			// Add on all the weights for the final log likelihood.
-			ll_weight += exp(w[k]);
+			//sum_exp_weights += exp(w[k]);
 		}
 
 		// Normalize the weights so they add up to 1. Move from log space
@@ -164,6 +164,7 @@ double log_posterior(const double *F, int n, double alpha, const double *theta) 
 			w[k] = (w[k] >= (LOG_EPS - LOG_M)) ? 
 				(exp(w[k] - log(sum_exp_weights))) : 
 				0;
+			//w[k] = exp(w[k] - log(sum_exp_weights));
 		}
 		/*
 		if (i == n) {
@@ -180,6 +181,10 @@ double log_posterior(const double *F, int n, double alpha, const double *theta) 
 		// underflow.
 		ll += log(sum_exp_weights) + max_p - log(M) - log(2*M_PI*sigma)/2;
 	}
+	/*
+	if (ll > -40) {
+		printf("%"PRIu64" %lf %lf| %lf\n", x0, p, sigma, ll);
+	}*/
 	return ll;
 }
 
@@ -416,6 +421,7 @@ void simple_metropolis(FILE *sample_fp, double *f, int n, int params,
 		// Update empirical MAP estimate.
 		if (lp_proposal > lp_map && !out_of_bounds) {
 			lp_map = lp_proposal;
+			//printf("%lf %lf %lf %lf\n", theta_map[0], new_theta[0], lp_proposal, lp_map);
 			memcpy(theta_map, new_theta, sizeof(new_theta));
 		}
 		
@@ -424,7 +430,7 @@ void simple_metropolis(FILE *sample_fp, double *f, int n, int params,
 		// TODO: buffer before writing to file. (maybe fprintf does it?)
 		// THIN should be power of two to make it a bitwise operation rather
 		// than taking % at every step. Condition: i&THIN && 
-		if (i > BURNIN)
+		if (i > BURNIN && i%THIN == 0)
 		{
 			for (int j = 0; j < params; j++) {
 				fprintf(sample_fp, "%lf ", theta[j]);
@@ -511,9 +517,9 @@ int main(int argc, char* argv[]) {
 	int alpha_count;
 
 	// Use mean alpha.
-	alpha_count = 1;
-	alphas[0] = ALPHA;
-	//read_alpha_samples(alphas, &alpha_count);
+	//alpha_count = 1;
+	//alphas[0] = ALPHA;
+	read_alpha_samples(alphas, &alpha_count);
 
 	srand48(my_seed);
 
@@ -523,7 +529,7 @@ int main(int argc, char* argv[]) {
 	read_data_file(F, &n);
 
 	FILE *sample_fp;
-	sample_fp = fopen("qpcr_posterior_samples.dat", "w");
+	sample_fp = fopen("qpcr_posterior_samples_alphas.dat", "w");
 	
 	//int n = 33;
 	//double F[34] = {-2.3587244, -2.6983492, -1.9109296, -2.1335807, -1.9479525, -2.071635, -1.7535911, -1.3254243, -1.359431, -0.9234365, -0.6631012, 0.14061485, -0.39528397, -0.28401175, -0.45026642, -0.17291754, -0.34956342, 0.028798621, 0.10734072, 0.14239527, 0.2283379, -0.2097826, -0.0049282406, -0.0034735396, 0.07004842, 0.48085067, 1.5396785, 2.4239457, 4.8140874, 10.187536, 18.863415, 34.54065, 57.119057};

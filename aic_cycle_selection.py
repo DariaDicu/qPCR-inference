@@ -3,7 +3,8 @@ from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
 import re
 
-wanted_well = 352 # Used for 10-3-17
+wanted_well = 253 # Used for 10-3-17
+#wanted_well = 352 # Used for 10-3-17
 #wanted_well = 22 # Used for 2-3-17-BJCOII
 #file_obj = open("sigmoid/10-3-17-clipped.txt", "r")
 file_obj = open("sigmoid/10-3-17-clipped.txt", "r")
