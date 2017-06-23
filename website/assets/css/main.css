@@ -2707,10 +2707,10 @@
 		}
 
 		.main.style2 {
-			background-color: #333;
+			background-color: #414345;
 			color: rgba(255, 255, 255, 0.75);
 			background-attachment: fixed,							fixed;
-			background-image: url("images/overlay1.png"), url("../../images/header.jpg");
+			/*background-image: linear-gradient(to bottom right,#414345,#616161);*/
 			background-size: auto,							cover;
 		}
 
@@ -2803,7 +2803,8 @@
 		background-color: #4686a0;
 		color: rgba(255, 255, 255, 0.75);
 		background-attachment: fixed,							fixed,							fixed;
-		background-image: url("images/overlay2.png"), url("images/overlay3.svg"), linear-gradient(45deg, #9dc66b 5%, #4fa49a 30%, #4361c2);
+		/*background-image: url("images/overlay2.png"), url("images/overlay3.svg"), linear-gradient(45deg, #FEAC5E 5%, #C779D0 30%, #4BC0C8);*/
+		background-image: url("images/overlay2.png"), url("images/overlay3.svg"), linear-gradient(45deg, #5f2c82, #49a09d);
 		background-position: top left,						center center,					center center;
 		background-size: auto,							cover,							cover;
 		overflow: hidden;

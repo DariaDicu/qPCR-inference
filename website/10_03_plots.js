@@ -4,18 +4,18 @@ $.getJSON('http://localhost:8000/x0_p_joint_10_3_17.json', function (data) {
 	        type: 'scatter'
 	    },
 	    title: {
-	        text: 'x<sub>0</sub> and r joint posterior from single-experiment inference',
+	        text: 'x<sub>0</sub> and r joint posterior from single-well inference',
 	        useHTML: true
 	    },
 
 	    subtitle: {
-	        text: 'Source: Experiment from 10/03/2017, qPCR well 253, single-experiment inference'
+	        text: 'Source: Experiment from 10/03/2017, qPCR well 253, single-well inference'
 	    },
 	    // X0.
 	    xAxis: {
 	        allowDecimals: false,
 	        title: {
-	            text: 'Target quantity x<sub>0</sub>',
+	            text: 'Target quantity x<sub>0</sub> (number of molecules)',
 	            useHTML: true
 	        },
 	        labels: {
@@ -54,7 +54,7 @@ $.getJSON('http://localhost:8000/x0_p_joint_10_3_17.json', function (data) {
 	        }
 	    },
 	    series: [{
-	        name: 'Joint posterior P(x0, r | D)',
+	        name: '(x0, r) joint samples',
         	color: 'rgba(223, 83, 83, .4)',
 	        data: data
 	    }]
@@ -78,7 +78,7 @@ $.getJSON('http://localhost:8000/x01_p_joint_10_3_17.json', function (data) {
 	    xAxis: {
 	        allowDecimals: false,
 	        title: {
-	            text: 'Target quantity x<sub>0</sub><sup>1</sup>',
+	            text: 'Target quantity x<sub>0</sub><sup>1</sup> (number of molecules)',
 	            useHTML: true
 	        },
 	        labels: {
@@ -117,7 +117,7 @@ $.getJSON('http://localhost:8000/x01_p_joint_10_3_17.json', function (data) {
 	        }
 	    },
 	    series: [{
-	        name: 'Joint posterior P(x0-1, r | D)',
+	        name: '(x0, r) joint samples',
 	        useHTML: true,
         	color: 'rgba(223, 83, 83, .4)',
 	        data: data
@@ -211,7 +211,8 @@ $.getJSON('http://localhost:8000/all_marginals_10_3_17_joint_inf.json', function
 	        type: 'column'
 	    },
 	    title: {
-	        text: 'Marginal distribution for x0 from joint inference'
+	        text: 'Marginal distribution for x<sub>0</sub> from joint inference',
+	        useHTML:true
 	    },
 
 	    subtitle: {
@@ -222,6 +223,10 @@ $.getJSON('http://localhost:8000/all_marginals_10_3_17_joint_inf.json', function
 	        gridLineWidth: 1,
 	        min: 1,
 	        max: 100,
+	        title: {
+	            text: 'Number of molecules',
+	            useHTML: true
+	        },
 	        plotLines: [{
 	            color: 'black',
 	            dashStyle: 'dash',
@@ -250,7 +255,8 @@ $.getJSON('http://localhost:8000/all_marginals_10_3_17_joint_inf.json', function
 	                style: {
 	                    fontStyle: 'italic'
 	                },
-	                text: 'Standard prediction for x<sub>0</sub><sup>2</sup>'
+	                text: 'Standard prediction for x<sub>0</sub><sup>2</sup>',
+	                useHTML: true
 	            }
 	        },
 	        {
@@ -265,18 +271,21 @@ $.getJSON('http://localhost:8000/all_marginals_10_3_17_joint_inf.json', function
 	                style: {
 	                    fontStyle: 'italic'
 	                },
-	                text: 'Standard prediction for x<sub>0</sub><sup>3</sup>'
+	                text: 'Standard prediction for x<sub>0</sub><sup>3</sup>',
+	                useHTML: true
 	            }
 	        }]
 	    },
 	    yAxis: {
 	        allowDecimals: true,
 	        title: {
-	            text: 'P(X0|D, alpha)'
+	            text: 'P(x<sub>0</sub>|f<sub>1:n</sub>, α)',
+	            useHTML:true
 	        }
 	    },
 	    series: [{
 	        name: 'Marginal posterior of x0-1, well 253, joint inference',
+	        useHTML: true,
 	        type: 'column',
 	        data: histogram(data.x01, 1.0),
         	color: 'rgba(223, 83, 83, .4)',
@@ -309,7 +318,8 @@ $.getJSON('http://localhost:8000/all_marginals_10_3_17_joint_inf.json', function
 	
 	 var myChart2 = Highcharts.chart('10_03_x01_marg_results', {
 	    title: {
-	        text: 'Marginal distribution for X0 from joint inference'
+	        text: 'Marginal distribution for x<sub>0</sub> from joint inference',
+	        useHTML: true
 	    },
 
 	    subtitle: {
@@ -340,7 +350,8 @@ $.getJSON('http://localhost:8000/all_marginals_10_3_17_joint_inf.json', function
 	    yAxis: {
 	        allowDecimals: true,
 	        title: {
-	            text: 'P(x0|D, alpha)'
+	            text: 'P(x<sub>0</sub>|f<sub>1:n</sub>, α)',
+	            useHTML: true
 	        },
 	        plotLines: [{
 	            color: 'blue',
@@ -381,10 +392,6 @@ $.getJSON('http://localhost:8000/all_marginals_10_3_17_joint_inf.json', function
 	    title: {
 	        text: 'Marginal distribution for efficiency r from joint inference'
 	    },
-
-	    subtitle: {
-	        text: 'Source: Experiment from 10/03/2017, qPCR well 253'
-	    },
 	    xAxis: {
 	        allowDecimals: true,
 	        gridLineWidth: 1,
@@ -394,7 +401,8 @@ $.getJSON('http://localhost:8000/all_marginals_10_3_17_joint_inf.json', function
 	    yAxis: {
 	        allowDecimals: true,
 	        title: {
-	            text: 'P(r|D, alpha)'
+	            text: 'P(r|f<sub>1:n</sub>, α)',
+	            useHTML:true
 	        },
 	        plotLines: [{
 	            color: 'blue',
@@ -435,10 +443,6 @@ $.getJSON('http://localhost:8000/all_marginals_10_3_17_joint_inf.json', function
 	    title: {
 	        text: 'Marginal distribution for noise σ from joint inference'
 	    },
-
-	    subtitle: {
-	        text: 'Source: Experiment from 10/03/2017, qPCR well 253'
-	    },
 	    xAxis: {
 	        allowDecimals: true,
 	        gridLineWidth: 1,
@@ -449,7 +453,8 @@ $.getJSON('http://localhost:8000/all_marginals_10_3_17_joint_inf.json', function
 	        allowDecimals: true,
 	        max: 0.06,
 	        title: {
-	            text: 'P(X0|D, alpha)'
+	            text: 'P(σ|f<sub>1:n</sub>, alpha)',
+	            useHTML:true
 	        }
 	    },
 	    series: [
@@ -471,12 +476,89 @@ $.getJSON('http://localhost:8000/all_marginals_10_3_17_joint_inf.json', function
 	        pointPlacement: 'on'
 	    }]
 	});
+	var myChart5 = Highcharts.chart('mixing_x01', {
+	    chart: {
+	        type: 'line'
+	    },
+	    title: {
+	        text: 'Traceplot for x01'
+	    },
+	    xAxis: {
+	        allowDecimals: true,
+	        gridLineWidth: 1
+	    },
+	    yAxis: {
+	        allowDecimals: true,
+	        title: {
+	            text: 'x<sub>0</sub> value',
+	            useHTML:true
+	        }
+	    },
+	    series: [{
+	        name: 'Trace plot for x01',
+	        type: 'line',
+	        data: data.x01,
+	        lineWidth:1
+	    }
+	    ]
+	});
+	var myChart6 = Highcharts.chart('mixing_p', {
+	    chart: {
+	        type: 'line'
+	    },
+	    title: {
+	        text: 'Traceplot for efficiency r'
+	    },
+	    xAxis: {
+	        allowDecimals: true,
+	        gridLineWidth: 1
+	    },
+	    yAxis: {
+	        allowDecimals: true,
+	        title: {
+	            text: 'Efficiency r value'
+	        }
+	    },
+	    series: [{
+	        name: 'Trace plot for efficiency r',
+	        type: 'line',
+	        data: data.p,
+	        lineWidth:1
+	    }
+	    ]
+	});
+	var myChart7 = Highcharts.chart('mixing_sigma', {
+	    chart: {
+	        type: 'line'
+	    },
+	    title: {
+	        text: 'Traceplot for noise σ'
+	    },
+	    xAxis: {
+	        allowDecimals: true,
+	        gridLineWidth: 1
+	    },
+	    yAxis: {
+	        allowDecimals: true,
+	        title: {
+	            text: 'Noise σ value'
+	        }
+	    },
+	    series: [{
+	        name: 'Trace plot for noise σ',
+	        type: 'line',
+	        data: data.sigma,
+	        lineWidth:1
+	    }
+	    ]
+	});
 });
 
 $.getJSON('http://localhost:8000/single_inf_all_marginals.json', function (data) {
 	 var myChart = Highcharts.chart('10_03_x0_single_results', {
 	    title: {
-	        text: 'Marginal distribution for x0 from single-experiment inference'
+	        text: 'Marginal distribution for x<sub>0</sub> from single-well inference',
+	        useHTML: true
 	    },
 
 	    subtitle: {
@@ -505,7 +587,8 @@ $.getJSON('http://localhost:8000/single_inf_all_marginals.json', function (data)
 	    yAxis: {
 	        allowDecimals: true,
 	        title: {
-	            text: 'P(X0|D, alpha)'
+	            text: 'P(x<sub>0</sub>|f<sub>1:n</sub>, α)',
+	            useHTML: true
 	        },
 	        plotLines: [{
         	color: 'blue',
@@ -524,7 +607,7 @@ $.getJSON('http://localhost:8000/single_inf_all_marginals.json', function (data)
 	        }]
 	    },
 	    series: [{
-	        name: 'Marginal posterior of X0, well 253, single-experiment inference',
+	        name: 'Marginal posterior of x0, well 253, single-well inference',
 	        type: 'column',
 	        data: histogram(data.x0, 1.0),
         	color: 'rgba(223, 83, 83, .8)',
@@ -545,11 +628,7 @@ $.getJSON('http://localhost:8000/single_inf_all_marginals.json', function (data)
 
 	var myChart2 = Highcharts.chart('10_03_p_single_results', {
 	    title: {
-	        text: 'Marginal distribution for efficiency r from single-experiment inference'
-	    },
-
-	    subtitle: {
-	        text: 'Source: Experiment from 10/03/2017, qPCR well 253'
+	        text: 'Marginal distribution for efficiency r from single-well inference'
 	    },
 	    xAxis: {
 	        allowDecimals: true,
@@ -560,7 +639,8 @@ $.getJSON('http://localhost:8000/single_inf_all_marginals.json', function (data)
 	    yAxis: {
 	        allowDecimals: true,
 	        title: {
-	            text: 'P(r|D, alpha)'
+	            text: 'P(r|f<sub>1:n</sub>, α)',
+	            useHTML: true
 	        },
 	        plotLines: [{
 	            color: 'blue',
@@ -579,7 +659,7 @@ $.getJSON('http://localhost:8000/single_inf_all_marginals.json', function (data)
 	        }]
 	    },
 	    series: [{
-	        name: 'Marginal posterior of efficiency r, well 253, single-experiment inference',
+	        name: 'Marginal posterior of efficiency r, well 253, single-well inference',
 	        type: 'column',
 	        data: histogram(data.p, 0.005),
         	color: 'rgba(237, 129, 29, 0.8)',
@@ -599,11 +679,7 @@ $.getJSON('http://localhost:8000/single_inf_all_marginals.json', function (data)
 	});
 	var myChart3 = Highcharts.chart('10_03_sigma_single_results', {
 	    title: {
-	        text: 'Marginal distribution for noise σ from single-experiment inference'
-	    },
-
-	    subtitle: {
-	        text: 'Source: Experiment from 10/03/2017, qPCR well 253'
+	        text: 'Marginal distribution for noise σ from single-well inference'
 	    },
 	    xAxis: {
 	        allowDecimals: true,
@@ -614,7 +690,8 @@ $.getJSON('http://localhost:8000/single_inf_all_marginals.json', function (data)
 	    yAxis: {
 	        allowDecimals: true,
 	        title: {
-	            text: 'P(σ|D, alpha)'
+	            text: 'P(σ|f<sub>1:n</sub>, α)',
+	            useHTML: true
 	        },
 	        max: 0.06,
 	        plotLines: [{
@@ -634,7 +711,7 @@ $.getJSON('http://localhost:8000/single_inf_all_marginals.json', function (data)
 	        }]
 	    },
 	    series: [{
-	        name: 'Marginal posterior of noise σ, well 253, single-experiment inference',
+	        name: 'Marginal posterior of noise σ, well 253, single-well inference',
 	        type: 'column',
 	        data: histogram(data.sigma, 0.05),
         	color: 'rgba(14, 156, 251, 0.8)',
@@ -660,11 +737,13 @@ $.getJSON('http://localhost:8000/simulated_run_marginals.json', function (data) 
 	        type: 'column'
 	    },
 	    title: {
-	        text: 'Marginal distribution for x0 from joint inference on simulated data'
+	        text: 'Marginal distribution for x<sub>0</sub> from joint inference on simulated data',
+	        useHTML: true
 	    },
 
 	    subtitle: {
-	        text: 'Source: In-silico qPCR experiment with theta_mean.'
+	        text: 'Source: In-silico generated data using θ mean.',
+	        useHTML:true
 	    },
 	    xAxis: {
 	        allowDecimals: true,
@@ -679,11 +758,12 @@ $.getJSON('http://localhost:8000/simulated_run_marginals.json', function (data) 
 	            zIndex: 10000,
 	            label: {
 	                rotation: 0,
-	                y: 10,
+	                y: 20,
 	                style: {
 	                    fontStyle: 'italic'
 	                },
-	                text: 'True value for x0_1'
+	                text: 'True value for x<sub>0</sub><sup>1</sup>',
+	                useHTML:true
 	            }
 	        }, {
 	            color: 'black',
@@ -693,18 +773,20 @@ $.getJSON('http://localhost:8000/simulated_run_marginals.json', function (data) 
 	            zIndex: 10000,
 	            label: {
 	                rotation: 0,
-	                y: 10,
+	                y: 20,
 	                style: {
 	                    fontStyle: 'italic'
 	                },
-	                text: 'True value for x0_2'
+	                text: 'True value for x<sub>0</sub><sup>2</sup>',
+	                useHTML:true
 	            }
 	        }]
 	    },
 	    yAxis: {
 	        allowDecimals: true,
 	        title: {
-	            text: 'P(x0|D, alpha)'
+	            text: 'P(x<sub>0</sub>|f<sub>1:n</sub>, α)',
+	            useHTML:true
 	        }
 	    },
 	    series: [{
@@ -759,7 +841,8 @@ $.getJSON('http://localhost:8000/simulated_run_marginals.json', function (data) 
 	    yAxis: {
 	        allowDecimals: true,
 	        title: {
-	            text: 'P(r|D, alpha)'
+	            text: 'P(r|f<sub>1:n</sub>, α)',
+	            useHTML: true
 	        }
 	    },
 	    series: [{
@@ -812,8 +895,9 @@ $.getJSON('http://localhost:8000/simulated_run_marginals.json', function (data) 
 	        allowDecimals: true,
 	        max: 0.06,
 	        title: {
-	            text: 'P(σ|D, alpha)'
-	        },
+	            text: 'P(σ|f<sub>1:n</sub>, α)',
+	            useHTML: true
+	        }
 	    },
 	    series: [
 	    {
@@ -979,7 +1063,6 @@ $.getJSON('http://localhost:8000/bci_data.json', function (data) {
 // Alpha dependencies.
 $.getJSON('http://localhost:8000/alpha_boxplots.json', function (data) {
 	formatted_data = prepare_boxplot_data(data)
-	console.log(formatted_data)
 	var myChart = Highcharts.chart('boxplot', {
     chart: {
         type: 'boxplot'
@@ -1031,4 +1114,301 @@ $.getJSON('http://localhost:8000/alpha_boxplots.json', function (data) {
 });
 });
 
+
+// Alpha dependencies.
+$.getJSON('http://localhost:8000/different_alphas_inference.json', function (data) {
+	var myChart = Highcharts.chart('different_alphas_posteriors_100000', {
+	    chart: {
+	        type: 'column'
+	    },
+	    title: {
+	        text: 'Marginal distribution for x<sub>0</sub><sup>1</sup> from joint inference with different α values',
+	        useHTML:true
+	    },
+
+	    subtitle: {
+	        text: 'Source: Joint inference on wells 253, 254, 255.'
+	    },
+	    xAxis: {
+	        allowDecimals: true,
+	        gridLineWidth: 1,
+	        min: 1,
+	        max: 100,
+	        plotLines: [{
+	            color: 'black',
+	            dashStyle: 'dash',
+	            width: 1,
+	            value: 63,
+	            zIndex: 10000,
+	            label: {
+	                rotation: 0,
+	                y: 10,
+	                style: {
+	                    fontStyle: 'italic'
+	                },
+	                text: 'True value for x0_1'
+	            }
+	        }]
+	    },
+	    yAxis: {
+	        allowDecimals: true,
+	         title: {
+	            text: 'P(x<sub>0</sub>|f<sub>1:n</sub>, α)',
+	            useHTML:true
+	        }
+	    },
+	    series: [{
+	        name: 'Marginal posterior of x0-1, well 253, joint inference',
+	        type: 'column',
+	        data: histogram(data.x01[0], 1.0),
+        	color: 'rgba(223, 83, 83, .5)',
+	        pointPadding: 0,
+            pointWidth: 10,
+	        groupPadding: 0,
+	        pointPlacement: 'on'
+	    },{
+	        name: 'Marginal posterior of x0-1, well 253, joint inference',
+	        type: 'column',
+	        data: histogram(data.x01[1], 1.0),
+        	color: 'rgba(255, 102, 0, .5)',
+	        pointPadding: 0,
+            pointWidth: 10,
+	        groupPadding: 0,
+	        pointPlacement: 'on'
+	    },{
+	        name: 'Marginal posterior of x0-1, well 253, joint inference',
+	        type: 'column',
+	        data: histogram(data.x01[2], 1.0),
+        	color: 'rgba(204, 51, 0, .5)',
+	        pointPadding: 0,
+            pointWidth: 10,
+	        groupPadding: 0,
+	        pointPlacement: 'on'
+	    }
+	    ]
+	});
+
+	//////////////////
+	var myChart2 = Highcharts.chart('different_alphas_posteriors_10000', {
+	    chart: {
+	        type: 'column'
+	    },
+	    title: {
+	        text: 'Marginal distribution for x<sub>0</sub><sup>1</sup> from joint inference with different α values',
+	        useHTML:true
+	    },
+
+	    subtitle: {
+	        text: 'Source: Joint inference on wells 253, 254, 255.'
+	    },
+	    xAxis: {
+	        allowDecimals: true,
+	        gridLineWidth: 1,
+	        min: 1,
+	        max: 100,
+	        plotLines: [{
+	            color: 'black',
+	            dashStyle: 'dash',
+	            width: 1,
+	            value: 63,
+	            zIndex: 10000,
+	            label: {
+	                rotation: 0,
+	                y: 10,
+	                style: {
+	                    fontStyle: 'italic'
+	                },
+	                text: 'True value for x0_1'
+	            }
+	        }]
+	    },
+	    yAxis: {
+	        allowDecimals: true,
+	         title: {
+	            text: 'P(x<sub>0</sub>|f<sub>1:n</sub>, α)',
+	            useHTML:true
+	        }
+	    },
+	    series: [
+	    {
+	        name: 'Marginal posterior of x0-1, well 253, joint inference',
+	        type: 'column',
+	        data: histogram(data.x01[3], 1.0),
+        	color: 'rgba(0,255,0,.5)',
+	        pointPadding: 0,
+            pointWidth: 10,
+	        groupPadding: 0,
+	        pointPlacement: 'on'
+	    },{
+	        name: 'Marginal posterior of x0-1, well 253, joint inference',
+	        type: 'column',
+	        data: histogram(data.x01[4], 1.0),
+        	color: 'rgba(0, 204, 102,.5)',
+	        pointPadding: 0,
+            pointWidth: 10,
+	        groupPadding: 0,
+	        pointPlacement: 'on'
+	    },{
+	        name: 'Marginal posterior of x0-1, well 253, joint inference',
+	        type: 'column',
+	        data: histogram(data.x01[5], 1.0),
+        	color: 'rgba(0, 153, 51,.5)',
+	        pointPadding: 0,
+            pointWidth: 10,
+	        groupPadding: 0,
+	        pointPlacement: 'on'
+	    }]
+	});//////////////////
+	var myChart3 = Highcharts.chart('different_alphas_posteriors_1000', {
+	    chart: {
+	        type: 'column'
+	    },
+	    title: {
+	        text: 'Marginal distribution for x<sub>0</sub><sup>1</sup> from joint inference with different α values',
+	        useHTML:true
+	    },
+
+	    subtitle: {
+	        text: 'Source: Joint inference on wells 253, 254, 255.'
+	    },
+	    xAxis: {
+	        allowDecimals: true,
+	        gridLineWidth: 1,
+	        min: 1,
+	        max: 100,
+	        plotLines: [{
+	            color: 'black',
+	            dashStyle: 'dash',
+	            width: 1,
+	            value: 63,
+	            zIndex: 10000,
+	            label: {
+	                rotation: 0,
+	                y: 10,
+	                style: {
+	                    fontStyle: 'italic'
+	                },
+	                text: 'True value for x0_1'
+	            }
+	        }]
+	    },
+	    yAxis: {
+	        allowDecimals: true,
+	         title: {
+	            text: 'P(x<sub>0</sub>|f<sub>1:n</sub>, α)',
+	            useHTML:true
+	        }
+	    },
+	    series: [
+	    {
+	        name: 'Marginal posterior of x0-1, well 253, joint inference',
+	        type: 'column',
+	        data: histogram(data.x01[6], 1.0),
+        	color: 'rgba(102, 204, 255, 0.5)',
+	        pointPadding: 0,
+            pointWidth: 10,
+	        groupPadding: 0,
+	        pointPlacement: 'on'
+	    },{
+	        name: 'Marginal posterior of x0-1, well 253, joint inference',
+	        type: 'column',
+	        data: histogram(data.x01[7], 1.0),
+        	color: 'rgba(153, 51, 255, 0.5)',
+	        pointPadding: 0,
+            pointWidth: 10,
+	        groupPadding: 0,
+	        pointPlacement: 'on'
+	    },{
+	        name: 'Marginal posterior of x0-1, well 253, joint inference',
+	        type: 'column',
+	        data: histogram(data.x01[8], 1.0),
+        	color: 'rgba(14, 156, 251, 0.5)',
+	        pointPadding: 0,
+            pointWidth: 10,
+	        groupPadding: 0,
+	        pointPlacement: 'on'
+	    }
+	    ]
+	});
+});
+
+
+// Alpha dependencies.
+$.getJSON('http://localhost:8000/acf_data.json', function (data) {
+	var myChart1 = Highcharts.chart('acf_x01', {
+	    chart: {
+	        type: 'line'
+	    },
+	    title: {
+	        text: 'Autocorrelation function for x01'
+	    },
+	    xAxis: {
+	        allowDecimals: true,
+	        gridLineWidth: 1
+	    },
+	    yAxis: {
+	        allowDecimals: true,
+	        title: {
+	            text: 'ACF'
+	        }
+	    },
+	    series: [{
+	        name: 'ACF for x01',
+	        type: 'line',
+	        data: data.x01_acf,
+	        lineWidth:1
+	    }
+	    ]
+	});var myChart1 = Highcharts.chart('acf_p', {
+	    chart: {
+	        type: 'line'
+	    },
+	    title: {
+	        text: 'Autocorrelation function for efficiency r'
+	    },
+	    xAxis: {
+	        allowDecimals: true,
+	        gridLineWidth: 1
+	    },
+	    yAxis: {
+	        allowDecimals: true,
+	        title: {
+	            text: 'ACF'
+	        }
+	    },
+	    series: [{
+	        name: 'ACF for efficiency r',
+	        type: 'line',
+	        data: data.p_acf,
+	        lineWidth:1
+	    }
+	    ]
+	});var myChart3 = Highcharts.chart('acf_sigma', {
+	    chart: {
+	        type: 'line'
+	    },
+	    title: {
+	        text: 'Autocorrelation function for noise σ'
+	    },
+	    xAxis: {
+	        allowDecimals: true,
+	        gridLineWidth: 1
+	    },
+	    yAxis: {
+	        allowDecimals: true,
+	        title: {
+	            text: 'ACF'
+	        }
+	    },
+	    series: [{
+	        name: 'ACF for noise σ',
+	        type: 'line',
+	        data: data.sigma_acf,
+	        lineWidth:1
+	    }
+	    ]
+	});
+
+
+});
 

@@ -41,28 +41,121 @@
 			<section id="one" class="main style1">
 				<div class="container">
 					<div class="row 150%">
-						<div class="8u 12u$(medium)">
+						<div class="12u 12u$(medium)">
 							<header class="major">
 								<h2>Overview</h2>
-								<p>The goal is to perform parameter inference on the Hidden Markov Model in order to obtain samples from the posterior probability \(P(θ | f_{1:n})\), where \(θ = [x_0</sub>, r, σ^2]\) and \(f_{1:n}\) is the fluorescence data. This project builds on the work of Lalam et al (cite) and uses a specialisation of the Metropolis Hastings (MH) algorithm.</p>
+								<p>The goal is to perform parameter inference on the Hidden Markov Model using fluorescence observations in order to obtain samples from the posterior probability <i>P(θ | f<sub>1:n</sub> )</i>. The parameterisation of the model is <br><i>θ</i> = [ <i>X<sub>0</sub> , r , σ <sup>2</sup></i> ], where <i>X<sub>0</sub></i> is the initial number of mtDNA molecules, <i>r</i> the amplification efficiency and <i>σ <sup>2</sup></i> the fluorescence noise. This project builds on the work of Lalam et al (cite) and uses a specialisation of the Metropolis Hastings (MH) algorithm, namely pseudo-marginal Metripolis Hastings (PMMH) (reference Darren Wilkinson), coded in C.</p>
 							</header>
 							<p>
-								Metropolis Hastings is a common method for sampling from the posterior when the posterior itself is difficult to compute, but a function \(g(\theta)\) that is proportional to the posterior is computationally feasible. The function \(f(\theta)\) that we use in this case is the product of the likelihood and the prior probabilities:
-								$$g(\theta| f_{1:n}) = p(f_{1:n} | \theta) p(\theta)$$
-								Many different versions of MH are exist. We use the pseudo-marginal MH in order to account for the hidden states of the Markov Model (see section Inference algorithm). Three subsequent runs of different MH versions are run:
+								Metropolis Hastings is a common method for sampling from the posterior when the posterior itself is difficult to compute, but a function <i>g(θ)</i> that is proportional to the posterior is computationally feasible. The function <i>g(θ)</i> that we use in this case is the product of the likelihood and the prior probabilities:
+							</p>
+							<p style="margin-left:50px">
+								<i>g( θ| f<sub>1:n</sub> ) = p( f<sub>1:n</sub> | θ ) π( θ )</i>
+							</p>
+							<p>
+								Many different versions of MH exist. We use PMMH in order to account for the hidden states of the Markov Model (<a href="#three">see below</a>). Three subsequent runs of different MH versions are run:
 								<ul>
-								<li>A PMMH run for a limited number of iterations (e.g. 10,000) in order to get a better estimate of \(\theta_{MAP}\).</li>
-								<li>An adaptive PMMH run for a limited number of iterations (discussed below, link) in order to get a better estimate for the proposal covariance.</li>
-								<li>A normal PMMH run using the initial \(\theta_{MAP}\) and the covariance obtained in the previous iterations.</li>
+								<li>A PMMH run for a limited number of iterations (e.g. 10,000) in order to get a better estimate of <i>θ<sub>MAP</sub></i>.</li>
+								<li>An adaptive PMMH run for a limited number of iterations (<a href="#four">discussed below</a>) in order to get a better estimate for the proposal covariance.</li>
+								<li>A normal PMMH run using the initial <i>θ<sub>MAP</sub></i> and the covariance obtained in the previous iterations.</li>
 								</ul>
  
 								The code for inference is written in C and available on <a href="https://github.com/DariaDicu/qPCR-inference">GitHub</a>.
 
 							</p>
 						</div>
-						<br/>
-						<div class="4u$ 12u$(medium) important(medium)">
-							*amplification chart*
+					</div>
+				</div>
+			</section>
+			<section id="two" class="main style2">
+				<div class="container">
+					<div class="row 150%">
+						<div class="12u 12u$(medium)">
+							<header class="major">
+								<h2>General Metropolis-Hastings</h2>
+							</header>
+							<p>A generic MH algorithm has the following steps (link to wikipedia):
+							<ol>
+							<li>Initialize with some parameter <i>θ</i>, and compute <i>log g(θ)</i>.</p></li>
+							<li>At every iteration:
+								<ol>
+								<li>Propose a new <i>θ’</i> using a proposal distribution <i>Q(θ’|θ)</i>. Our proposal distribution is a multivariate Gaussian centered at <i>θ</i>, <i>N(θ, Σ)</i>.</li>
+								<li>Compute <i>log g(θ’)</i>. If <i>log g(θ’)</i> > <i>log g(θ)</i> accept the proposal <i>θ’</i>, otherwise accept with probability <i>g(θ’)/g(θ)</i>.</li>
+								</ol>
+							</li>
+							</ol>
+							In literature the function <i>g(θ)</i> is called the log posterior, although in fact <i>g(θ)</i> is just proportional to the posterior <i>P(θ | f<sub>1:n</sub> )</i>. The log posterior is the sum of log priors for <i>x<sub>0</sub></i>, <i>r</i> and <i>σ <sup>2</sup></i> (assumed independent) and the log likelihood. One of the key aspects of the algorithm is computing the log likelihood.
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section id="three" class="main style1">
+				<div class="container">
+					<div class="row 150%">
+						<div class="12u 12u$(medium)">
+							<header class="major">
+								<h2>Pseudo-marginal Metropolis Hastings</h2>
+								<p>The pseudo-marginal approach is used to perform inference on Hidden Markov Models, where the hidden states do not allow a straight-forward and feasible computation of the log likelihood during a MH step.</p>
+							</header>
+							<p>
+								The likelihood is the probability of obtaining the observed fluorescence reads <i>f<sub>1:n</sub></i>, given a fixed theta <i>θ</i>, <i>P(f<sub>1:n</sub> | θ)</i>:
+							</p>
+							<p style="margin-left:50px">
+ 								<i>P(f<sub>1:n</sub> | θ) = ∑ <sub>x<sub>1:n</sub></sub> P(f<sub>1:n</sub> | θ, x<sub>1:n</sub> ) P(x<sub>1:n</sub> | θ)</i>
+ 							</p>
+ 							<p>
+							The summation (marginalisation) over all possible values x<sub>1:n</sub> is not computationally feasible, so the pseudo-marginal approach is used instead (reference to Darren Wilkinson book). Instead of summing over all the possible values of the amplification curve x<sub>1:n</sub>, we obtain an estimate using a limited number of simulations of the amplification curve, called a particle cloud. The method is called pseudo-marginal as it 'marginalises' over a subset of the possible values of x<sub>1:n</sub>. As the number of particles approaches infinity, the approximation would approach the real likelihood. In practice, an order of 100 particles are used.
+							</p>
+							<img src="diagrams/jpeg_gif_pmmh.gif" alt="PMMH diagram">
+							<p><i>Diagram showing the pseudo-marginal approach for computing the log-posterior during a MH step.</i></p>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section id="four" class="main style2">
+				<div class="container">
+					<div class="row 150%">
+						<div class="12u 12u$(medium)">
+							<header class="major">
+								<h2>Adaptive Metropolis Hastings</h2>
+							</header>
+								<p> The general Metropolis Hastings algorithm uses a covariance matrix Σ in the proposal distribution <i>N(0, Σ)</i>. In order to get a better estimate for the covariance matrix Σ that is used in PMMH, adaptive MH is run first for a number of iterations. The Σ used at each step in adaptive MH is based on the chain history and computed empirically (more details in [link to paper]).
+						</div>
+					</div>
+				</div>
+			</section>
+			<section id="five" class="main style1">
+				<div class="container">
+					<div class="row 150%">
+						<div class="12u 12u$(medium)">
+							<header class="major">
+								<h2>Priors</h2>
+								<p>
+									Prior parameter distributions encapsulate the knowledge we have about the parameters prior to the inference. The shape of priors has a significant impact on the inference. The choice of priors was based on the work of Lalam et al (reference), which compared the effect of different priors on the shape of posterior distributions. 
+								</p>
+							</header>
+							<p>
+								The following priors were used in inference:
+								<ul>
+									<li> <i>X<sub>0</sub></i> — discrete uniform prior within range (1, 100)</li>
+									<li> <i>r</i> — Beta(0.5, 0.5) prior</li>
+									<li> <i>σ <sup>2</sup></i> — Jeffreys prior 1/√<i>σ</i></li>
+								</ul>
+								These priors for <i>r</i> and <i>σ <sup>2</sup></i> are common choices for zero-knowledge priors for probabilities and noise, respectively. A useful future improvement of the project would be incorporating experimental knowledge in new priors and analysing their effect on posterior distributions.
+							</p>
+						</div>
+
+						<div class="4u 12u$(medium)">
+							<div id="uniform_prior" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+						</div>
+
+						<div class="4u 12u$(medium)">
+							<div id="beta_prior" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+						</div>
+
+						<div class="4u$ 12u$(medium)">
+							<div id="jeff_prior" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 						</div>
 					</div>
 				</div>
@@ -71,7 +164,7 @@
 		<!-- Footer -->
 			<section id="footer">
 				<ul class="copyright">
-					<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 				</ul>
 			</section>
 
@@ -85,57 +178,6 @@
 			<!-- High charts -->
 			<script src="https://code.highcharts.com/highcharts.js"></script>
 			<script src="https://code.highcharts.com/modules/exporting.js"></script>
-			<script type="text/x-mathjax-config">
-			MathJax.Hub.Config({
-				extensions: ["MatchWebFonts.js"],
-
-				MatchWebFonts: {
-
-				matchFor: {
-
-				  "HTML-CSS": true,
-
-				  NativeMML: false,
-
-				  SVG: false
-
-				},
-
-				fontCheckDelay: 20000,
-
-				fontCheckTimeout: 300 * 1000
-
-				},
-
-				tex2jax: {
-
-				inlineMath: [['\\(','\\)']]
-
-				},
-
-				"HTML-CSS": {
-
-				linebreaks: {
-
-				  automatic: true
-
-				},
-
-				scale: 85,
-
-				preferredFont: "TeX",
-
-				mtextFontInherit: true,
-
-				matchFontHeight: true
-
-				}
-
-				});
-			</script>
-			<script type="text/javascript" async
-			  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-			</script>
-
+			<script src="prior_plots.js"></script>
 	</body>
 </html>

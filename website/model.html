@@ -41,28 +41,28 @@
 			<section id="one" class="main style1">
 				<div class="container">
 					<div class="row 150%">
-						<div class="8u 12u$(medium)">
+						<div class="6u 12u$(medium)">
 							<header class="major">
 								<h2>Modelling the uncertainty and stochasticity</h2>
-								<p>We wish to obtain a mathematical model for the qPCR experiment that captures both the stochasticity of the amplification at each cycle and the uncertainty in fluorescence reads.
+								<p>We wish to obtain a mathematical model for the qPCR experiment that captures both the stochasticity in amplification at each cycle and the uncertainty in fluorescence reads. This project is based on the work of Lalam et al (reference) and uses a binomial branching process to model the amplification. A Hidden Markov Model is used to both capture the transitions between states in this process and relate states to fluorescence observations.
 							</header>
-							<p>For a qPCR experiment with n cycles, our mathematical model has the following random variables:
+						</div>
+						<div class="12u 12u$(medium)">
+							<p>For a qPCR experiment with <i>n</i> cycles, our mathematical model has the following random variables:
 							<ul>
-							<li>X0, the initial number of molecules</li>
-							<li>X1, …, Xn, the number of molecules present after each cycle</li>
-							<li>F1, …, Fn, the fluorescence reads observed after each cycle</li>
+							<li><i>X<sub>0</sub></i> – the initial number of molecules</li>
+							<li><i>X<sub>1</sub></i>, ..., <i>X<sub>n</sub></i> – the number of molecules present after each amplification cycle</li>
+							<li><i>F<sub>1</sub></i>, ..., <i>F<sub>n</sub></i> – the fluorescence reads observed after each cycle</li>
 							</ul>
 							</p>
-							<p>The aim is to relate these random variables through a model. Then, using an inference method (see <a href="inference.html">Inference)</a>), we can estimate the marginal probability P(X0 = x0 | f1, …, fn) of the initial number of molecules being some constant x0 given a set of known observations f1, …, fn. The inference method additionally estimates other probabilities that may be useful in understanding the results (see <a href="results.html#one">Results)</a>).
+							<p> At each qPCR cycle, only a proportion of the molecules are amplified. In other words, each target mtDNA molecule has a probability <i>r</i> of being amplified, which is the efficiency of the qPCR experiment. This efficiency is assumed to be constant throughout the exponential phase of the amplification curve. A Binomial distribution is used to capture the number of new copies at each cycle, as each molecule undergoes an independent Bernoulli trial with probability r:
 							</p>
-							<p>
-								We view the qPCR experiment as a random branching process with an amplification efficiency r that is constant during the exponential phase. The efficiency indicates how likely it is for each individual molecule to be amplified. A Binomial distribution is used to capture the number of new copies at each cycle, as each molecule undergoes an independent Bernoulli trial with probability r. The following equation relates the number of molecules from consecutive cycles:
-
-								X(i+1) = X(i) + Binom(X(i), r), where i >= 0 
+							<p style="margin-left:50px">
+								<i>X<sub>i+1</sub> = X<sub>i</sub> + Binom(X<sub>i</sub> , r)</i>, where <i>i ≥ 0</i>
 							</p>
-							<p>
-								The fluorescence intensity emitted by the reporter dye at a given cycle i is proportional to the number of molecules Xi. However, the measurements are made in the presence of background fluorescence, which we model as an additive Gaussian noise. The data we use is background corrected, so the Gaussian distribution has mean 0 and unknown variance s2:
-								F(i) = a*X(i) + N(0, s2).
+							<p>The fluorescence intensity emitted by the reporter dye at a given cycle <i>i</i> is proportional to the number of molecules <i>X<sub>i</sub></i> by a constant <i>α</i>. However, the measurements are made in the presence of background fluorescence, which we model as an additive Gaussian noise. The experimental data used for inference is background corrected, so the Gaussian distribution has mean 0 and unknown variance σ <sup>2</sup>:</p>
+							<p style="margin-left:50px">
+								<i>F<sub>i</sub> = αX<sub>i</sub> + N(0, σ <sup>2</sup>)</i>
 							</p>
 						</div>
 						<br/>
@@ -77,19 +77,51 @@
 			<div class="container">
 				<div class="row 150%">
 					<div class="6u 12u$(medium)">
-						<!-- Diagram from draw.io -->
-						<div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;toolbar&quot;:&quot;zoom layers lightbox&quot;,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile userAgent=\&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36\&quot; version=\&quot;6.7.10\&quot; editor=\&quot;www.draw.io\&quot; type=\&quot;google\&quot;&gt;&lt;diagram id=\&quot;dd730149-67dd-e423-68cc-359f2c7b0904\&quot; name=\&quot;Page-1\&quot;&gt;7VxNc6s2FP01Xr4OSALjZeImfZtOM5NF06WMZJt5GFwsJ05/fYURXxIk2EEI28kiA1cg4J5zxL1XwhM43xz+SPB2/WdMaDgBFjlM4O8TAKYzi/9PDe+ZwQF2ZlglAclMFcNz8B8VRnHeah8QuqsdyOI4ZMG2bvTjKKI+q9lwksRv9cOWcVi/6havqGJ49nGoWv8OCFtnVs+xSvtPGqzW+ZVtS7QssP9rlcT7SFxvAuDy+Jc1b3Delzh+t8YkfquY4MMEzpM4ZtnW5jCnYera3G3ZeY8trcV9JzRiXU4AHgbezCGEIOJ4ZPpD9PCKwz3NH+F4o+w9d87x8WjagT2B92/rgNHnLfbT1jfOBm5bs00ompdBGM7jME6O56bOAL7P7TuWxL9opYW4C9dx0zPiiAlG2IjvixuiCaOH1qe0C99xStJ4Q1nyzg/J+Si8Ldhou2L/rcQ2N60rsOY2LNi0KjouPco3hFM7OhgpDn6ZADdkqU/2C765Sjet3Mb7r5gVLLhPWN3hdcdGcUQlFIQJh8Eq4rs+9yHl9vvUwwGXwJ1o2ASEpJdpRFgDSJ4EkqeChBpAAjpAcvSqgGDqLRtV4PoeXSz1ONgekwzcTjKwb08G9ph0ML1GHYzqdeB10gG4PR2M6n0wu0YdONaIdJBH/p8IIbo9ITj2iIRga84PiEM9gpqU4IEFdDXlB3JkBIwqATS4WBFCYdriqOZ+9999mjwe3fRjd/TTHT/ABttD2Zj38liV07Gn77gr54BRmcFrlJkceJmVmZqIDy6z77DOsMx05/lGZCbHdWZlpib6g8vsO2g0LDPNZQQzRWXo1l1sVGVqGSG5ZnpDKZIwyu4OxQEakbt0Wir1YYh3u8CvA0EPAXvh29Zvjtj7J2+J+P1VmtLdtM1qdSwlytyW5FZ+a/E+8ekncmU4WVHWcpDTjE8FAKcBgNyW0BCz4LV+n02oiCs8xQF/grb5HDiTcM0eT5xUQqv0YwOpIyR1lLlA6ejIkeKpz6NNfukv0UYLOT7EfWoS9wLodwm/U4EHck1lOiDwHXK7rwDfPpaYHC9mJnmD5EonPJM30CRvmhLWy4+iJGigyTAKNOSD84fJva04+ppiKYnT0GQwBZrSxYsnOZJdbJTkDdnY/HHiwTIv3zYXqLZyur5IbiGXRnKUaFQgaqbXW/TQnolozDby19qH0YPdgtCFhQ8OMhg+9JGmfkAcTflGNhNiLOGALQP3VxMOKFNII/L5pS4NeaMlht6QV8KrIZHvMFt/WS8Ld/zEkcZ4KI/x574sBiUO6IE4ZshhLEhwesJdyYjlOFIn7hprUzpfFWbDQ1moF/mq6FBd6qp4u6r3kgQvQv5ltfLYpqsq2YE3Y5rEQH1NYqABJzFghwUUF8UapwNrjE6B2NJgA6xzaSMvxJE70kmbDgsCxkWbsaQhtjc7890if/Qgd6QT7j5qVjcBN5LWlNjnvhSUtf1yRxrhzkeojnCLsm8Fa4J366K+n+48YcZoEh0twCoX1OXf5qILhBrOYD/KRsgzpmzUR4FhTGtfurz/zWYbVxEAoD7yzKHXOXRZ5mC2XA2kVADIqUDncrXckTcgN3rMREcxpsy68MZszVJeLdzX+hgw4AQXUnPRnwEhNFtQjhlVWPT1OeqQLtkIZqhdqfZY/BxJhT6zBvpomaFGJy3hsE5ewlF8LCs7sv3j2T5cLAfUDS4ebBEAOmlB/Rkuzr9b+dTFxXcsOlyMTLpYzVn/Wuxo8srH2Ti6oaGkAYThhpKTvrs/nefFarBPeV6sDtPBc6O/dKMm6084wbxjmtwQyxsg6InlfLf8Oa8szil/Mg0+/A8=&lt;/diagram&gt;&lt;/mxfile&gt;&quot;}"></div>
+						<img src="diagrams/HMM.svg" style="width:100%" alt="HMM diagram">
+						<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+						<img src="diagrams/inference_blackbox.svg" style="width:100%" alt="Inference diagram">
+						<br/>
+						<i>Bayesian inference is used to obtain the posterior distribution of the HMM parameters based on observations</i>
 					</div>
 					<div class="6u$ 12u$(medium)">
 						<header class="major">
 							<h2>Hidden Markov Model</h2>
 						</header>
-						<p>
-						These relationships can be integrated in a Hidden Markov Model, where the fluorescence reads are observed states and X1, …, Xn are hidden states. The parameters of the model are the initial number of molecules X0, the efficiency r and the noise s2.
+						<p>A Hidden Markov Model (HMM) is a stochastic model with hidden states, where future states only depend on the current one (reference <a href="https://en.wikipedia.org/wiki/Hidden_Markov_model">Wikipedia</a>). The specification of a HMM consists of hidden state variables, observations, transition probabilities and observation probabilities.</p>
+						<p>The binomial branching process is a Markov process, as the number of molecules in each state only depends on the number of molecules in the previous state. We model the process as a HMM with the following specification:
+						<ul>
+							<li><i>X<sub>1:n</sub></i> – hidden state variables</li>
+							<li><i>F<sub>1:n</sub></i> – observations</li>
+							<li>transition probabilities given by the binomial with probability <i>r</i></li>
+							<li>observation probability given by Gaussian noise with variance <i>σ<sup>2</sup></i>
+						</ul>
+						The model is parameterized by <i>θ = [X<sub>0</sub> , r, σ <sup>2</sup>]</i>.
 						</p>
  						<p>
+ 						The HMM representation influences the choice of inference method that accounts for transitions between states when computing the likelihood of observations for a fixed parameter <i>θ</i>. The particle pseudo-marginal Metropolis Hastings (reference DW) was used to perform inference on the HMM (more in <a href="inference.html#pmmh">Inference</a>).
+	 					</p>
+	 					<p>
 						The model can be extended to account for other sources of uncertainty, and these states integrated in the inference. For example, the stochasticity in the pipetting procedure can be modelled by adding an extra state *add diagram*
 						</p>
+					</div>
+				</div>
+			</div>
+			</section>
+
+
+			<section id="three" class="main style1">
+			<div class="container">
+				<div class="row 150%">
+					<div class="12u$ 12u$(medium)">
+						<header class="major">
+							<h2>Estimation of the fluorescence coefficient <i>α</i></h2>
+							<p>The fluorescence coefficient <i>α</i> relates the number of target molecules to fluorescence intensity<br/>
+							<i>F<sub>i</sub> = αX<sub>i</sub> + N(0, σ <sup>2</sup>)</i>.<br/><br/>
+							Lalam et al treat <i>α</i> as a known constant and do not specify a method to determine its value. However, the quality of parameter inference is highly dependent on the quality of the <i>α</i> estimate as <i>α</i> and <i>X<sub>0</sub></i> are co-dependent when the fluorescence intensity is fixed. In other words, <i>X<sub>0</sub></i> can have any value if <i>α</i> is unrestricted.</p>
+							<p>Goll et all (2006, reference) method for sigmoid fitting</p>
+							<p>Show model</p>
+							<p>Variability in alpha</p>
+						</header>
 					</div>
 				</div>
 			</div>
@@ -98,7 +130,7 @@
 		<!-- Footer -->
 			<section id="footer">
 				<ul class="copyright">
-					<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 				</ul>
 			</section>
 

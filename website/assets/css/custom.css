@@ -59,3 +59,6 @@ nav ul.navbar-left li a span:hover {
 #header.on_fixed_navbar {
 	margin-top: 120px;
 }
+#header.inner.abstract{
+	color:red;
+}
