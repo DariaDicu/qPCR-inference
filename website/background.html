@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Absolute quantitation of mtDNA</title>
+		<title>Absolute quantification of mtDNA</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -43,37 +43,58 @@
 					<div class="row 150%">
 						<div class="12u$ 12u$(medium)">
 							<header class="major">
-								<h2>Quantitative PCR</h2>
+								<h2>Quantitative Polymerase Chain Reaction (qPCR)</h2>
+								<p>Specific details of qPCR may be abstracted away from for the purposes of this project. However, the basic aspects and important terms such as fluorescence, primers, efficiency and amplification phases are necessary in understanding the mathematical model and are explained below.
 							</header>
-							<h3>Basics of qPCR</h3>
-							<p>Primers, what fluorescence is</p>
-							<h3>The amplification curve</h3>
-							<p>Phases of qPCR (exp, linear, plateau)</p>
-
-							*Fluorescence*
 						</div>
-						<br/>
-						<div class="6u$ 12u$(medium) important(medium)">
-							*amplification chart*
+						<div class="6u 12u$(medium)">
+							<h3>Basics of qPCR</h3>
+							<p>Quantitative polymerase chain reaction (qPCR) is a technique used to amplify a set of DNA segment copies. It is useful for measuring the initial molecule copy number when it is too small to be determined experimentally without amplification.</p>
+							<p>
+							The molecules undergo a series of thermal cycles. During every cycle, the following steps occur:
+							<ol>
+								<li>Heating causes the double DNA strand to be split into two separate strands.</li>
+								<li>Primers designed to target a specific DNA fragment are introduced and bind to the desired segments.</li>
+							</ol>
+						</div>
+						<div class="6u$ 12u$(medium)">
+							<img src="diagrams/pcr_amplification.png" style="width:100%" alt="mtDNA diagram">
+							<p><i>Placeholder; need copyrights for the image</i></p>
+						</div>
+						<div class="12u$ 12u$(medium)">
+							</p>
+							A primer is a short segment of single-stranded complimentary DNA designed to bind to a specific DNA sequence. Different primers are used to amplify mutant mtDNA molecules and any mtDNA molecule.
+							<p><br>*discuss probes; efficiency*</p>
+							<h3>The amplification curve</h3>
+							<p>Fluorescence intensities recorded after each qPCR cycle form a sigmoidal amplification curve. Initially, the molecules amplify at peak efficiency (close to doubling at each cycle), showing an exponential increase in fluorescence. After ~35 cycles, the reaction starts to slow down and the efficiency decreases. Finally, the reaction stops and no molecules are amplified, causing the fluorescence intensity to be close to constant between consecutive cycles. Therefore, the amplification curve can be divided into three phases: exponential, linear and plateau. 
+							</p>
+							
+
+							<div id="qpcr_plot" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+							<p><i>The above figure shows the three phases of the amplification curve: exponential, linear and plateau. Information from the exponential phase is used for the inference. </i></p>
+
+							<p>The mathematical model used to represent the qPCR amplification assumes that the efficiency is constant. Therefore, before running the inference method, the exponential phase information is extracted from the amplification curve, and the rest of the fluorescence reads discarded.</p>
+							*Empirical AIC for checking whether sigmoid or exp fits better*
 						</div>
 					</div>
 				</div>
 			</section>
 
 		<!-- Two -->
-		<section id="one" class="main style1">
+		<section id="one" class="main style2">
 				<div class="container">
 					<div class="row 150%">
-						<div class="6u 12u$(medium)">
+						<div class="12u$ 12u$(medium)">
 							<header class="major">
 								<h2>Experimental protocol</h2>
+								<p>The experimental protocol for measuring heteroplasmy in a single cell consists of quantifying the mutant and total mtDNA load separately using qPCR. The qPCR amplification curves of the two experiments are modelled separately and used to infer the initial quantities. The heteroplasmy is the ratio between mutant and total mtDNA quantities.</p>
 							</header>
-
-							<p>The experimental protocol for measuring the amounts of mutant (m) and total (N) mtDNA is based on quantitative PCR. This is a technique for amplifying a known segment from an initial set of DNA molecules (more details in <a href="background.html#one">Background)</a>.</p>
-
-							<p>For a single cell, we measure the two quantities m and N by splitting the contents of a cell into two wells, then measuring m/2 in the first well and N/2 in the other. For each of the two wells, a qPCR primer is used to identify and amplify either a DNA segment specific to mutant mtDNA, or a segment present in any mtDNA molecule. *Is this true for total?*</p>
-
-							<p> The resulting data consists of amplification curves for each of the two wells. We use this data to estimate and model the measurement error in the initial number of molecules m/2 and N/2.</p>
+						</div>
+						<div class="6u 12u$(medium)">
+							<p>A qPCR experiment can only quantify one type of molecule, as it uses a primer to identify a specific sequence of the target molecule. The two molecule types of interest are the mutant and the general mtDNA molecule, with the latter including both mutant and wildtype molecules.</p>
+							<p>The experimental protocol aims to equally divide the contents of a single cell into two separate solutions. One solution is used to infer the amount of mutant (m), while the other is used to infer the amount of total mtDNA (N). The assumption is that after the cell is split, both solutions contain half of the mutant and half of the total number of mtDNA molecules.</p>
+							<p>For each of the two solutions, a qPCR primer is used to identify and amplify either a DNA segment specific to mutant mtDNA, or a segment present in any mtDNA molecule.</p>
+							<p> The resulting data consists of amplification curves for each of the two solutions. We use this data to estimate and model the measurement error in the initial number of molecules m/2 and N/2.</p>
 						</div>
 						<br/>
 						<div class="6u$ 12u$(medium) important(medium)">
@@ -111,9 +132,6 @@
 							<p>Model described in more detail on the next page</p>
 						</div>
 						<div class="6u$ 12u$(medium) important(medium)">
-							<div id="10_03_x0_posterior" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-						
-							<div id="10_03_x0_p_joint" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 						</div>
 					</div>
 				</div>
@@ -136,7 +154,7 @@
 			<!-- High charts -->
 			<script src="https://code.highcharts.com/highcharts.js"></script>
 			<script src="https://code.highcharts.com/modules/exporting.js"></script>
-			<script src="10_03_plots.js"></script>
+			<script src="background.js"></script>
 
 	</body>
 </html>
