@@ -136,6 +136,11 @@ alpha_samples_file_obj_2_3_cyb_c57.write("\n".join(map(str, alpha_samples_2)))
 alpha_samples_file_obj_2_3_bjcoii = open("alpha_samples_02_03_17_bjcoii.dat", "w")
 alpha_samples_file_obj_2_3_bjcoii.write("\n".join(map(str, alpha_samples_1)))
 
+json_outfile = open("../website/alpha_boxplots_same_primer.json", "w")
+json_obj = dict([('exp3', alpha_samples_3),
+	('exp4', alpha_samples_4)])
+r = json.dumps(json_obj)
+json_outfile.write(r)
 #alpha_samples = np.concatenate([alpha_samples_1, alpha_samples_2], 0)
 alpha_samples_1 = np.log10(alpha_samples_1)
 alpha_samples_2 = np.log10(alpha_samples_2)

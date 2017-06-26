@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Absolute quantitation of mtDNA</title>
+		<title>Absolute quantification of mtDNA</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -33,6 +33,8 @@
 		        <li><a href="inference.html"><span>INFERENCE<span></a></li>
 		        <li><a href="results.html"><span>RESULTS<span></a></li>
 		        <li><a href="summary.html"><span>SUMMARY<span></a></li>
+		        <li><a href="references.html"><span>REFERENCES<span></a></li>
+		        <li><a href="glossary.html"><span>GLOSSARY</span></a></li>
 		      </ul>
 			  </div>
 			</nav>
@@ -41,23 +43,30 @@
 			<section id="one" class="main style1">
 				<div class="container">
 					<div class="row 150%">
-						<div class="12u 12u$(medium)">
+						<div class="12u$ 12u$(medium)">
 							<header class="major">
 								<h2>Overview</h2>
-								<p>The goal is to perform parameter inference on the Hidden Markov Model using fluorescence observations in order to obtain samples from the posterior probability <i>P(θ | f<sub>1:n</sub> )</i>. The parameterisation of the model is <br><i>θ</i> = [ <i>X<sub>0</sub> , r , σ <sup>2</sup></i> ], where <i>X<sub>0</sub></i> is the initial number of mtDNA molecules, <i>r</i> the amplification efficiency and <i>σ <sup>2</sup></i> the fluorescence noise. This project builds on the work of Lalam et al (cite) and uses a specialisation of the Metropolis Hastings (MH) algorithm, namely pseudo-marginal Metripolis Hastings (PMMH) (reference Darren Wilkinson), coded in C.</p>
+								<p>The goal is to perform parameter inference on the Hidden Markov Model using fluorescence observations in order to obtain samples from the posterior probability P(θ | F<sub>1:n</sub> ). The parameterisation of the model is <br>θ = [ X<sub>0</sub> , r , σ<sup>2</sup> ], where X<sub>0</sub> is the initial number of mtDNA molecules, r the amplification efficiency and σ<sup>2</sup> the fluorescence noise. This project extends the work of <a href="references.html#lalam">Lalam, 2007</a> and uses a specialisation of the Metropolis Hastings algorithm, namely pseudo-marginal Metripolis Hastings (<a href="references.html#wilkinson">Wilkinson, 2011</a>), coded in C.</p>
 							</header>
+						</div>
+
+						<div class="6u 12u$(medium)">
 							<p>
-								Metropolis Hastings is a common method for sampling from the posterior when the posterior itself is difficult to compute, but a function <i>g(θ)</i> that is proportional to the posterior is computationally feasible. The function <i>g(θ)</i> that we use in this case is the product of the likelihood and the prior probabilities:
+								Metropolis Hastings (MH) is a common method for sampling from the posterior when the posterior itself is difficult to compute, but a function g(θ) that is proportional to the posterior is computationally feasible. The function g(θ) that is used in this case is the product of the likelihood and the prior probabilities:
 							</p>
 							<p style="margin-left:50px">
-								<i>g( θ| f<sub>1:n</sub> ) = p( f<sub>1:n</sub> | θ ) π( θ )</i>
+								g( θ| F<sub>1:n</sub> ) = p( F<sub>1:n</sub> | θ ) π( θ )
 							</p>
+							<p>Many different versions of MH exist. We use pseudo-marginal Metropolis Hastings (PMMH) in order to account for the hidden states of the Markov Model (<a href="#three">see below</a>). </p>
+						</div>
+
+						<div class="6u$ 12u$(medium)">
 							<p>
-								Many different versions of MH exist. We use PMMH in order to account for the hidden states of the Markov Model (<a href="#three">see below</a>). Three subsequent runs of different MH versions are run:
+								Three subsequent runs of different MH versions are run:
 								<ul>
-								<li>A PMMH run for a limited number of iterations (e.g. 10,000) in order to get a better estimate of <i>θ<sub>MAP</sub></i>.</li>
-								<li>An adaptive PMMH run for a limited number of iterations (<a href="#four">discussed below</a>) in order to get a better estimate for the proposal covariance.</li>
-								<li>A normal PMMH run using the initial <i>θ<sub>MAP</sub></i> and the covariance obtained in the previous iterations.</li>
+								<li><b>Initial θ<sub>MAP</sub> estimation:</b> A PMMH run for a limited number of iterations (e.g. 10,000) in order to get a better estimate of θ<sub>MAP</sub>.</li>
+								<li><b>Covariance estimation:</b> An adaptive PMMH run for a limited number of iterations (<a href="#four">discussed below</a>) in order to get a better estimate for the proposal covariance.</li>
+								<li><b>Main run:</b> A normal PMMH run using the initial θ<sub>MAP</sub> and the covariance obtained in the previous iterations.</li>
 								</ul>
  
 								The code for inference is written in C and available on <a href="https://github.com/DariaDicu/qPCR-inference">GitHub</a>.
@@ -72,22 +81,29 @@
 					<div class="row 150%">
 						<div class="12u 12u$(medium)">
 							<header class="major">
-								<h2>General Metropolis-Hastings</h2>
+								<h2 id="general-mh">General Metropolis-Hastings</h2>
 							</header>
-							<p>A generic MH algorithm has the following steps (link to wikipedia):
+						</div>
+						<div class="6u 12u$(medium)">
+							<p>A generic MH algorithm has the following steps (<a href="references.html#wilkinson">Wilkinson, 2011</a>):
 							<ol>
-							<li>Initialize with some parameter <i>θ</i>, and compute <i>log g(θ)</i>.</p></li>
-							<li>At every iteration:
-								<ol>
-								<li>Propose a new <i>θ’</i> using a proposal distribution <i>Q(θ’|θ)</i>. Our proposal distribution is a multivariate Gaussian centered at <i>θ</i>, <i>N(θ, Σ)</i>.</li>
-								<li>Compute <i>log g(θ’)</i>. If <i>log g(θ’)</i> > <i>log g(θ)</i> accept the proposal <i>θ’</i>, otherwise accept with probability <i>g(θ’)/g(θ)</i>.</li>
-								</ol>
+							<li>Initialise with some parameter θ, and compute the log posterior log g(θ).</li>
+							<li>Propose a new parameter value θ’ using a proposal distribution Q(θ’|θ). Our proposal distribution is a multivariate Gaussian centered at θ, N(θ, Σ).</li>
+							<li>Compute the new log posterior log g(θ’). If log g(θ’) > log g(θ) accept the proposal θ’, otherwise accept with probability g(θ’)/g(θ).</li>
 							</li>
+							<li>Return to step 2.</li>
 							</ol>
-							In literature the function <i>g(θ)</i> is called the log posterior, although in fact <i>g(θ)</i> is just proportional to the posterior <i>P(θ | f<sub>1:n</sub> )</i>. The log posterior is the sum of log priors for <i>x<sub>0</sub></i>, <i>r</i> and <i>σ <sup>2</sup></i> (assumed independent) and the log likelihood. One of the key aspects of the algorithm is computing the log likelihood.
+							<p>
+							In literature, the function g(θ) is called the log posterior, although in fact g(θ) is just proportional to the posterior P(θ | F<sub>1:n</sub> ). The log posterior is the sum of log priors for X<sub>0</sub>, r and σ<sup>2</sup> (assumed independent) and the log likelihood.
 							</p>
 						</div>
-					</div>
+						<div class="6u$ 12u$(medium)">
+							MH diagram + plot of multivariate gaussian
+						</div>
+						<div class="12u$ 12u$(medium)">
+							<p>One of the key aspects of the algorithm is computing the log likelihood. In the particular case of a Hidden Markov Model, taking into account the hidden state variables (the number of molecules X<sub>1:n</sub>) makes the exact computation of the log likelihood unfeasible, so a bootstrap approach is used instead (more details in the next section).
+							</p>
+						</div>
 				</div>
 			</section>
 			<section id="three" class="main style1">
@@ -96,19 +112,43 @@
 						<div class="12u 12u$(medium)">
 							<header class="major">
 								<h2>Pseudo-marginal Metropolis Hastings</h2>
-								<p>The pseudo-marginal approach is used to perform inference on Hidden Markov Models, where the hidden states do not allow a straight-forward and feasible computation of the log likelihood during a MH step.</p>
+								<p>The pseudo-marginal approach is used to perform inference on Hidden Markov Models, where the hidden states do not allow a straight-forward and feasible computation of the log likelihood during a MH step. As we are not interested in the values of the hidden state variables X<sub>1:n</sub>, an unbiased estimate for the marginal likelihood P(F<sub>1:n</sub> | θ) is obtained using an approach called the bootstrap particle filter (<a href="references.html#wilkinson">Wilkinson, 2011</a>).</p>
 							</header>
 							<p>
-								The likelihood is the probability of obtaining the observed fluorescence reads <i>f<sub>1:n</sub></i>, given a fixed theta <i>θ</i>, <i>P(f<sub>1:n</sub> | θ)</i>:
+								MH is performed as normal and the bootstrap particle filter is applied when computing the log posterior for a new parameter proposal θ. The computation of the log posterior requires computing the likelihood P(F<sub>1:n</sub> | θ). The likelihood is the probability of obtaining the observed fluorescence reads F<sub>1:n</sub>, given a fixed theta θ, P(F<sub>1:n</sub> | θ):
 							</p>
 							<p style="margin-left:50px">
- 								<i>P(f<sub>1:n</sub> | θ) = ∑ <sub>x<sub>1:n</sub></sub> P(f<sub>1:n</sub> | θ, x<sub>1:n</sub> ) P(x<sub>1:n</sub> | θ)</i>
+ 								P(F<sub>1:n</sub> | θ) = ∑ <sub>X<sub>1:n</sub></sub> P(F<sub>1:n</sub> | θ, X<sub>1:n</sub> ) P(X<sub>1:n</sub> | θ)
  							</p>
  							<p>
-							The summation (marginalisation) over all possible values x<sub>1:n</sub> is not computationally feasible, so the pseudo-marginal approach is used instead (reference to Darren Wilkinson book). Instead of summing over all the possible values of the amplification curve x<sub>1:n</sub>, we obtain an estimate using a limited number of simulations of the amplification curve, called a particle cloud. The method is called pseudo-marginal as it 'marginalises' over a subset of the possible values of x<sub>1:n</sub>. As the number of particles approaches infinity, the approximation would approach the real likelihood. In practice, an order of 100 particles are used.
+							The summation (marginalisation) over all possible values X<sub>1:n</sub> is not computationally feasible. Instead of summing over all the possible values of the amplification curve X<sub>1:n</sub>, we obtain an unbiased estimate using a limited number of simulations of the amplification curve, called a particle cloud. The method is called pseudo-marginal as it 'marginalises' over a subset of the possible values of X<sub>1:n</sub>. As the number of particles approaches infinity, the approximation would approach the real likelihood. In practice, an order of 100 particles are used.
 							</p>
-							<img src="diagrams/jpeg_gif_pmmh.gif" alt="PMMH diagram">
-							<p><i>Diagram showing the pseudo-marginal approach for computing the log-posterior during a MH step.</i></p>
+							<p>
+								The bootstrap particle algorithm was adapted from the work of <a href="references.html#wilkinson">Wilkinson, 2011</a>, which describes the steps as follows:
+								<ol>
+									<li> For t = 0, initialise the procedure with a sample x<sub>0</sub><sup>k</sup> = X<sub>0</sub>, where X<sub>0</sub> is the part of the proposal θ, and k = 1, ..., M. Assign uniform normalised weights w'<sub>0</sub><sup>k</sup>.</li>
+									<li> At time t, the weighed sample is (x<sub>t</sub><sup>k</sup>, w'<sub>t</sub><sup>k</sup> | k = 1, ..., M) representing draws from P(x<sub>t</sub> | F<sub>1:t</sub>).</li> 
+									<li> Use discrete sampling based on weights w'<sub>t</sub><sup>k</sup> to resample with replacement M times and obtain x*<sub>t</sub><sup>k</sup>.</li>
+									<li> Propagate each particle forward x*<sub>t</sub><sup>k</sup> according to the transition probability of the Markov process P(x<sub>t+1</sub> | x<sub>t</sub>, θ).<br>In our case, a particle x<sub>t</sub><sup>k</sup> is propagated forward by sampling from a binomial distribution Δ<sub>k</sub> ~ Binom(x<sub>t</sub><sup>k</sup>, r) and setting x<sub>t+1</sub><sup>k</sup> = x<sub>t</sub><sup>k</sup> + Δ<sub>k</sub>. The parameter r in the binomial distribution is the efficiency parameter from the current proposal θ = [ X<sub>0</sub> , r , σ<sup>2</sup> ].</li>
+									<li>
+										For each particle, compute a weight w<sub>t+1</sub><sup>k</sup> = P(F<sub>t+1</sub> | x<sub>t+1</sub><sup>k</sup>), according to the observation probability of the current state in the Hidden Markov Model. Each weight is normalised to get w'<sub>t+1</sub><sup>k</sup> =  w<sub>t+1</sub><sup>k</sup> / ∑<sub>i</sub>w<sub>t+1</sub><sup>i</sup>. <br>
+										In our case, the observation probability P(F<sub>t+1</sub> | x<sub>t+1</sub><sup>k</sup>) is the Gaussian noise in the observation of fluorescence F<sub>t+1</sub>, when the number of molecules x<sub>t+1</sub><sup>k</sup> is constant:<br>
+										 <span style="margin-left:50px"><img src="diagrams/gaussian_noise_equation.svg" alt="Gaussian noise equation" style="height:50px"></span>
+										 <br> where σ<sup>2</sup> is the variance parameter from the current proposal θ = [ X<sub>0</sub> , r , σ<sup>2</sup> ], and α is the fluorescence coefficient assumed known and fixed throughout inference.
+										<br>
+										The new weights represent samples from P(x<sub>t+1</sub> | F<sub>1:t+1</sub>)
+									</li>
+									<li>Return to step 2 and repeat for the next time step t+1.</li>
+								</ol>
+							</p>
+							<center><img src="diagrams/pmmh.svg" alt="PMMH diagram" style="width:95%"></center>
+							<figcaption><center><b>Figure 21.</b> Diagram showing the bootstrap particle filter approach for computing the log-posterior during a MH step. At each step t, the particles x<sub>t</sub><sup>k</sup> are resampled according to the weights w<sub>t</sub><sup>k</sup>. Then, each particle is propagated forward according to the transition probability of the HMM (binomial branching process). Finally, new weights are computed according to the observation probability of the HMM (Gaussian observation noise).</center></figcaption>
+							<br>
+							<h3>Behaviour for large initial copy numbers</h3>
+							<p>It was mentioned in the section on <a href="model.html#estimating-alpha">estimating the fluorescence coefficient α</a> that for large initial copy numbers, the amplification process behaves deterministically and the inference method does not work as expected. For this reason, sigmoid curve fitting was used to obtain α.
+							</p>
+							<p>The PMMH algorithm cannot be used when the process behaves deterministically because the weights computed for each particle during the bootstrap particle filter function differ by a large amount. These weights are computed using the probability density function of the Gaussian noise, and the maximum weight at each step of the bootstrap particle filter is significantly larger than all the weight of all other particles. The discrete sampling used to resample the particles at each step will almost always choose that particle. This phenomenon causes only one particle to be resampled (that of maximal weight), causing the bootstrap particle filter to behave as if using only one particle (in other words, using simple Metropolis Hastings and running a single qPCR simulation when computing the log posterior of a proposal). This behaviour causes the chain to mix very slowly, making inference unuseable.
+							</p>
 						</div>
 					</div>
 				</div>
@@ -120,7 +160,8 @@
 							<header class="major">
 								<h2>Adaptive Metropolis Hastings</h2>
 							</header>
-								<p> The general Metropolis Hastings algorithm uses a covariance matrix Σ in the proposal distribution <i>N(0, Σ)</i>. In order to get a better estimate for the covariance matrix Σ that is used in PMMH, adaptive MH is run first for a number of iterations. The Σ used at each step in adaptive MH is based on the chain history and computed empirically (more details in [link to paper]).
+								<p>A Metropolis Hastings algorithm uses a covariance matrix Σ in the proposal distribution N(θ, Σ) used to propose new samples θ' from a current sample θ. In order to get a better estimate for the covariance matrix Σ that is used in PMMH, adaptive MH is run first for a number of iterations. This adaptive algorithm iteratively updates the covariance matrix Σ used to propose new samples, and uses the empirical covariance of the samples accepted up until that point. For brevity purposes, it is not discussed in further detail here, but is described in full detail in a paper by <a href="references.html#haario">Haario et al., 2001</a>.</p>
+								<p>The final covariance matrix computed by Adaptive Metropolis Hastings is used in the pseudo-marginal Metropolis Hastings algorithm described in the previous section.</p>
 						</div>
 					</div>
 				</div>
@@ -129,40 +170,44 @@
 				<div class="container">
 					<div class="row 150%">
 						<div class="12u 12u$(medium)">
-							<header class="major">
-								<h2>Priors</h2>
+							<header class="major" id="priors">
+								<h2>Prior parameter distributions</h2>
 								<p>
-									Prior parameter distributions encapsulate the knowledge we have about the parameters prior to the inference. The shape of priors has a significant impact on the inference. The choice of priors was based on the work of Lalam et al (reference), which compared the effect of different priors on the shape of posterior distributions. 
+									Prior parameter distributions encapsulate the knowledge we have about the parameters prior to the inference. The shape of priors has a significant impact on the inference. The choice of priors was based on the work of <a href="references.html#lalam">Lalam, 2007</a>, which compared the effect of different priors on the shape of posterior distributions. 
 								</p>
 							</header>
 							<p>
 								The following priors were used in inference:
 								<ul>
-									<li> <i>X<sub>0</sub></i> — discrete uniform prior within range (1, 100)</li>
-									<li> <i>r</i> — Beta(0.5, 0.5) prior</li>
-									<li> <i>σ <sup>2</sup></i> — Jeffreys prior 1/√<i>σ</i></li>
+									<li> X<sub>0</sub> — discrete uniform prior within range (1, 100)</li>
+									<li> r — Beta(0.5, 0.5) prior, which is a Jeffreys prior for a binomial distribution Binom(N, r) with unknown probability r</li>
+									<li> σ<sup>2</sup> — 1/√σ, which is a Jeffreys prior for the variance of Gaussian noise N(0, σ<sup>2</sup>)</li>
 								</ul>
-								These priors for <i>r</i> and <i>σ <sup>2</sup></i> are common choices for zero-knowledge priors for probabilities and noise, respectively. A useful future improvement of the project would be incorporating experimental knowledge in new priors and analysing their effect on posterior distributions.
+								The priors for r and σ<sup>2</sup> are common choices for zero-knowledge priors for probabilities and noise, respectively. A useful future improvement of the project would be incorporating experimental knowledge in new priors and analysing their effect on posterior distributions.
 							</p>
 						</div>
-
-						<div class="4u 12u$(medium)">
+						<div class="6u 12u$(medium)">
 							<div id="uniform_prior" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 						</div>
 
-						<div class="4u 12u$(medium)">
+						<div class="6u$ 12u$(medium)">
 							<div id="beta_prior" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 						</div>
 
-						<div class="4u$ 12u$(medium)">
+						<div class="12u$ 12u$(medium)">
 							<div id="jeff_prior" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 						</div>
+						<figcaption><center><b>Figure 22.</b> The priors for the model parameters are zero-knowledge priors. The inferred posterior distributions of parameters can be narrowed (giving more confident estimates) by incorporating experimental knowledge (such as the bounds for efficiency r) to restrict the shape of priors.
+						</center></figcaption>
 					</div>
 				</div>
 			</section>
 
 		<!-- Footer -->
 			<section id="footer">
+				<ul class="actions">
+					<li><a href="results.html" class="button scrolly">Read next section</a></li>
+				</ul>
 				<ul class="copyright">
 					<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 				</ul>

@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Absolute quantitation of mtDNA</title>
+		<title>Absolute quantification of mtDNA</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -33,6 +33,8 @@
 		        <li><a href="inference.html"><span>INFERENCE<span></a></li>
 		        <li><a href="results.html"><span>RESULTS<span></a></li>
 		        <li><a href="summary.html"><span>SUMMARY<span></a></li>
+		        <li><a href="references.html"><span>REFERENCES<span></a></li>
+		        <li><a href="glossary.html"><span>GLOSSARY</span></a></li>
 		      </ul>
 			  </div>
 			</nav>
@@ -41,33 +43,38 @@
 			<section id="one" class="main style1">
 				<div class="container">
 					<div class="row 150%">
-						<div class="6u 12u$(medium)">
+						<div class="12u 12u$(medium)">
 							<header class="major">
 								<h2>Modelling the uncertainty and stochasticity</h2>
-								<p>We wish to obtain a mathematical model for the qPCR experiment that captures both the stochasticity in amplification at each cycle and the uncertainty in fluorescence reads. This project is based on the work of Lalam et al (reference) and uses a binomial branching process to model the amplification. A Hidden Markov Model is used to both capture the transitions between states in this process and relate states to fluorescence observations.
+								<p>We wish to obtain a mathematical model for the qPCR experiment that captures both the stochasticity in amplification at each cycle and the uncertainty in fluorescence reads, so that we may provide a reliable estimate of the magnitude and uncertainty in the initial copy number of DNA molecules. This is particularly important when working in a low-copy number regime (e.g. single cell data) where stochastic effects are expected to be particularly important. This project extends the work of <a href="references.html#lalam">Lalam, 2007</a> and uses a binomial branching process as the stochastic process of a Hidden Markov Model to model the qPCR amplification.
+							</p>
 							</header>
 						</div>
 						<div class="12u 12u$(medium)">
-							<p>For a qPCR experiment with <i>n</i> cycles, our mathematical model has the following random variables:
+							<p>For a qPCR experiment with n cycles, our mathematical model has the following random variables:
 							<ul>
-							<li><i>X<sub>0</sub></i> – the initial number of molecules</li>
-							<li><i>X<sub>1</sub></i>, ..., <i>X<sub>n</sub></i> – the number of molecules present after each amplification cycle</li>
-							<li><i>F<sub>1</sub></i>, ..., <i>F<sub>n</sub></i> – the fluorescence reads observed after each cycle</li>
+							<li>X<sub>0</sub> – the initial number of molecules (unobserved)</li>
+							<li>X<sub>1</sub>, ..., X<sub>n</sub> – the number of molecules present after each amplification cycle (unobserved)</li>
+							<li>F<sub>1</sub>, ..., F<sub>n</sub> – the fluorescence reads observed after each cycle (observed)</li>
 							</ul>
 							</p>
-							<p> At each qPCR cycle, only a proportion of the molecules are amplified. In other words, each target mtDNA molecule has a probability <i>r</i> of being amplified, which is the efficiency of the qPCR experiment. This efficiency is assumed to be constant throughout the exponential phase of the amplification curve. A Binomial distribution is used to capture the number of new copies at each cycle, as each molecule undergoes an independent Bernoulli trial with probability r:
+							<p>The variable of interest is X<sub>0</sub>, the initial copy number of mtDNA molecules. The rest of the variables are used to explain the observed fluorescence intensities though the hidden variables X<sub>i</sub>, representing the unobserved number of amplified molecules at each cycle i.</p>
+						</div>
+						<div class="6u 12u$(medium)">
+							<p> At each qPCR cycle, only a proportion of the molecules are amplified. In other words, each target mtDNA molecule has a probability r of being amplified, which is the efficiency of the qPCR experiment. This efficiency is assumed to be constant throughout the exponential phase of the amplification curve. A Binomial distribution is used to capture the number of new copies at each cycle, as each molecule undergoes an independent Bernoulli trial with probability r:
 							</p>
 							<p style="margin-left:50px">
-								<i>X<sub>i+1</sub> = X<sub>i</sub> + Binom(X<sub>i</sub> , r)</i>, where <i>i ≥ 0</i>
+								X<sub>i+1</sub> = X<sub>i</sub> + Binom(X<sub>i</sub> , r), where i ≥ 0
 							</p>
-							<p>The fluorescence intensity emitted by the reporter dye at a given cycle <i>i</i> is proportional to the number of molecules <i>X<sub>i</sub></i> by a constant <i>α</i>. However, the measurements are made in the presence of background fluorescence, which we model as an additive Gaussian noise. The experimental data used for inference is background corrected, so the Gaussian distribution has mean 0 and unknown variance σ <sup>2</sup>:</p>
+							<p>The fluorescence intensity emitted by the reporter dye at a given cycle i is proportional to the number of molecules X<sub>i</sub> by a constant α. However, the measurements are made in the presence of background fluorescence, which we model as an additive Gaussian noise. The experimental data used for inference is background corrected, so the Gaussian distribution has mean 0 and unknown variance σ<sup>2</sup> (N(0, σ<sup>2</sup>)):</p>
 							<p style="margin-left:50px">
-								<i>F<sub>i</sub> = αX<sub>i</sub> + N(0, σ <sup>2</sup>)</i>
+								F<sub>i</sub> = αX<sub>i</sub> + N(0, σ<sup>2</sup>)
 							</p>
 						</div>
 						<br/>
-						<div class="4u$ 12u$(medium) important(medium)">
-							*amplification chart*
+						<div class="6u$ 12u$(medium) important(medium)">
+							<center><img src="diagrams/Binom.svg" style="width:80%" alt="HMM diagram"></center>
+							<figcaption><center><b>Figure 12.</b> The amplification process is modelled as a binomial branching process. At each discrete step of the process (qPCR cycle), a molecule is amplified with probability r. When r = 0.5, this is equivalent to a coin flip.</center></figcaption>
 						</div>
 					</div>
 				</div>
@@ -78,30 +85,31 @@
 				<div class="row 150%">
 					<div class="6u 12u$(medium)">
 						<img src="diagrams/HMM.svg" style="width:100%" alt="HMM diagram">
+						<figcaption><center><b>Figure 13.</b> The Hidden Markov Model used to represent the qPCR experiment. The hidden states are X<sub>i</sub>, the copy number at each amplification cycle i and the observed states are fluorescence intensity reads F<sub>i</sub>. The model is parameterised by θ = [X<sub>0</sub> , r, σ<sup>2</sup>].
+						</center></figcaption>
 						<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 						<img src="diagrams/inference_blackbox.svg" style="width:100%" alt="Inference diagram">
-						<br/>
-						<i>Bayesian inference is used to obtain the posterior distribution of the HMM parameters based on observations</i>
+						<figcaption><center><b>Figure 14. </b>Bayesian inference is used to obtain the posterior distribution of the HMM parameters based on fluorescence observations. The model accounts for the stochasticity of amplification (the binomial branching process) and for the uncertainty in observations (Gaussian noise).</center></figcaption>
 					</div>
 					<div class="6u$ 12u$(medium)">
 						<header class="major">
 							<h2>Hidden Markov Model</h2>
 						</header>
-						<p>A Hidden Markov Model (HMM) is a stochastic model with hidden states, where future states only depend on the current one (reference <a href="https://en.wikipedia.org/wiki/Hidden_Markov_model">Wikipedia</a>). The specification of a HMM consists of hidden state variables, observations, transition probabilities and observation probabilities.</p>
+						<p>A Hidden Markov Model (HMM) is a stochastic model with hidden states, where future states only depend on the current one. The specification of a HMM consists of hidden state variables, observations, transition probabilities and observation probabilities.</p>
 						<p>The binomial branching process is a Markov process, as the number of molecules in each state only depends on the number of molecules in the previous state. We model the process as a HMM with the following specification:
 						<ul>
-							<li><i>X<sub>1:n</sub></i> – hidden state variables</li>
-							<li><i>F<sub>1:n</sub></i> – observations</li>
-							<li>transition probabilities given by the binomial with probability <i>r</i></li>
-							<li>observation probability given by Gaussian noise with variance <i>σ<sup>2</sup></i>
+							<li>X<sub>1:n</sub> – hidden state variables</li>
+							<li>F<sub>1:n</sub> – observations</li>
+							<li>transition probabilities given by the binomial with probability r</li>
+							<li>observation probability given by Gaussian noise with variance σ<sup>2</sup>
 						</ul>
-						The model is parameterized by <i>θ = [X<sub>0</sub> , r, σ <sup>2</sup>]</i>.
+						The model is parameterised by θ = [X<sub>0</sub> , r, σ<sup>2</sup>] (Fig. 13).
 						</p>
  						<p>
- 						The HMM representation influences the choice of inference method that accounts for transitions between states when computing the likelihood of observations for a fixed parameter <i>θ</i>. The particle pseudo-marginal Metropolis Hastings (reference DW) was used to perform inference on the HMM (more in <a href="inference.html#pmmh">Inference</a>).
+ 						The HMM representation influences the choice of inference method that accounts for transitions between states when computing the likelihood of observations for a fixed parameter θ. The pseudo-marginal Metropolis Hastings algorithm was used to perform inference on the HMM (more in <a href="inference.html#pmmh">Inference</a>).
 	 					</p>
 	 					<p>
-						The model can be extended to account for other sources of uncertainty, and these states integrated in the inference. For example, the stochasticity in the pipetting procedure can be modelled by adding an extra state *add diagram*
+						The model can be extended to account for other sources of uncertainty, by including additional states in the graphical model above. For example, the stochasticity in the pipetting procedure can be modelled by adding an extra state (more details in <a href="summary.html#two">Future Work</a>).
 						</p>
 					</div>
 				</div>
@@ -114,21 +122,111 @@
 				<div class="row 150%">
 					<div class="12u$ 12u$(medium)">
 						<header class="major">
-							<h2>Estimation of the fluorescence coefficient <i>α</i></h2>
-							<p>The fluorescence coefficient <i>α</i> relates the number of target molecules to fluorescence intensity<br/>
-							<i>F<sub>i</sub> = αX<sub>i</sub> + N(0, σ <sup>2</sup>)</i>.<br/><br/>
-							Lalam et al treat <i>α</i> as a known constant and do not specify a method to determine its value. However, the quality of parameter inference is highly dependent on the quality of the <i>α</i> estimate as <i>α</i> and <i>X<sub>0</sub></i> are co-dependent when the fluorescence intensity is fixed. In other words, <i>X<sub>0</sub></i> can have any value if <i>α</i> is unrestricted.</p>
-							<p>Goll et all (2006, reference) method for sigmoid fitting</p>
-							<p>Show model</p>
-							<p>Variability in alpha</p>
+							<h2 id="estimating-alpha">Estimation of the fluorescence coefficient α</h2>
+							<p>The fluorescence coefficient α, also known as an optical calibration factor, relates the number of target molecules to fluorescence intensity:
+							<br><br>
+								<span style="margin-left:50px">F<sub>i</sub> = αX<sub>i</sub> + N(0, σ<sup>2</sup>)</span>
+							<br><br>
+							<a href="references.html#lalam">Lalam, 2007</a> treats α as a known constant and do not specify a method to determine its value. We found that variability in α can induce significant amounts of uncertainty in our estimates of X<sub>0</sub>. The explanation behind this effect is that α and X<sub>0</sub> are co-dependent when the fluorescence intensity is fixed. In other words, X<sub>0</sub> can have any value if α is unrestricted. Hence taking variability of α into account is important in order to provide a more reliable estimate in our uncertainty in X<sub>0</sub>. </p>
 						</header>
+					</div>
+					<div class="12u$ 12u$(medium)">
+						<h3 id="choice-of-model">The choice of model</h3>
+						<p>The fluorescence coefficient α can be estimated using samples where the initial copy number X<sub>0</sub> is known. The experimental data for such samples is in the form of dilution series, with initial copy numbers varying between 1,000 and 100,000 molecules. A binomial branching process, such as the one used to describe the qPCR experiment above, behaves deterministically for molecule numbers as large as the ones in the dilution series. The pseudo-marginal Metropolis Hasting inference algorithm fails for deterministic processes (detailed explanation in <a href="inference.html">Inference</a>).
+						</p>
+						<p>As it was found that the experiment behaves deterministically for the dilution series used in estimating α, a sigmoid curve model was considered more appropriate to represent the data.
+						</p>
+
+					</div>
+
+					<div class="6u 12u$(medium)">
+						<div id="stochasticity_alpha_estimate_1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+					</div>
+					<div class="6u$ 12u$(medium)">
+						<div id="stochasticity_alpha_estimate_2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+					</div>
+					<div class="12u$ 12u$(medium)">
+						<figcaption><center>
+							<b>Figure 15.</b> A number of 1000 qPCR amplification simulations with efficiency r = 0.7 were performed in silico for X<sub>0</sub>=50 and X<sub>0</sub>=100,000, respectively. The amplification curve segment between cycles 32-35 is shown, with the 5-95% confidence interval, showing the variability in amplification between different experiments with the same initial copy number X<sub>0</sub>. The plot shows how the stochasiticity has a larger effect for small numbers of molecules.
+						</center></figcaption>
+					</div>
+
+					<div class="12u$ 12u$(medium)">
+							
+						<h3>Sigmoid model</h3>
+						<p>
+						<a href="references.html#goll">Goll et al., 2006</a> propose a sigmoidal model to represent the qPCR process. In the paper, the model is used to perform absolute quantification on qPCR data and obtain the initial copy number X<sub>0</sub> by using non-linear regression. The model does not capture the stochasticity of the amplification process, which is why it was not considered for single-cell data. However, the amplification process behaves deterministically in the case of dilution series with large initial copy numbers, that are used to obtain the fluorescence coefficient α, making the sigmoid model an appropriate choice.
+						</p>
+					</div>
+					<div class="6u 12u$(medium)">
+						<p>The fluorescence curve is represented by the following equation:</p>
+						<p style="margin-left:50px"><img src="diagrams/sigmoid_equation1.svg" style="height:65px" alt="Sigmoid equation">
+						</p>
+						<p>where F<sub>i</sub> represents the fluorescence at cycle i, F<sub>max</sub> the maximal fluorescence intensity, C<sub>1/2</sub> the cycle with half of the maximal fluorescence intensity, k is a constant related to efficiency and F<sub>b</sub> represents the background fluorescence. Non-linear regression is applied to the data to fit the four sigmoid parameters (F<sub>max</sub>, C<sub>1/2</sub>, k, F<sub>b</sub>), using the Python function scipy.optimize.curve_fit. The fluorescence at cycle 0 is estimated by using these parameters in the following equation:</p>
+						<p style="margin-left:50px"><img src="diagrams/sigmoid_equation2.svg" style="height:65px" alt="Sigmoid equation">
+						</p>
+						<p>Finally, the fluorescence coefficient α is obtained:</p>
+						<p style="margin-left:50px"><img src="diagrams/sigmoid_equation3.svg" style="height:55px" alt="Sigmoid equation">
+						</p>
+					</div>						
+					<div class="6u$ 12u$(medium)">
+						<div id="sigmoid_fitting" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+						<figcaption><center><b>Figure 16.</b> Example of sigmoid fitting on real fluorescence data where X<sub>0</sub> = 1,000,000 is known. Sigmoid fitting is used to estimate F<sub>0</sub>, the initial fluorescence intensity. The estimate for α = 2.97817284227e-09 is computed as the ratio between F<sub>0</sub> and X<sub>0</sub>.
+						</center></figcaption>
+					</div>
+					<div class="12u$ 12u$(medium)">
+						<h3 id="coefficient-variability">Variability in the coefficient α</h3>
+						<p>Since literature papers assume that the parameter α is a fixed constant known in advance, it is interesting to see what the variability of α is depending on different factors such as the qPCR primer or experimental setting.</p>
+						<p>The estimation of the fluorescence coefficient α was done on experimental data from 3 different days (16/12/2016, 02/03/2017, 10/03/2017) and with 3 different primers (BJCOII, BJ-CYB C57, BJmmMUP) used to amplify standards with known initial copy number. The estimation showed both inter- and intra-experimental variability. The adjoining figure shows the estimate value of α plotted on the log scale, with visible inter-experimental variability present on orders of magnitude of α.</p>
+						<div id="boxplot" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+						<figcaption><center><b>Figure 17.</b> The α estimates show significant inter-experimental variability when different primers are used to amplify the standards (plotted on the log scale).</sub>.
+						</center></figcaption>
+						<br>
+						<p>Reassuringly, it can be observed from the plot above that the distributions of α estimates from samples with the same primer (BJmmMUP) are comparable, although the data comes from very different experimental settings, on different days (16/12/2017 vs. 10/03/2017). More work is needed to establish whether these two distributions differ significantly in their means. However, these results indicate that the variability in α between experiments is explained by the type of primer. This supports using an α estimate in the inference for a new sample if the same primer was used on the standards for α-estimation and on the new sample.</p>
+						<div id="boxplot2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+						<figcaption><center><b>Figure 18.</b> When the same primer is used, the distribution of α does not show significat inter-experimental variability. While further work is needed to establish this, it supports the practice of using an α estimate from standards that use the same primer as the sample of interest for which X<sub>0</sub> is inferred.</sub>.
+						</center></figcaption>
 					</div>
 				</div>
 			</div>
 			</section>
 
+					<!-- Four -->
+			<section id="four" class="main style2">
+				<div class="container">
+					<div class="row 150%">
+						<div class="12u$ 12u$(medium)">
+							<header class="major">
+								<h2>Exponential phase identification</h2>
+								<p>The mathematical model used to represent the qPCR amplification assumes that the efficiency is constant (see more details in <a href="model.html">Model</a>). The fluorescence reads corresponding to the exponential phase must first be identified, then used as observation data in the inference method.
+								</p>
+							</header>
+						</div>
+
+						<div class="6u 12u$(medium)">
+							<p>In order to identify the exponential phase, we use two models, a sigmoidal curve and an exponential curve. We iteratively fit both models on the curve and progressively discard the last cycle from the data. The exponential phase is identified when the exponential model fits the data better than the sigmoid model. The key aspect is what "fitting the data better" means.</p>
+							<p>The mathematical definitons of the sigmoid and exponential model are omitted here, but depicted in the adjoining figure. The sigmoid model is more complex with respect to parameter count, as it uses four parameters to restrict the shape of the curve, whereas the exponential model uses three.
+							</p>
+							<p>We use the Akaike Information Criterion (AIC) to determine which of the two models best fits the data. AIC is a common measure and incorporates both the goodness-of-fit of the data (the likelihood of the data given the model) and the complexity of the model (the number of parameters used to estimate the curve).
+							</p>
+							<p>The figures to the side show how AIC considers the trade-off between complexity and the goodness-of-fit. For the fluorescence data shown here, the sigmoid is a better fit when considering 36 cycles or more. On the other hand, the exponential is a better fit when considering less than 36 cycles. Therefore, we would use the first 35 cycles for inference on this data set.
+							</p>
+						</div>
+						<div class="6u$ 12u$(medium) important(medium)">
+							<div id="sigmoid_vs_exponential" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+							<div id="sigmoid_vs_exponential2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+							<figcaption><center><b>Figure 19.</b> The exponential phase is identified by using AIC model selection to determine how many cycles need to be discarded from the end, before the exponential becomes a better model. For 45 cycles, the sigmoid is a better fit than the exponential. For 35 cycles, the exponential is a better fit according to AIC. Although the goodness-of-fit is identical, the exponential has lower complexity with respect to parameter count.
+							</center></figcaption>
+						</div>
+					</div>
+				</div>
+			</section>
+
 		<!-- Footer -->
 			<section id="footer">
+				<ul class="actions">
+					<li><a href="inference.html" class="button scrolly">Read next section</a></li>
+				</ul>
 				<ul class="copyright">
 					<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 				</ul>
@@ -143,8 +241,9 @@
 			<script src="assets/js/main.js"></script>
 			<!-- High charts -->
 			<script src="https://code.highcharts.com/highcharts.js"></script>
+			 <script src="https://code.highcharts.com/highcharts-more.js"></script>
 			<script src="https://code.highcharts.com/modules/exporting.js"></script>
-			<script type="text/javascript" src="https://www.draw.io/js/viewer.min.js"></script>
+			<script src="model.js"></script>
 
 	</body>
 </html>

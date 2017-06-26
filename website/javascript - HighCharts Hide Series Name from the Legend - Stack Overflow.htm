@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<!-- saved from url=(0087)https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend -->
+<html itemscope="" itemtype="http://schema.org/QAPage"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>javascript - HighCharts Hide Series Name from the Legend - Stack Overflow</title>
+    <link rel="shortcut icon" href="https://cdn.sstatic.net/Sites/stackoverflow/img/favicon.ico?v=4f32ecc8f43d">
+    <link rel="apple-touch-icon image_src" href="https://cdn.sstatic.net/Sites/stackoverflow/img/apple-touch-icon.png?v=c78bd457575a">
+    <link rel="search" type="application/opensearchdescription+xml" title="Stack Overflow" href="https://stackoverflow.com/opensearch.xml">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+        <meta name="twitter:domain" content="stackoverflow.com">
+
+    <meta property="og:image" itemprop="image primaryImageOfPage" content="https://cdn.sstatic.net/Sites/stackoverflow/img/apple-touch-icon@2.png?v=73d79a89bded">
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="HighCharts Hide Series Name from the Legend">
+    <meta name="twitter:description" property="og:description" itemprop="description" content="I try to solve this problem several times and give up. Now, when I have met him again, I decided to ask for some help.
+
+I have this code for my Legend:
+
+legend:
+{
+    layout: &#39;vertical&#39;,
+    align: &#39;">
+    <meta property="og:url" content="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend">
+    <link rel="canonical" href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend">
+
+    
+    
+    <script type="text/javascript" async="" src="https://engine.adzerk.net/ados?t=1498503819500&amp;request={%22Placements%22:[{%22A%22:22,%22S%22:8277,%22D%22:%22adzerk1263413131%22,%22AT%22:4,%22Z%22:[43]},{%22A%22:22,%22S%22:8277,%22D%22:%22adzerk903431749%22,%22AT%22:4,%22Z%22:[44]},{%22A%22:22,%22S%22:8277,%22D%22:%22adzerk397413333%22,%22ATA%22:[5,17,2221,1129,43],%22Z%22:[45]}],%22Keywords%22:%22javascript%2Chide%2Chighcharts%2Clegend%2Cseries%2Cx-cross-site-stats.stackexchange.com%22,%22Referrer%22:%22https%3A%2F%2Fwww.google.co.uk%2F%22,%22IsAsync%22:true}"></script><script async="" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/quant.js"></script><script async="" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/beacon.js"></script><script async="" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/analytics.js"></script><script type="text/javascript" async="" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/ados.js"></script><script src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/jquery.min.js"></script>
+    <script src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/stub.en.js"></script>
+    <link rel="stylesheet" type="text/css" href="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/all.css">
+
+            <link rel="alternate" type="application/atom+xml" title="Feed for question &#39;HighCharts Hide Series Name from the Legend&#39;" href="https://stackoverflow.com/feeds/question/9479370">
+            <meta name="twitter:app:country" content="US">
+            <meta name="twitter:app:name:iphone" content="Stack Exchange iOS">
+            <meta name="twitter:app:id:iphone" content="871299723">
+            <meta name="twitter:app:url:iphone" content="se-zaphod://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend">
+            <meta name="twitter:app:name:ipad" content="Stack Exchange iOS">
+            <meta name="twitter:app:id:ipad" content="871299723">
+            <meta name="twitter:app:url:ipad" content="se-zaphod://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend">
+            <meta name="twitter:app:name:googleplay" content="Stack Exchange Android">
+            <meta name="twitter:app:url:googleplay" content="http://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend">
+            <meta name="twitter:app:id:googleplay" content="com.stackexchange.marvin">
+        <script>
+        
+            StackExchange.ready(function () {
+                                    
+                    StackExchange.using("snippets", function () {
+                        StackExchange.snippets.initSnippetRenderer();
+                    });
+                    
+
+                StackExchange.using("postValidation", function () {
+                    StackExchange.postValidation.initOnBlurAndSubmit($('#post-form'), 2, 'answer');
+                });
+
+                
+                StackExchange.question.init({showAnswerHelp:true,totalCommentCount:0,shownCommentCount:0,highlightColor:'#F4A83D',backgroundColor:'#FFF',questionId:9479370});
+
+                styleCode();
+
+                    StackExchange.realtime.subscribeToQuestion('1', '9479370');
+                                                                    StackExchange.using("gps", function () { StackExchange.gps.trackOutboundClicks('#content', '.post-text', true); });
+
+            });
+        </script>
+
+
+    <script>
+        StackExchange.init({"locale":"en","stackAuthUrl":"https://stackauth.com","networkMetaHostname":"meta.stackexchange.com","serverTime":1498503818,"routeName":"Questions/Show","site":{"name":"Stack Overflow","description":"Q&A for professional and enthusiast programmers","isNoticesTabEnabled":true,"recaptchaPublicKey":"6LdchgIAAAAAAJwGpIzRQSOFaO0pU6s44Xt8aTwc","recaptchaAudioLang":"en","enableNewTagCreationWarning":true,"insertSpaceAfterNameTabCompletion":false,"id":1,"enableInsertDocLinkDialog":true,"childUrl":"https://meta.stackoverflow.com","enableSocialMediaInSharePopup":true,"protocol":"https"},"user":{"fkey":"997e910fb0c5a11ffc409444d53747d0","rep":0,"isAnonymous":true,"isAnonymousNetworkWide":true,"canSeeNewHeaderDesign":true,"ab":{"devstory_onboarding_exp":{"v":"opt_out_of_match_emails","g":2}}},"events":{"postType":{"question":1},"postEditionSection":{"title":1,"body":2,"tags":3}},"story":{"minCompleteBodyLength":75,"likedTagsMaxLength":300,"dislikedTagsMaxLength":300}}, {"site":{"allowImageUploads":true,"enableUserHovercards":true,"styleCode":true,"enableNewLinkInsertDialog":true,"enableImgurHttps":true,"forceHttpsImages":true},"comments":{},"userProfile":{"openGraphAPIKey":"58740831ad23540e00c58987"},"tags":{},"accounts":{"currentPasswordRequiredForChangingStackIdPassword":true},"flags":{"allowRetractingFlags":true},"snippets":{"snippetsEnabled":true,"renderDomain":"stacksnippets.net"},"markdown":{"asteriskIntraWordEmphasis":true},"monitoring":{"clientTimingsAbsoluteTimeout":30000,"clientTimingsDebounceTimeout":1000}});
+        StackExchange.using.setCacheBreakers({"js/prettify-full.en.js":"181167d3c7a0","js/moderator.en.js":"9f2375df98d8","js/full-anon.en.js":"062ad760e0eb","js/full.en.js":"926d8e709ab4","js/wmd.en.js":"3a23f8720276","js/third-party/jquery.autocomplete.min.js":"d3b8fa7fdf74","js/third-party/jquery.autocomplete.min.en.js":"","js/mobile.en.js":"d7da0bad5bdf","js/help.en.js":"a56fdf9b9ff2","js/tageditor.en.js":"f2a5162e362d","js/tageditornew.en.js":"172dd975ec97","js/inline-tag-editing.en.js":"3e63a01fd39b","js/revisions.en.js":"8f22ba768cac","js/review.en.js":"2c44ac033b37","js/tagsuggestions.en.js":"b278f9a0b23b","js/post-validation.en.js":"56ea0f8f12d6","js/explore-qlist.en.js":"d33e3ab2f2e0","js/events.en.js":"290bed8a1174","js/keyboard-shortcuts.en.js":"d3c602704406","js/external-editor.en.js":"ae2d26085224","js/adops.en.js":"9a6a7812a212","js/external-editor.en.js":"ae2d26085224","js/snippet-javascript.en.js":"ca40b13b0854","js/snippet-javascript-codemirror.en.js":"f05732a40617"});
+        StackExchange.using("gps", function() {
+             StackExchange.gps.init(true);
+        });
+    </script>
+    
+        <script>
+            StackExchange.ready(function () {
+                $('#nav-tour').click(function () {
+                    StackExchange.using("gps", function() {
+                        StackExchange.gps.track("aboutpage.click", { aboutclick_location: "headermain" }, true);
+                    });
+                });
+            });
+        </script>
+    <noscript id="noscript-css">&lt;style type="text/css"&gt;body,.so-header{margin-top:1.9em}&lt;/style&gt;</noscript>
+<script async="" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/full-anon.en.js"></script><script async="" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/snippet-javascript.en.js"></script><script async="" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/post-validation.en.js"></script><script async="" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/prettify-full.en.js"></script><script async="" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/external-editor.en.js"></script><script type="text/javascript" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/adFeedback.js"></script><link rel="stylesheet" href="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/adFeedback.css"><link rel="stylesheet" href="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/jobs-multi.min.css" type="text/css"></head>
+<body class="question-page new-topbar">
+            <script>(function () { var old = $.fn.contents; $.fn.contents = function () { try { return old.apply(this, arguments); } catch (e) { return $([]); } } })()</script>
+        
+
+    <div id="notify-container"></div>
+    <div id="custom-header"></div>
+
+
+<header class="so-header js-so-header _fixed _scrolling">
+    <div class="-container">
+        <div class="-main">            
+            <a href="https://stackoverflow.com/" class="-logo js-gps-track " data-gps-track="top_nav.click({is_current:false, location:2, destination:8})">
+
+                <span class="-img">Stack Overflow</span>
+            </a>
+
+            <nav class="navigation" role="navigation" aria-label="site navigation">
+                <ol class="-list">
+                        <li class="-item _current">
+        <a id="nav-questions" href="https://stackoverflow.com/questions" class="-link js-gps-track" data-gps-track="top_nav.click({is_current:true, location:2, destination:1})">Questions</a>
+    </li>
+
+    <li class="-item">
+        <a id="nav-jobs" href="https://stackoverflow.com/jobs?med=site-ui&amp;ref=jobs-tab" class="-link js-gps-track" data-gps-track="top_nav.click({is_current:false, location:2, destination:6})">Developer Jobs</a>
+    </li>
+                        <li class="-item">
+        <a id="nav-docs" href="https://stackoverflow.com/documentation" class="-link js-gps-track" data-gps-track="top_nav.click({is_current:false, location:2, destination:7})">Documentation <small class="beta-badge">beta</small></a>
+    </li>
+                        <li class="-item">
+        <a id="nav-tags" href="https://stackoverflow.com/tags" class="-link js-gps-track" data-gps-track="top_nav.click({is_current:false, location:2, destination:2})">Tags</a>
+    </li>
+
+                        <li class="-item">
+        <a id="nav-users" href="https://stackoverflow.com/users" class="-link js-gps-track" data-gps-track="top_nav.click({is_current:false, location:2, destination:3})">Users</a>
+    </li>
+
+                </ol>
+            </nav>
+
+                <form id="search" action="https://stackoverflow.com/search" method="get" class="searchbar" autocomplete="off" role="search">
+                    <svg role="icon" class="svg-icon iconSearch" width="18" height="18" viewBox="0 0 18 18"><path d="M12.864 11.321L18 16.5 16.5 18l-5.178-5.136v-.357a7 7 0 1 1 1.186-1.186h.356zM7 12A5 5 0 1 0 7 2a5 5 0 0 0 0 10z"></path></svg>
+                    <input name="q" type="text" placeholder="Search..." value="" tabindex="1" autocomplete="off" maxlength="240" class="f-input js-search-field">
+                    <button type="submit" class="btn js-search-submit">
+                        <svg role="icon" class="svg-icon iconSearch" width="18" height="18" viewBox="0 0 18 18"><path d="M12.864 11.321L18 16.5 16.5 18l-5.178-5.136v-.357a7 7 0 1 1 1.186-1.186h.356zM7 12A5 5 0 1 0 7 2a5 5 0 0 0 0 10z"></path></svg>
+                    </button>
+                </form>
+
+        </div>
+        
+
+
+    
+
+<div class="-actions">
+    <nav class="secondary-nav">
+        <div class="-dialog-container js-topbar-dialog-corral">
+
+
+    <div class="topbar-dialog siteSwitcher-dialog dno">
+        <div class="header">
+            <h3><a href="https://stackoverflow.com/">current community</a>
+            </h3>
+        </div>
+        <div class="modal-content current-site-container">
+            <ul class="current-site">
+                    <li>
+                            <div class="related-links">
+            <a href="https://stackoverflow.com/help" class="js-gps-track" data-gps-track="site_switcher.click({ item_type:14 })">help</a>
+                    <a href="https://chat.stackoverflow.com/" class="js-gps-track" data-gps-track="site_switcher.click({ item_type:6 })">chat</a>
+            </div>
+
+    <a href="https://stackoverflow.com/" class="current-site-link site-link js-gps-track" data-id="1" data-gps-track="site_switcher.click({ item_type:3 })">
+        <div class="site-icon favicon favicon-stackoverflow" title="Stack Overflow"></div>
+        Stack Overflow
+    </a>
+
+                    </li>
+                    <li class="related-site">
+                            <div class="L-shaped-icon-container">
+        <span class="L-shaped-icon"></span>
+    </div>
+
+                        
+    <a href="https://meta.stackoverflow.com/" class="site-link js-gps-track" data-id="552" data-gps-track="site.switch({ target_site:552, item_type:3 }),site_switcher.click({ item_type:4 })">
+        <div class="site-icon favicon favicon-stackoverflowmeta" title="Meta Stack Overflow"></div>
+        Meta Stack Overflow
+    </a>
+
+                    </li>
+            </ul>
+        </div>
+
+        <div class="header" id="your-communities-header">
+            <h3>
+your communities            </h3>
+
+        </div>
+        <div class="modal-content" id="your-communities-section">
+
+                <div class="call-to-login">
+<a href="https://stackoverflow.com/users/signup?ssrc=site_switcher&amp;returnurl=%2fusers%2fstory%2fcurrent&amp;amp;utm_source=stackoverflow.com&amp;amp;utm_medium=dev-story&amp;amp;utm_campaign=signup-redirect" class="login-link js-gps-track" data-gps-track="site_switcher.click({ item_type:10 })">Sign up</a> or <a href="https://stackoverflow.com/users/login?ssrc=site_switcher&amp;returnurl=https%3a%2f%2fstackoverflow.com%2fquestions%2f9479370%2fhighcharts-hide-series-name-from-the-legend" class="login-link js-gps-track" data-gps-track="site_switcher.click({ item_type:11 })">log in</a> to customize your list.
+                </div>
+        </div>
+
+        <div class="header">
+            <h3><a href="https://stackexchange.com/sites">more stack exchange communities</a>
+            </h3>
+            <a href="https://stackoverflow.blog/" class="fr">company blog</a>
+        </div>
+        <div class="modal-content">
+                <div class="child-content"></div>
+        </div>        
+    </div>
+                <div class="topbar-dialog help-dialog js-help-dialog dno">
+        <div class="modal-content">
+            <ul>
+                                    <li>
+                        <a href="https://stackoverflow.com/tour" class="js-gps-track" data-gps-track="help_popup.click({ item_type:1 })">
+                            Tour
+                            <span class="item-summary">
+                                Start here for a quick overview of the site
+                            </span>
+                        </a>
+                    </li>
+                <li>
+                    <a href="https://stackoverflow.com/help" class="js-gps-track" data-gps-track="help_popup.click({ item_type:4 })">
+                        Help Center
+                        <span class="item-summary">
+                            Detailed answers to any questions you might have
+                        </span>
+                    </a>
+                </li>
+                        <li>
+                            <a href="https://meta.stackoverflow.com/" class="js-gps-track" data-gps-track="help_popup.click({ item_type:2 })">
+                                Meta
+                                <span class="item-summary">
+                                    Discuss the workings and policies of this site
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://stackoverflow.com/company/about" class="js-gps-track" data-gps-track="help_popup.click({ item_type:6 })">
+                                About Us
+                                <span class="item-summary">
+                                    Learn more about Stack Overflow the company
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.stackoverflowbusiness.com/?ref=topbar_help" class="js-gps-track" data-gps-track="help_popup.click({ item_type:7 })">
+                                Business
+                                <span class="item-summary">
+                                    Learn more about hiring developers or posting ads with us
+                                </span>
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+
+        </div>
+        <ol class="-list">
+
+
+    <li class="-item"><a href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend#" class="-link js-help-button" title="Help Center and other resources">
+        <svg role="icon" class="svg-icon iconHelp" width="18" height="18" viewBox="0 0 18 18"><path d="M9 1a8 8 0 1 0 0 16.001A8 8 0 0 0 9 1zm.812 12.126c-.02.716-.55 1.157-1.238 1.137-.659-.02-1.177-.49-1.157-1.209.02-.715.566-1.17 1.225-1.15.691.021 1.194.507 1.17 1.222zm1.956-5.114c-.168.237-.546.542-1.02.912l-.527.361c-.257.197-.417.43-.502.695-.044.141-.076.507-.084.752-.004.048-.032.156-.181.156H7.883c-.165 0-.185-.096-.18-.144.023-.667.12-1.218.397-1.66.374-.594 1.426-1.221 1.426-1.221.161-.12.286-.25.382-.39.177-.24.321-.51.321-.8 0-.333-.08-.65-.293-.915-.249-.31-.518-.458-1.036-.458-.51 0-.808.257-1.021.594-.213.338-.177.735-.177 1.097H5.746c0-1.366.357-2.238 1.112-2.752.51-.35 1.162-.502 1.921-.502.996 0 1.788.184 2.487.715.647.49.988 1.181.988 2.113 0 .575-.2 1.057-.486 1.447z"></path></svg>
+    </a></li>
+                <li class="-item">
+        <a href="https://stackexchange.com/" class="-link js-site-switcher-button js-gps-track" data-gps-track="site_switcher.show" title="A list of all 169 Stack Exchange sites">
+            <svg role="icon" class="svg-icon iconStackExchange" width="18" height="18" viewBox="0 0 18 18"><path d="M1 13a2 2 0 0 0 2 2h8v3l3-3h1a2 2 0 0 0 2-2v-2H1v2zM15 1H3a2 2 0 0 0-2 2v2h16V3a2 2 0 0 0-2-2zM1 6h16v4H1V6z"></path></svg>
+        </a>
+    </li>
+
+
+        </ol>
+    </nav>
+        <div class="-ctas">
+                <a href="https://stackoverflow.com/users/login?ssrc=head&amp;returnurl=https%3a%2f%2fstackoverflow.com%2fquestions%2f9479370%2fhighcharts-hide-series-name-from-the-legend" class="login-link btn-clear" rel="nofollow">Log In</a>
+                    <a href="https://stackoverflow.com/users/signup?ssrc=head&amp;returnurl=%2fusers%2fstory%2fcurrent&amp;utm_source=stackoverflow.com&amp;utm_medium=dev-story&amp;utm_campaign=signup-redirect" class="login-link btn" rel="nofollow">Sign Up</a>
+
+        </div>
+</div>
+    </div>
+</header>
+
+    <script>
+        StackExchange.ready(function () { StackExchange.topbar.init(); });
+            StackExchange.scrollPadding.setPaddingTop(60, 10);     </script>
+
+    <div class="container">
+        
+
+
+        <div id="content" class="snippet-hidden">
+
+
+
+            
+
+<div itemscope="" itemtype="http://schema.org/Question">
+    <link itemprop="image" href="https://cdn.sstatic.net/Sites/stackoverflow/img/apple-touch-icon.png?v=c78bd457575a">
+
+
+<div id="herobox" class="alternate">
+    <div class="test"></div>
+        <div id="close">
+            <a title="click to minimize"><span>x</span> Dismiss</a>
+        </div>
+    <div class="content">
+        <b>Join the Stack Overflow Community</b>
+        <div class="separator"></div>
+        <div class="blurb">
+            Stack Overflow is a community of 7.3 million programmers, just like you, helping each other.
+                <br>
+Join them; it only takes a minute:                <br>
+        </div>
+        <a href="https://stackoverflow.com/users/signup?ssrc=hero&amp;returnurl=%2fusers%2fstory%2fcurrent&amp;amp;utm_source=stackoverflow.com&amp;amp;utm_medium=dev-story&amp;amp;utm_campaign=signup-redirect" id="tell-me-more" class="button">Sign up</a>
+    </div>
+</div>
+<script>
+    StackExchange.ready(function () {
+
+        var location = 0;
+        if ($("body").hasClass("questions-page")) {
+            location = 1;;
+        } else if ($("body").hasClass("question-page")) {
+            location = 1;;
+        } else if ($("body").hasClass("faq-page")) {
+            location = 5;;
+        } else if ($("body").hasClass("home-page")) {
+            location = 3;;
+        }
+        
+        $('#tell-me-more').click(function () {
+            StackExchange.using("gps", function () {
+                StackExchange.gps.track("hero.action", { hero_action_type: 'cta', location: location }, true);
+            });
+        });
+        
+        $('#herobox #close').click(function () {
+            StackExchange.using("gps", function () {
+                StackExchange.gps.track("hero.action", { hero_action_type: "minimize", location: location }, true);
+            });
+            
+            $.cookie("hero", "mini", { path: "/", expires: 365 });
+            $.ajax({
+                url: "/hero-mini",
+                success: function (data) {
+                    $("#herobox").fadeOut("fast", function () {
+                        $("#herobox").replaceWith(data);
+                        $("#herobox-mini").fadeIn("fast");
+                    });
+                }
+            });
+            return false;
+        });
+    });
+
+</script>			<div id="question-header">
+                <h1 itemprop="name"><a href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend" class="question-hyperlink">HighCharts Hide Series Name from the Legend</a></h1>
+
+            
+<div class="aside-cta" role="navigation" aria-label="ask new question">
+    <a href="https://stackoverflow.com/questions/ask" class="btn-outlined">Ask Question</a>
+</div>
+		</div>
+			<div id="mainbar" role="main" aria-label="question and answers">
+
+			
+
+<div class="question" data-questionid="9479370" id="question">
+
+    <script>
+                var ados = ados || {}; ados.run = ados.run || [];
+                ados.run.push(function () { ados_add_placement(22,8277,"adzerk1263413131",4).setZone(43); });
+            </script>
+            <div class="everyonelovesstackoverflow adzerk-vote" id="adzerk1263413131"><a href="https://engine.adzerk.net/r?e=eyJhdiI6MTM5OTI4LCJhdCI6NCwiYnQiOjAsImNtIjo1ODA4ODcsImNoIjoxMTc4LCJjayI6e30sImNyIjoyOTA0OTY1LCJkaSI6IjZlNmJkMGRlNzEyZTQ5OTliZTY1OWVmYTlmZjczNjRlIiwiZG0iOjEsImZjIjo0OTI2NTM4LCJmbCI6NTExOTA5NywiaXAiOiI1LjE1MS4xNzEuMTUwIiwia3ciOiJqYXZhc2NyaXB0LGhpZGUsaGlnaGNoYXJ0cyxsZWdlbmQsc2VyaWVzLHgtY3Jvc3Mtc2l0ZS1zdGF0cy5zdGFja2V4Y2hhbmdlLmNvbSIsIm1rIjoiamF2YXNjcmlwdCIsIm53IjoyMiwicGMiOjYuNSwiZWMiOjYuNSwicHIiOjc2NSwicnQiOjIsInJmIjoiaHR0cHM6Ly93d3cuZ29vZ2xlLmNvLnVrLyIsInNhIjoiMyIsInNiIjoiaS0wZGNjNjlmMmVhMTEwZTczMSIsInNwIjoyMDMyMiwic3QiOjgyNzcsInVrIjoidWUxLTM4NTQ2MzAwMDI1NDRhMjU5OTMyNTVmNGM2MzQxNTk1Iiwiem4iOjQzLCJ0cyI6MTQ5ODUwMzgyMDQ2MiwiYmYiOnRydWUsInBuIjoiYWR6ZXJrMTI2MzQxMzEzMSIsInVyIjoiaHR0cDovL3N0YWNrb3ZlcmZsb3cuY29tL2pvYnMvY29tcGFuaWVzL21lbmRpeC1jb20jam9icyJ9&amp;s=bUzVN02OHEYl3w4zynQi1-lXd20" rel="nofollow" target="_blank" title=""><img src="https://s.zkcdn.net/Advertisers/e64562fbf8034e8eb267b9bd4373de2c.png" title="" alt="" border="0" width="728" height="90" style="display: none !important;"></a><div class="adzerk-vote-controls" style="display:none;"><div class="adzerk-vote-option adzerk-vote-up"><div class="adzerk-vote-icon"></div></div><div class="adzerk-vote-option adzerk-vote-down"><div class="adzerk-vote-icon"></div></div></div><div class="adzerk-vote-survey" style="display:none;"><form><span>No problem. We won't show you that ad again. Why didn't you like it?</span><ul><li><label><input type="radio" value="12" name="downvoteReason">Uninteresting</label></li><li><label><input type="radio" value="13" name="downvoteReason">Misleading</label></li><li><label><input type="radio" value="14" name="downvoteReason">Offensive</label></li><li><label><input type="radio" value="15" name="downvoteReason">Repetitive</label></li><li><label><input type="radio" value="16" name="downvoteReason">Other</label></li></ul><a href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend#" class="adzerk-vote-cancel">Oops! I didn't mean to do this.</a></form></div><img height="0px" width="0px" border="0" style="position: absolute; display: none !important;" src="https://engine.adzerk.net/i.gif?e=eyJhdiI6MTM5OTI4LCJhdCI6NCwiYnQiOjAsImNtIjo1ODA4ODcsImNoIjoxMTc4LCJjayI6e30sImNyIjoyOTA0OTY1LCJkaSI6IjZlNmJkMGRlNzEyZTQ5OTliZTY1OWVmYTlmZjczNjRlIiwiZG0iOjEsImZjIjo0OTI2NTM4LCJmbCI6NTExOTA5NywiaXAiOiI1LjE1MS4xNzEuMTUwIiwia3ciOiJqYXZhc2NyaXB0LGhpZGUsaGlnaGNoYXJ0cyxsZWdlbmQsc2VyaWVzLHgtY3Jvc3Mtc2l0ZS1zdGF0cy5zdGFja2V4Y2hhbmdlLmNvbSIsIm1rIjoiamF2YXNjcmlwdCIsIm53IjoyMiwicGMiOjYuNSwiZWMiOjYuNSwicHIiOjc2NSwicnQiOjIsInJmIjoiaHR0cHM6Ly93d3cuZ29vZ2xlLmNvLnVrLyIsInNhIjoiMyIsInNiIjoiaS0wZGNjNjlmMmVhMTEwZTczMSIsInNwIjoyMDMyMiwic3QiOjgyNzcsInVrIjoidWUxLTM4NTQ2MzAwMDI1NDRhMjU5OTMyNTVmNGM2MzQxNTk1Iiwiem4iOjQzLCJ0cyI6MTQ5ODUwMzgyMDQ2NCwiYmYiOnRydWUsInBuIjoiYWR6ZXJrMTI2MzQxMzEzMSIsImZxIjowfQ&amp;s=03QRGixxHGXyl35SfqhCa1TnbTc"></div>    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="9479370">
+        <a class="vote-up-off" title="This question shows research effort; it is useful and clear">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">47</span>
+        <a class="vote-down-off" title="This question does not show any research effort; it is unclear or not useful">down vote</a>
+
+        <a class="star-off" href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend#">favorite</a>
+        <div class="favoritecount"><b>9</b></div>
+
+
+</div>
+
+            </td>
+            
+<td class="postcell">
+<div>
+    <div class="post-text" itemprop="text">
+
+<p>I try to solve this problem several times and give up. Now, when I have met him again, I decided to ask for some help.</p>
+
+<p>I have this code for my Legend:</p>
+
+<pre class="default prettyprint prettyprinted"><code><span class="pln">legend</span><span class="pun">:</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+    layout</span><span class="pun">:</span><span class="pln"> </span><span class="str">'vertical'</span><span class="pun">,</span><span class="pln">
+    align</span><span class="pun">:</span><span class="pln"> </span><span class="str">'right'</span><span class="pun">,</span><span class="pln">
+    verticalAlign</span><span class="pun">:</span><span class="pln"> </span><span class="str">'top'</span><span class="pun">,</span><span class="pln">
+    x</span><span class="pun">:</span><span class="pln"> </span><span class="pun">-</span><span class="lit">10</span><span class="pun">,</span><span class="pln">
+    y</span><span class="pun">:</span><span class="pln"> </span><span class="lit">100</span><span class="pun">,</span><span class="pln">
+    borderWidth</span><span class="pun">:</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln">
+
+
+
+    labelFormatter</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">()</span><span class="pln"> 
+    </span><span class="pun">{</span><span class="pln">
+        </span><span class="kwd">if</span><span class="pun">(</span><span class="kwd">this</span><span class="pun">.</span><span class="pln">name</span><span class="pun">!=</span><span class="str">'Series 1'</span><span class="pun">)</span><span class="pln">
+        </span><span class="pun">{</span><span class="pln">
+            </span><span class="kwd">return</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">name</span><span class="pun">;</span><span class="pln">
+        </span><span class="pun">}</span><span class="pln">
+        </span><span class="kwd">else</span><span class="pln">
+        </span><span class="pun">{</span><span class="pln">
+            </span><span class="kwd">return</span><span class="pln"> </span><span class="str">'Legend'</span><span class="pun">;</span><span class="pln">
+        </span><span class="pun">}</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+
+<p>If I change the return from 'Legend' to '' the text is not shown but still there is a 'dash' on the top of the legend. If I do not use label formater function  I have 'Series 1' + 'dash' like a first row in my legend. How to hide them?</p>
+
+<p>Please, note my version is : Highcharts-2.0.5</p>
+
+<p>This is a simple view of my legend and the dash I want to remove:</p>
+
+<p><a href="http://img72.imageshack.us/img72/8305/45167805.png">Sample Image http://img72.imageshack.us/img72/8305/45167805.png</a></p>
+    </div>
+    <div class="post-taglist">
+        <a href="https://stackoverflow.com/questions/tagged/javascript" class="post-tag js-gps-track" title="show questions tagged &#39;javascript&#39;" rel="tag">javascript</a> <a href="https://stackoverflow.com/questions/tagged/hide" class="post-tag js-gps-track" title="show questions tagged &#39;hide&#39;" rel="tag">hide</a> <a href="https://stackoverflow.com/questions/tagged/highcharts" class="post-tag js-gps-track" title="show questions tagged &#39;highcharts&#39;" rel="tag">highcharts</a> <a href="https://stackoverflow.com/questions/tagged/legend" class="post-tag js-gps-track" title="show questions tagged &#39;legend&#39;" rel="tag">legend</a> <a href="https://stackoverflow.com/questions/tagged/series" class="post-tag js-gps-track" title="show questions tagged &#39;series&#39;" rel="tag">series</a> 
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="https://stackoverflow.com/q/9479370" title="short permalink to this question" class="short-link" id="link-post-9479370">share</a><span class="lsep">|</span><a href="https://stackoverflow.com/posts/9479370/edit" class="suggest-edit-post" title="">improve this question</a></div>        
+    </td>
+    <td align="right" class="post-signature">
+<div class="user-info ">
+    <div class="user-action-time">
+        <a href="https://stackoverflow.com/posts/9479370/revisions" title="show all edits to this post">edited <span title="2012-10-18 11:26:47Z" class="relativetime">Oct 18 '12 at 11:26</span></a>
+    </div>
+    <div class="user-gravatar32">
+        
+    </div>
+    <div class="user-details">
+        
+        <div class="-flair">
+            
+        </div>
+    </div>
+</div>    </td>
+    <td class="post-signature owner">
+        <div class="user-info user-hover">
+    <div class="user-action-time">
+        asked <span title="2012-02-28 09:27:50Z" class="relativetime">Feb 28 '12 at 9:27</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="https://stackoverflow.com/users/1080354/gotqn"><div class="gravatar-wrapper-32"><img src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/1207fdf336ae1e728f6cbe3f36c94e5c" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="https://stackoverflow.com/users/1080354/gotqn">gotqn</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score 11,992" dir="ltr">12k</span><span title="27 gold badges"><span class="badge1"></span><span class="badgecount">27</span></span><span title="85 silver badges"><span class="badge2"></span><span class="badgecount">85</span></span><span title="160 bronze badges"><span class="badge3"></span><span class="badgecount">160</span></span>
+        </div>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</div>
+</td>
+        </tr>
+                    
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-9479370" class="comments  dno">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+                        <tr><td></td><td></td></tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-9479370" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid answering questions in comments.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend#" onclick=""></a>
+        </div>         
+    </td>
+</tr>        </tbody></table>
+</div>
+
+			<div id="answers">
+
+				<a name="tab-top"></a>
+				<div id="answers-header">
+					<div class="subheader answers-subheader">
+						<h2>
+								4 Answers
+                                <span style="display:none;" itemprop="answerCount">4</span>
+						</h2>
+						<div>
+							<div id="tabs">
+        <a href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend?answertab=active#tab-top" data-nav-xhref="" title="Answers with the latest activity first" data-value="active" data-shortcut="A">
+            active</a>
+        <a href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend?answertab=oldest#tab-top" data-nav-xhref="" title="Answers in the order they were provided" data-value="oldest" data-shortcut="O">
+            oldest</a>
+        <a class="youarehere" href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend?answertab=votes#tab-top" data-nav-xhref="" title="Answers with the highest score first" data-value="votes" data-shortcut="V">
+            votes</a>
+</div>
+						</div>
+					</div>    
+				</div>    
+
+
+
+
+  
+<a name="10086842"></a>
+<div id="answer-10086842" class="answer accepted-answer" data-answerid="10086842" itemscope="" itemtype="http://schema.org/Answer" itemprop="acceptedAnswer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="10086842">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">122</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+        <span class="vote-accepted-on load-accepted-answer-date" title="loading when this answer was accepted...">accepted</span>
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>if you don't want to show the series names in the legend you can disable it by setting showInLegend:false. ex:  </p>
+
+<pre class="default prettyprint prettyprinted"><code><span class="pln">series</span><span class="pun">:</span><span class="pln"> </span><span class="pun">[{</span><span class="pln">
+     showInLegend</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">false</span><span class="pun">,</span><span class="pln">               
+         name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"&lt;b&gt;&lt;?php echo $title; ?&gt;&lt;/b&gt;"</span><span class="pun">,</span><span class="pln">
+         data</span><span class="pun">:</span><span class="pln"> </span><span class="pun">[&lt;?</span><span class="pln">php echo $yaxis</span><span class="pun">;</span><span class="pln"> </span><span class="pun">?&gt;],</span><span class="pln">
+</span><span class="pun">}]</span></code></pre>
+
+<p>You get other options here.  </p>
+
+<ul>
+<li><p><a href="http://api.highcharts.com/highcharts#legend" rel="noreferrer">legend options</a></p></li>
+<li><p><a href="http://api.highcharts.com/highcharts" rel="noreferrer">other chart options</a></p></li>
+</ul>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="https://stackoverflow.com/a/10086842" title="short permalink to this answer" class="short-link" id="link-post-10086842">share</a><span class="lsep">|</span><a href="https://stackoverflow.com/posts/10086842/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+    <td align="right" class="post-signature">
+<div class="user-info ">
+    <div class="user-action-time">
+        <a href="https://stackoverflow.com/posts/10086842/revisions" title="show all edits to this post">edited <span title="2016-01-20 07:49:31Z" class="relativetime">Jan 20 '16 at 7:49</span></a>
+    </div>
+    <div class="user-gravatar32">
+        
+    </div>
+    <div class="user-details">
+        
+        <div class="-flair">
+            
+        </div>
+    </div>
+</div>    </td>
+            
+
+
+    <td align="right" class="post-signature">   
+       
+
+    <div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2012-04-10 10:15:06Z" class="relativetime">Apr 10 '12 at 10:15</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="https://stackoverflow.com/users/581404/vkgs"><div class="gravatar-wrapper-32"><img src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/0095b364d55f621c3d68d3a0f69ea4c5" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="https://stackoverflow.com/users/581404/vkgs">VKGS</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">3,530</span><span title="4 gold badges"><span class="badge1"></span><span class="badgecount">4</span></span><span title="33 silver badges"><span class="badge2"></span><span class="badgecount">33</span></span><span title="47 bronze badges"><span class="badge3"></span><span class="badgecount">47</span></span>
+        </div>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-10086842" class="comments ">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+
+    <tr id="comment-12965964" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">using "showInLegend: false" really fixed my problem. I wonder if this options only hides the series name, because the legend is still displaying the data (as I want).</span>
+                    –&nbsp;<a href="https://stackoverflow.com/users/1080354/gotqn" title="11,992 reputation" class="comment-user owner">gotqn</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend#comment12965964_10086842"><span title="2012-04-12 05:35:11Z" class="relativetime-clean">Apr 12 '12 at 5:35</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-12967160" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Assuming if these options are enabled then it'll give a clear view, so they're enabled by default. if don't need them remove it. that's what you've done here.</span>
+                    –&nbsp;<a href="https://stackoverflow.com/users/581404/vkgs" title="3,530 reputation" class="comment-user">VKGS</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend#comment12967160_10086842"><span title="2012-04-12 06:48:57Z" class="relativetime-clean">Apr 12 '12 at 6:48</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-10086842" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+<script>
+                var ados = ados || {}; ados.run = ados.run || [];
+                ados.run.push(function () { ados_add_placement(22,8277,"adzerk903431749",4).setZone(44); });
+            </script>
+            <div class="everyonelovesstackoverflow adzerk-vote" id="adzerk903431749"><a href="https://engine.adzerk.net/r?e=eyJhdiI6MTczNjIsImF0Ijo0LCJidCI6MCwiY20iOjU1MTgwMywiY2giOjExNzgsImNrIjp7fSwiY3IiOjIyMDI4NzIsImRpIjoiYWI2YmNiZTY2ZmJlNDI5MmEzYTc0MTkzZDA2Zjg0NDciLCJkbSI6MSwiZmMiOjI3MDI2MTgsImZsIjoyOTg0Mjk4LCJpcCI6IjUuMTUxLjE3MS4xNTAiLCJrdyI6ImphdmFzY3JpcHQsaGlkZSxoaWdoY2hhcnRzLGxlZ2VuZCxzZXJpZXMseC1jcm9zcy1zaXRlLXN0YXRzLnN0YWNrZXhjaGFuZ2UuY29tIiwibWsiOiJoaWdoY2hhcnRzIiwibnciOjIyLCJwYyI6My44LCJlYyI6My44LCJwciI6NzY1LCJydCI6MiwicmYiOiJodHRwczovL3d3dy5nb29nbGUuY28udWsvIiwic2EiOiIzIiwic2IiOiJpLTBkY2M2OWYyZWExMTBlNzMxIiwic3AiOjIwMzIyLCJzdCI6ODI3NywidWsiOiJ1ZTEtMzg1NDYzMDAwMjU0NGEyNTk5MzI1NWY0YzYzNDE1OTUiLCJ6biI6NDQsInRzIjoxNDk4NTAzODIwNDY1LCJiZiI6dHJ1ZSwicG4iOiJhZHplcms5MDM0MzE3NDkiLCJ1ciI6Imh0dHA6Ly93d3cuYXJjdGlvbi5jb20vbGlnaHRuaW5nY2hhcnQtdWx0aW1hdGUtc2RrP3V0bV9zb3VyY2U9c3RhY2tvdmVyZmxvdyZ1dG1fY2FtcGFpZ249bGlnaHRuaW5nY2hhcnQ4JnV0bV9tZWRpdW09YmFubmVyJnV0bV9jb250ZW50PUZpbmFuY2VfNzI4eDkwIn0&amp;s=buiyt3grcf73PuS9eFflvFFkxRw" rel="nofollow" target="_blank" title=""><img src="https://s.zkcdn.net/Advertisers/7241cdb749344ba991409570d82518d3.jpg" title="" alt="" border="0" width="728" height="90" style="display: none !important;"></a><div class="adzerk-vote-controls" style="display:none;"><div class="adzerk-vote-option adzerk-vote-up"><div class="adzerk-vote-icon"></div></div><div class="adzerk-vote-option adzerk-vote-down"><div class="adzerk-vote-icon"></div></div></div><div class="adzerk-vote-survey" style="display:none;"><form><span>No problem. We won't show you that ad again. Why didn't you like it?</span><ul><li><label><input type="radio" value="12" name="downvoteReason">Uninteresting</label></li><li><label><input type="radio" value="13" name="downvoteReason">Misleading</label></li><li><label><input type="radio" value="14" name="downvoteReason">Offensive</label></li><li><label><input type="radio" value="15" name="downvoteReason">Repetitive</label></li><li><label><input type="radio" value="16" name="downvoteReason">Other</label></li></ul><a href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend#" class="adzerk-vote-cancel">Oops! I didn't mean to do this.</a></form></div><img height="0px" width="0px" border="0" style="position: absolute; display: none !important;" src="https://engine.adzerk.net/i.gif?e=eyJhdiI6MTczNjIsImF0Ijo0LCJidCI6MCwiY20iOjU1MTgwMywiY2giOjExNzgsImNrIjp7fSwiY3IiOjIyMDI4NzIsImRpIjoiYWI2YmNiZTY2ZmJlNDI5MmEzYTc0MTkzZDA2Zjg0NDciLCJkbSI6MSwiZmMiOjI3MDI2MTgsImZsIjoyOTg0Mjk4LCJpcCI6IjUuMTUxLjE3MS4xNTAiLCJrdyI6ImphdmFzY3JpcHQsaGlkZSxoaWdoY2hhcnRzLGxlZ2VuZCxzZXJpZXMseC1jcm9zcy1zaXRlLXN0YXRzLnN0YWNrZXhjaGFuZ2UuY29tIiwibWsiOiJoaWdoY2hhcnRzIiwibnciOjIyLCJwYyI6My44LCJlYyI6My44LCJwciI6NzY1LCJydCI6MiwicmYiOiJodHRwczovL3d3dy5nb29nbGUuY28udWsvIiwic2EiOiIzIiwic2IiOiJpLTBkY2M2OWYyZWExMTBlNzMxIiwic3AiOjIwMzIyLCJzdCI6ODI3NywidWsiOiJ1ZTEtMzg1NDYzMDAwMjU0NGEyNTk5MzI1NWY0YzYzNDE1OTUiLCJ6biI6NDQsInRzIjoxNDk4NTAzODIwNDY3LCJiZiI6dHJ1ZSwicG4iOiJhZHplcms5MDM0MzE3NDkiLCJmcSI6MH0&amp;s=0zV_TqyJNS85U0cddmkGq9jAlxs"></div>
+  
+<a name="35483127"></a>
+<div id="answer-35483127" class="answer" data-answerid="35483127" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="35483127">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">6</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>Set showInLegend to false.</p>
+
+<pre class="default prettyprint prettyprinted"><code><span class="pln">series</span><span class="pun">:</span><span class="pln"> </span><span class="pun">[{</span><span class="pln">
+            showInLegend</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">false</span><span class="pun">,</span><span class="pln">
+            name</span><span class="pun">:</span><span class="pln"> </span><span class="str">'Series'</span><span class="pun">,</span><span class="pln">
+            data</span><span class="pun">:</span><span class="pln"> value                
+        </span><span class="pun">}]</span></code></pre>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="https://stackoverflow.com/a/35483127" title="short permalink to this answer" class="short-link" id="link-post-35483127">share</a><span class="lsep">|</span><a href="https://stackoverflow.com/posts/35483127/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+            
+
+
+    <td align="right" class="post-signature">   
+       
+
+    <div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2016-02-18 13:43:25Z" class="relativetime">Feb 18 '16 at 13:43</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="https://stackoverflow.com/users/3804209/milan"><div class="gravatar-wrapper-32"><img src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/laiij.jpg" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="https://stackoverflow.com/users/3804209/milan">Milan</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">1,179</span><span title="11 silver badges"><span class="badge2"></span><span class="badgecount">11</span></span><span title="22 bronze badges"><span class="badge3"></span><span class="badgecount">22</span></span>
+        </div>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-35483127" class="comments  dno">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+                        <tr><td></td><td></td></tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-35483127" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="9502284"></a>
+<div id="answer-9502284" class="answer" data-answerid="9502284" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="9502284">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">4</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>Looks like HighChart 2.2.0 has resolved this issue. I tried it <a href="http://jsfiddle.net/mvPFG/" rel="nofollow">here</a> with the same code you have, and the first series is hidden now. Could you try it with HighChart 2.2.0?</p>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="https://stackoverflow.com/a/9502284" title="short permalink to this answer" class="short-link" id="link-post-9502284">share</a><span class="lsep">|</span><a href="https://stackoverflow.com/posts/9502284/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+            
+
+
+    <td align="right" class="post-signature">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2012-02-29 15:52:12Z" class="relativetime">Feb 29 '12 at 15:52</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="https://stackoverflow.com/users/835239/zhongxiao37"><div class="gravatar-wrapper-32"><img src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/87299aadd335390f49a0b7d19df5fe7b" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="https://stackoverflow.com/users/835239/zhongxiao37">zhongxiao37</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">704</span><span title="4 silver badges"><span class="badge2"></span><span class="badgecount">4</span></span><span title="13 bronze badges"><span class="badge3"></span><span class="badgecount">13</span></span>
+        </div>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-9502284" class="comments  dno">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+                        <tr><td></td><td></td></tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-9502284" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="26167172"></a>
+<div id="answer-26167172" class="answer" data-answerid="26167172" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="26167172">
+        <a class="vote-up-off" title="This answer is useful">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">1</span>
+        <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>Replace return 'Legend' by return ''</p>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="https://stackoverflow.com/a/26167172" title="short permalink to this answer" class="short-link" id="link-post-26167172">share</a><span class="lsep">|</span><a href="https://stackoverflow.com/posts/26167172/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+            
+
+
+    <td align="right" class="post-signature">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2014-10-02 18:26:31Z" class="relativetime">Oct 2 '14 at 18:26</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="https://stackoverflow.com/users/4103554/fouad"><div class="gravatar-wrapper-32"><img src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/55cfa5d2f9fac04b65d93d4465762177" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="https://stackoverflow.com/users/4103554/fouad">Fouad</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">11</span><span title="1 bronze badge"><span class="badge3"></span><span class="badgecount">1</span></span>
+        </div>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-26167172" class="comments  dno">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+                        <tr><td></td><td></td></tr>
+                </tbody>
+		    </table>
+	    </div>
+
+        <div id="comments-link-26167172" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend#" onclick=""></a>
+        </div>         
+    </td>
+</tr>    </tbody></table>
+</div>
+									<a name="new-answer"></a>
+						<form id="post-form" action="https://stackoverflow.com/questions/9479370/answer/submit" method="post" class="post-form">
+						    <input type="hidden" id="post-id" value="9479370">
+                            <input type="hidden" id="qualityBanWarningShown" name="qualityBanWarningShown" value="false">
+                            <input type="hidden" name="referrer" value="https://www.google.co.uk/">
+							<h2 class="space">Your Answer</h2>
+
+
+            <script>
+            StackExchange.ifUsing("editor", function () {
+                StackExchange.using("externalEditor", function () {
+                    StackExchange.using("snippets", function () {
+                        StackExchange.snippets.init();
+                    });
+                });
+            }, "code-snippets");
+        </script>
+    
+
+<script>
+    StackExchange.ready(function() {
+        initTagRenderer("".split(" "), "".split(" "));
+       
+        StackExchange.using("externalEditor", function() {
+                // Have to fire editor after snippets, if snippets enabled
+                if (StackExchange.settings.snippets.snippetsEnabled) {
+                    StackExchange.using("snippets", function() {
+                        createEditor();
+                    });
+                }
+                else {
+                    createEditor();
+                }
+            });
+
+            function createEditor() {
+                StackExchange.prepareEditor({
+                    heartbeatType: 'answer',
+                convertImagesToLinks: true,
+                reputationToPostImages: 10,
+                bindNavPrevention: true,
+                postfix: "",
+                    onDemand: true,
+                    discardSelector: ".discard-answer"
+                    ,immediatelyShowMarkdownHelp:true
+                    });
+                
+
+        }
+    });  
+</script>
+
+
+<div id="post-editor" class="post-editor js-post-editor">
+
+    <div style="position: relative;">     
+        <div class="wmd-container">
+            <div id="wmd-button-bar" class="wmd-button-bar"><ul id="wmd-button-row" class="wmd-button-row"><li id="wmd-bold-button" class="wmd-button" style="left: 0px;"><span style="background-position: 0px -20px;"></span></li><li id="wmd-italic-button" class="wmd-button" style="left: 25px;"><span style="background-position: -20px -20px;"></span></li><li id="wmd-spacer1" class="wmd-spacer" style="left: 50px;"><span style="background-position: -40px -20px;"></span></li><li id="wmd-link-button" class="wmd-button" style="left: 75px;"><span style="background-position: -40px -20px;"></span></li><li id="wmd-quote-button" class="wmd-button" style="left: 100px;"><span style="background-position: -60px -20px;"></span></li><li id="wmd-code-button" class="wmd-button" style="left: 125px;"><span style="background-position: -80px -20px;"></span></li><li id="wmd-image-button" class="wmd-button" style="left: 150px;"><span style="background-position: -100px -20px;"></span></li><li id="wmd-spacer2" class="wmd-spacer" style="left: 175px;"><span style="background-position: -120px -20px;"></span></li><li id="wmd-olist-button" class="wmd-button" style="left: 200px;"><span style="background-position: -120px -20px;"></span></li><li id="wmd-ulist-button" class="wmd-button" style="left: 225px;"><span style="background-position: -140px -20px;"></span></li><li id="wmd-heading-button" class="wmd-button" style="left: 250px;"><span style="background-position: -160px -20px;"></span></li><li id="wmd-hr-button" class="wmd-button" style="left: 275px;"><span style="background-position: -180px -20px;"></span></li><li id="wmd-spacer3" class="wmd-spacer" style="left: 300px;"><span style="background-position: -200px -20px;"></span></li><li id="wmd-undo-button" class="wmd-button" style="left: 325px;"><span style="background-position: -200px -20px;"></span></li><li id="wmd-redo-button" class="wmd-button" style="left: 350px;"><span style="background-position: -220px -20px;"></span></li></ul></div>
+            <textarea id="wmd-input" class="wmd-input" name="post-text" cols="92" rows="15" tabindex="101" data-min-length=""></textarea>
+        </div>
+    </div>
+
+    <div class="fl" style="margin-top: 8px; height:24px;">&nbsp;</div>
+    <div id="draft-saved" class="draft-saved community-option fl" style="margin-top: 8px; height:24px; display:none;">draft saved</div>
+
+    <div id="draft-discarded" class="draft-discarded community-option fl" style="margin-top: 8px; height:24px; display:none;">draft discarded</div>
+
+
+
+    <div id="wmd-preview" class="wmd-preview"></div>
+    <div></div>
+    <div class="edit-block">
+        <input id="fkey" name="fkey" type="hidden" value="997e910fb0c5a11ffc409444d53747d0">
+        <input id="author" name="author" type="text">
+    </div>
+
+
+
+</div>
+							<div style="position: relative;">
+								
+								            <div class="form-item new-post-login">
+        
+                <div class="new-login-form">
+                    <div class="new-login-left">
+                        <h3>Sign up or <a id="login-link" href="https://stackoverflow.com/users/login?ssrc=question_page&amp;returnurl=https%3a%2f%2fstackoverflow.com%2fquestions%2f9479370%2fhighcharts-hide-series-name-from-the-legend%23new-answer">log in</a></h3>
+                        <script>
+                            StackExchange.ready(function () {
+                                StackExchange.helpers.onClickDraftSave('#login-link');
+                                    
+                                var $window = $(window),
+                                    onScroll = function(e) {
+                                        var $elem = $('.new-login-left'),
+                                            docViewTop = $window.scrollTop(),
+                                            docViewBottom = docViewTop + $window.height(),
+                                            elemTop = $elem.offset().top,
+                                            elemBottom = elemTop + $elem.height();							
+                                        if ((docViewTop < elemTop) && (docViewBottom > elemBottom))  {
+                                            StackExchange.using('gps', function() { StackExchange.gps.track('embedded_signup_form.view', { location: 'question_page' }); });
+                                            $window.unbind('scroll', onScroll);
+                                        }
+                                    };
+                                $window.on('scroll', onScroll);
+                                    
+                            });
+                        </script>
+                        <div class="preferred-login google-login">
+                            <p><span class="icon"></span><span>Sign up using Google</span></p>
+                        </div>
+                        <div class="preferred-login facebook-login">
+                            <p><span class="icon"></span><span>Sign up using Facebook</span></p>
+                        </div>
+                        <div class="preferred-login stackexchange-login">
+                            <p><span class="icon"></span><span>Sign up using Email and Password</span></p>
+                        </div>
+                    </div>
+                    <input type="hidden" name="manual-openid" class="manual-openid">
+                    <input type="hidden" name="use-facebook" class="use-facebook" value="false">
+                    <input type="hidden" name="use-google" class="use-google" value="false">
+                    <input type="button" class="submit-openid" value="Submit" style="display:none">
+                    <div class="new-login-right">
+                                <h3>Post as a guest</h3>
+    <div class="form-item">
+        <table>
+        <tbody><tr>
+                    <td class="vm">
+                <div>
+                    <label for="display-name">Name</label>
+                    <input id="display-name" name="display-name" type="text" size="30" maxlength="30" value="" tabindex="105">
+                </div>
+                <div>
+                    <label for="m-address">Email</label>
+                    <input id="m-address" name="m-address" type="email" size="30" maxlength="100" value="" tabindex="106" placeholder="required, but never shown">
+                </div>
+            </td>
+        </tr>
+        </tbody></table>
+    </div>
+
+                    </div>
+                </div>
+            </div>
+            <script>
+                StackExchange.ready(
+                    function () {
+                        StackExchange.openid.initPostLogin('.new-post-login', 'https%3a%2f%2fstackoverflow.com%2fquestions%2f9479370%2fhighcharts-hide-series-name-from-the-legend%23new-answer', 'question_page');
+                    }
+                );
+            </script>
+            <noscript>
+                        &lt;h3&gt;Post as a guest&lt;/h3&gt;
+    &lt;div class="form-item"&gt;
+        &lt;table&gt;
+        &lt;tr&gt;
+                    &lt;td class="vm"&gt;
+                &lt;div&gt;
+                    &lt;label for="display-name"&gt;Name&lt;/label&gt;
+                    &lt;input id="display-name" name="display-name" type="text" size="30" maxlength="30" value="" tabindex="105"&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;label for="m-address"&gt;Email&lt;/label&gt;
+                    &lt;input id="m-address" name="m-address" type="email" size="30" maxlength="100" value="" tabindex="106" placeholder="required, but never shown" /&gt;
+                &lt;/div&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;/table&gt;
+    &lt;/div&gt;
+
+            </noscript>
+
+							</div>
+           
+															<div class="form-submit cbt">
+									<input id="submit-button" type="submit" value="Post Your Answer" tabindex="110">
+									<a href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend#" class="btn-clear discard-answer dno">discard</a>
+
+<p class="privacy-policy-agreement">
+By posting your answer, you agree to the <a href="https://stackexchange.com/legal/privacy-policy" name="privacy" target="_blank">privacy policy</a> and <a href="https://stackexchange.com/legal/terms-of-service" name="tos" target="_blank">terms of service</a>.</p>
+<input type="hidden" name="legalLinksShown" value="1">								</div>
+						</form>
+
+
+
+						<h2 class="bottom-notice" data-loc="1">
+Not the answer you're looking for?							Browse other questions tagged <a href="https://stackoverflow.com/questions/tagged/javascript" class="post-tag" title="show questions tagged &#39;javascript&#39;" rel="tag">javascript</a> <a href="https://stackoverflow.com/questions/tagged/hide" class="post-tag" title="show questions tagged &#39;hide&#39;" rel="tag">hide</a> <a href="https://stackoverflow.com/questions/tagged/highcharts" class="post-tag" title="show questions tagged &#39;highcharts&#39;" rel="tag">highcharts</a> <a href="https://stackoverflow.com/questions/tagged/legend" class="post-tag" title="show questions tagged &#39;legend&#39;" rel="tag">legend</a> <a href="https://stackoverflow.com/questions/tagged/series" class="post-tag" title="show questions tagged &#39;series&#39;" rel="tag">series</a>  or <a href="https://stackoverflow.com/questions/ask">ask your own question</a>.						</h2>
+			</div>
+		</div>
+				<div id="sidebar" class="show-votes" role="complementary" aria-label="sidebar">
+						    <div class="module question-stats">
+			        <table id="qinfo">
+			            <tbody><tr>
+			                <td>
+			                    <p class="label-key">asked</p>
+			                </td>
+			                <td style="padding-left: 10px">
+			                    <p class="label-key" title="2012-02-28 09:27:50Z"><b>5 years, 4 months ago</b></p>
+			                </td>
+			            </tr>
+			            <tr>
+			                <td>
+			                    <p class="label-key">viewed</p>
+			                </td>
+
+			                <td style="padding-left: 10px">
+			                    <p class="label-key">
+                                    <b>71,565 times</b>
+			                    </p>
+			                </td>
+			            </tr>
+			                <tr>
+			                    <td>
+			                        <p class="label-key">active</p>
+			                    </td>
+			                    <td style="padding-left: 10px">
+			                        <p class="label-key"><b><a href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend?lastactivity" class="lastactivity-link" title="2016-06-14 18:56:21Z">1 year ago</a></b></p>
+			                    </td>
+			                </tr>
+			        </tbody></table>
+			    </div>
+						
+			<script>
+                var ados = ados || {}; ados.run = ados.run || [];
+                ados.run.push(function () { ados_add_placement(22,8277,"adzerk397413333",[5,17,2221,1129,43]).setZone(45); });
+            </script>
+            <div class="everyonelovesstackoverflow adzerk-vote" id="adzerk397413333"><iframe id="ados_frame_adzerk397413333_5540803" frameborder="0" scrolling="no" height="250" width="300" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/saved_resource.html"></iframe><div class="adzerk-vote-controls" style="display:none;"><div class="adzerk-vote-option adzerk-vote-up"><div class="adzerk-vote-icon"></div></div><div class="adzerk-vote-option adzerk-vote-down"><div class="adzerk-vote-icon"></div></div></div><div class="adzerk-vote-survey" style="display:none;"><form><span>No problem. We won't show you that ad again. Why didn't you like it?</span><ul><li><label><input type="radio" value="12" name="downvoteReason">Uninteresting</label></li><li><label><input type="radio" value="13" name="downvoteReason">Misleading</label></li><li><label><input type="radio" value="14" name="downvoteReason">Offensive</label></li><li><label><input type="radio" value="15" name="downvoteReason">Repetitive</label></li><li><label><input type="radio" value="16" name="downvoteReason">Other</label></li></ul><a href="https://stackoverflow.com/questions/9479370/highcharts-hide-series-name-from-the-legend#" class="adzerk-vote-cancel">Oops! I didn't mean to do this.</a></form></div><img height="0px" width="0px" border="0" style="position: absolute; display: none !important;" src="https://engine.adzerk.net/i.gif?e=eyJhdiI6NDM3MTEsImF0Ijo1LCJidCI6MCwiY20iOjU4ODIzMywiY2giOjExNzgsImNrIjp7fSwiY3IiOjMxMDEwOTUsImRpIjoiN2JmZWM5MmQ1ZmY1NDJmZjk0M2QyNTU5NzIxN2UyM2EiLCJkbSI6MSwiZmMiOjUzNzIyNDAsImZsIjo1NTQwODAzLCJpcCI6IjUuMTUxLjE3MS4xNTAiLCJrdyI6ImphdmFzY3JpcHQsaGlkZSxoaWdoY2hhcnRzLGxlZ2VuZCxzZXJpZXMseC1jcm9zcy1zaXRlLXN0YXRzLnN0YWNrZXhjaGFuZ2UuY29tIiwibWsiOiJqYXZhc2NyaXB0IiwibnciOjIyLCJwYyI6Ni4zMywiZWMiOjYuMzMsInByIjo3NjUsInJ0IjoyLCJyZiI6Imh0dHBzOi8vd3d3Lmdvb2dsZS5jby51ay8iLCJzYSI6IjMiLCJzYiI6ImktMGRjYzY5ZjJlYTExMGU3MzEiLCJzcCI6MjAzMjIsInN0Ijo4Mjc3LCJ1ayI6InVlMS0zODU0NjMwMDAyNTQ0YTI1OTkzMjU1ZjRjNjM0MTU5NSIsInpuIjo0NSwidHMiOjE0OTg1MDM4MjA0NzIsImJmIjp0cnVlLCJwbiI6ImFkemVyazM5NzQxMzMzMyIsImZxIjoxMTE0MTI5fQ&amp;s=HRcxwj4pWd-34wSrEn_lotzVwZw"></div>
+            <div id="hireme" class="blue tagged tex2jax_ignore clc-jobs-multi"><a class="top " href="https://stackoverflow.com/jobs?location=London%2C%20%2C%20" target="_blank" data-clc-click="https://clc.stackoverflow.com/click?an=AXYAif8KSDFID8a81EglcihCRwICEMrJwgTTLr1jp-GzNmsB8U7cUMhRAAEAjLAAAIA_AgEAAgACmwKHrwee5Qj37A8NAQABwBZzHzrfc1I_AQZweXRob24bAvlN04oJ27YQAgEAAcCPhhE6JckwPwA8ny5UyNo8s5bQ&amp;cr=10440&amp;ct=1&amp;url=https%3A%2F%2Fstackoverflow.com%2Fjobs%3Flocation%3DLondon%252C%2520%252C%2520%26med=clc&amp;sig=XOXGisnJ2g47hA"><span>Jobs near you</span></a><div class="middle"><ul class="jobs"><li class="&quot;clc-dismissable&quot;"><div class="job-wrap"><a class="job" title="TensorFlow Developer at DeepMind Technologies. Click to learn more." href="https://stackoverflow.com/jobs/141448/tensorflow-developer-deepmind-technologies" target="_blank" data-clc-click="https://clc.stackoverflow.com/click?an=AXYAif8KSDFID8a81EglcihCRwICEMrJwgTTLr1jp-GzNmsB8U7cUMhRAAEAjLAAAIA_AgEAAgACmwKHrwee5Qj37A8NAQABwBZzHzrfc1I_AQZweXRob24bAvlN04oJ27YQAgEAAcCPhhE6JckwPwA8ny5UyNo8s5bQ&amp;cr=259703&amp;ct=0&amp;url=https%3A%2F%2Fstackoverflow.com%2Fjobs%2F141448%2Ftensorflow-developer-deepmind-technologies%3Fmed=clc&amp;sig=cqw5kfwvSBMpIw"><div class="title">TensorFlow Developer</div><div><span class="company">DeepMind Technologies</span><span class="location">London, UK</span></div><div class="opts"><span class="opt relocate">Relocation</span></div><span class="post-tag highlight">python</span><span class="post-tag">c</span><div></div></a></div><a class="clc-dismiss" data-clc-click="https://clc.stackoverflow.com/click?an=AXYAif8KSDFID8a81EglcihCRwICEMrJwgTTLr1jp-GzNmsB8U7cUMhRAAEAjLAAAIA_AgEAAgACmwKHrwee5Qj37A8NAQABwBZzHzrfc1I_AQZweXRob24bAvlN04oJ27YQAgEAAcCPhhE6JckwPwA8ny5UyNo8s5bQ&amp;cr=259703&amp;ct=-1&amp;sig=HyO3aoElYItjpA" data-clc-meta-target="-1"><span class="clc-tooltip above-left">dismiss this job</span></a></li><li class="&quot;clc-dismissable&quot;"><div class="job-wrap"><a class="job" title="DevOps Engineer at BMLL Technologies. Click to learn more." href="https://stackoverflow.com/jobs/124209/devops-engineer-bmll-technologies" target="_blank" data-clc-click="https://clc.stackoverflow.com/click?an=AXYAif8KSDFID8a81EglcihCRwICEMrJwgTTLr1jp-GzNmsB8U7cUMhRAAEAjLAAAIA_AgEAAgACmwKHrwee5Qj37A8NAQABwBZzHzrfc1I_AQZweXRob24bAvlN04oJ27YQAgEAAcCPhhE6JckwPwA8ny5UyNo8s5bQ&amp;cr=269147&amp;ct=0&amp;url=https%3A%2F%2Fstackoverflow.com%2Fjobs%2F124209%2Fdevops-engineer-bmll-technologies%3Fmed=clc&amp;sig=7I_uLJBa8GInIQ"><div class="title">DevOps Engineer</div><div><span class="company">BMLL Technologies</span><span class="location">London, UK</span></div><span class="post-tag">javascript</span><span class="post-tag">django</span><div></div></a></div><a class="clc-dismiss" data-clc-click="https://clc.stackoverflow.com/click?an=AXYAif8KSDFID8a81EglcihCRwICEMrJwgTTLr1jp-GzNmsB8U7cUMhRAAEAjLAAAIA_AgEAAgACmwKHrwee5Qj37A8NAQABwBZzHzrfc1I_AQZweXRob24bAvlN04oJ27YQAgEAAcCPhhE6JckwPwA8ny5UyNo8s5bQ&amp;cr=269147&amp;ct=-1&amp;sig=mim68V_z2Iexyg" data-clc-meta-target="-1"><span class="clc-tooltip above-left">dismiss this job</span></a></li></ul></div><div class="bottom"><a class="city" href="https://stackoverflow.com/jobs?location=London%2C%20%2C%20" target="_blank" data-clc-click="https://clc.stackoverflow.com/click?an=AXYAif8KSDFID8a81EglcihCRwICEMrJwgTTLr1jp-GzNmsB8U7cUMhRAAEAjLAAAIA_AgEAAgACmwKHrwee5Qj37A8NAQABwBZzHzrfc1I_AQZweXRob24bAvlN04oJ27YQAgEAAcCPhhE6JckwPwA8ny5UyNo8s5bQ&amp;cr=10440&amp;ct=2&amp;url=https%3A%2F%2Fstackoverflow.com%2Fjobs%3Flocation%3DLondon%252C%2520%252C%2520%26med=clc&amp;sig=JRn08p3L6RrFGA">More jobs near London…</a></div><img src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/impression.gif" class="impression" style="display: none;"></div>
+        <script>
+window.clc_request = 'Arm7iw3GvNQIAAAAAMqkkAACAAAAAgAAAABPAAAAfGphdmFzY3JpcHR8aGlkZXxoaWdoY2hhcnRzfGxlZ2VuZHxzZXJpZXN8eC1jcm9zcy1zaXRlLXN0YXRzLnN0YWNrZXhjaGFuZ2UuY29tfADMR9907Ckk5W9z';;!function load(n){var u,r;try{if("function"!=typeof[].indexOf)return;if(!window.addEventListener)return;if(!n.allowed)return;if(!RegExp(n.allowed).test(location.hostname))return;var t=window,i=t.document,f=n.wv;if(i.hidden&&f)return void i.addEventListener("visibilitychange",function e(){i.hidden||(load(n),i.removeEventListener("visibilitychange",e))});if(t.clc=t.clc||{},t.clc.init=t.clc.init||[],n.autoload&&t.clc.init.push(function(n){return n.load()}),t.clc.options){for(u in t.clc.options)n[u]=t.clc.options[u];t.clc.options=n}else t.clc.options=n;r=i.createElement("script");r.async=!0;r.src=n.lib;i.body.appendChild(r)}catch(o){}}.call(null, {"lib":"https://cdn.sstatic.net/clc/clc.min.js?v=15f527bc6c30","u":"https://clc.stackoverflow.com/markup.js","azw":true,"kt":2000,"tto":true,"d":{"sb":["hireme","clc-sb"],"tlb":["careers1","clc-tlb"],"mlb":["careers3","clc-mlb"]},"h":"clc.stackoverflow.com","autoload":true,"allowed":"^(((talent\\.)?stackoverflow)|(blog\\.codinghorror)|(serverfault|askubuntu)|([^\\.]+\\.stackexchange))\\.com$","wv":true});        </script>
+			<div class="module" id="chat-feature">
+
+    <h4><a href="http://chat.stackoverflow.com/" id="h-chat-link" title="103 users active in 52 rooms the last 60 minutes">103 People Chatting</a></h4>
+    <div class="related" id="ad502-rooms"><div class="ad502-room"><h3 class="ad502-room-h3"><span class="ad502-room-title" title="JavaScript: Bricks! 50% Off! none for Mike."><a href="http://chat.stackoverflow.com/rooms/17">JavaScript: Bricks! 50% Off! none for Mike.</a></span></h3><span title="2017-06-26 18:09:35Z" class="ad502-last-message">54 mins ago - <a href="http://chat.stackoverflow.com/users/400654">Kevin B</a></span><br><div class="ad502-users"><a href="http://chat.stackoverflow.com/users/400654"><img height="23" width="23" title="Kevin B: 54 mins ago" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/afc1068910df4dd83c2fc3af0255af11"></a><a href="http://chat.stackoverflow.com/users/5599387"><img height="23" width="23" title="Michael Scott: 55 mins ago" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/XJLr2.jpg"></a><a href="http://chat.stackoverflow.com/users/763509"><img height="23" width="23" title="Vap0r: 56 mins ago" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/6zQkZ.png"></a><a href="http://chat.stackoverflow.com/users/5712021"><img height="23" width="23" title="Renato Lazaro: 1 hour ago" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/f8e66f201a13af74ba79f39f6a1337b7"></a><a href="http://chat.stackoverflow.com/users/1596138"><img height="23" width="23" title="Jhoverit: 1 hour ago" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/SIjyi.jpg"></a><a href="http://chat.stackoverflow.com/users/1408759"><img height="23" width="23" title="ndugger: 1 hour ago" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/PH8Vg.png"></a><a href="http://chat.stackoverflow.com/users/829835"><img height="23" width="23" title="rlemon: 1 hour ago" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/6ay1r.jpg"></a></div></div><div class="ad502-room"><h3 class="ad502-room-h3"><span class="ad502-room-title" title="Lounge&lt;C++&gt;"><a href="http://chat.stackoverflow.com/rooms/10">Lounge&lt;C++&gt;</a></span></h3><span title="2017-06-26 18:09:15Z" class="ad502-last-message">54 mins ago - <a href="http://chat.stackoverflow.com/users/583833">Borgleader</a></span><br><div class="ad502-users"><a href="http://chat.stackoverflow.com/users/583833"><img height="23" width="23" title="Borgleader: 54 mins ago" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/791a00235c66b6c32effd4291101087f"></a><a href="http://chat.stackoverflow.com/users/493122"><img height="23" width="23" title="Shoe: 55 mins ago" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/1f90ae01c2e24801c2df9189179b0ccd"></a><a href="http://chat.stackoverflow.com/users/922184"><img height="23" width="23" title="Mysticial: 56 mins ago" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/URZNf.jpg"></a><a href="http://chat.stackoverflow.com/users/1012936"><img height="23" width="23" title="milleniumbug: 57 mins ago" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/lVX7j.jpg"></a><a href="http://chat.stackoverflow.com/users/339552"><img height="23" width="23" title="roscoe_casita: 58 mins ago" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/l7b1Z.jpg"></a><a href="http://chat.stackoverflow.com/users/34509"><img height="23" width="23" title="Johannes Schaub - litb: 1 hour ago" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/7FnYg.jpg"></a><a href="http://chat.stackoverflow.com/users/300797"><img height="23" width="23" title="thecoshman: 1 hour ago" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/328e4d651b4e1c7a97bd86f3d7c84073"></a></div></div></div>
+    <script>
+    // <!--
+        StackExchange.ready(
+        function () {
+            var options = {
+                chatUrl: 'http://chat.stackoverflow.com',
+                reloadUrl: '/api/recent-chat',
+                preloadData: {"activeUsers":103,"activeRooms":52,"rooms":[{"name":"JavaScript: Bricks! 50% Off! none for Mike.","id":17,"lastPost":1498500575,"posts":4055531,"users":[{"name":"Kevin B","id":400654,"emailhash":"afc1068910df4dd83c2fc3af0255af11","lastPost":1498500575},{"name":"Michael Scott","id":5599387,"emailhash":"!https://i.stack.imgur.com/XJLr2.jpg?s=128\u0026g=1","lastPost":1498500502},{"name":"Vap0r","id":763509,"emailhash":"!https://i.stack.imgur.com/6zQkZ.png?s=128\u0026g=1","lastPost":1498500446},{"name":"Renato Lazaro","id":5712021,"emailhash":"f8e66f201a13af74ba79f39f6a1337b7","lastPost":1498500016},{"name":"Jhoverit","id":1596138,"emailhash":"!https://i.stack.imgur.com/SIjyi.jpg?s=128\u0026g=1","lastPost":1498499079},{"name":"ndugger","id":1408759,"emailhash":"!https://i.stack.imgur.com/PH8Vg.png?s=128\u0026g=1","lastPost":1498498946},{"name":"rlemon","id":829835,"emailhash":"!https://i.stack.imgur.com/6ay1r.jpg?s=128\u0026g=1","lastPost":1498498313}],"messages":[{"date":1498500575,"user":"Kevin B","userid":400654}],"singleImage":false,"tags":["ecmascript","ecmascript-6","hypescript","javascript","nodejs"]},{"name":"Lounge\u003cC++\u003e","id":10,"lastPost":1498500555,"posts":4922816,"users":[{"name":"Borgleader","id":583833,"emailhash":"791a00235c66b6c32effd4291101087f","lastPost":1498500555},{"name":"Shoe","id":493122,"emailhash":"1f90ae01c2e24801c2df9189179b0ccd","lastPost":1498500461},{"name":"Mysticial","id":922184,"emailhash":"!https://i.stack.imgur.com/URZNf.jpg?s=128\u0026g=1","lastPost":1498500442},{"name":"milleniumbug","id":1012936,"emailhash":"!https://i.stack.imgur.com/lVX7j.jpg?s=128\u0026g=1","lastPost":1498500364},{"name":"roscoe_casita","id":339552,"emailhash":"!https://i.stack.imgur.com/l7b1Z.jpg?s=128\u0026g=1","lastPost":1498500305},{"name":"Johannes Schaub - litb","id":34509,"emailhash":"!https://i.stack.imgur.com/7FnYg.jpg?s=128\u0026g=1","lastPost":1498500013},{"name":"thecoshman","id":300797,"emailhash":"328e4d651b4e1c7a97bd86f3d7c84073","lastPost":1498498907}],"messages":[{"date":1498500555,"user":"Borgleader","userid":583833}],"singleImage":false,"tags":["c++","c++11","c++14","c++17","c++-faq"]}]} 
+            };
+
+            StackExchange.chatAd.init(options);
+        });
+    // -->
+    </script>
+
+</div>
+
+            <div class="module sidebar-linked">
+	<h4 id="h-linked">Linked</h4>
+	<div class="linked" data-tracker="lq=1">
+
+<div class="spacer">
+	<a href="https://stackoverflow.com/q/38593495?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">1</div>
+	</a>
+	<a href="https://stackoverflow.com/questions/38593495/dotnethighcharts-hide-specific-legend-label?noredirect=1&amp;lq=1" class="question-hyperlink">DotNetHighcharts - Hide specific legend label</a>
+</div>			</div>
+</div>
+
+				<div class="module sidebar-related">
+					<h4 id="h-related">Related</h4>
+                    <div class="related js-gps-related-questions" data-tracker="rq=1">
+                        <div class="spacer js-gps-track"><a href="https://stackoverflow.com/q/6781110?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">28</div></a><a href="https://stackoverflow.com/questions/6781110/how-can-i-hide-series-from-a-highcharts-legend?rq=1" class="question-hyperlink">How can I hide series from a HighCharts legend?</a></div><div class="spacer js-gps-track"><a href="https://stackoverflow.com/q/10519269?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">2</div></a><a href="https://stackoverflow.com/questions/10519269/highcharts-pie-custom-legend-possible?rq=1" class="question-hyperlink">Highcharts Pie Custom Legend, possible?</a></div><div class="spacer js-gps-track"><a href="https://stackoverflow.com/q/13421575?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">0</div></a><a href="https://stackoverflow.com/questions/13421575/highcharts-legend-titles-changing-after-drilldown-and-back?rq=1" class="question-hyperlink">Highcharts Legend titles changing after drilldown and back?</a></div><div class="spacer js-gps-track"><a href="https://stackoverflow.com/q/13960984?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">5</div></a><a href="https://stackoverflow.com/questions/13960984/highcharts-add-different-colors-to-legend-in-one-series-histogram?rq=1" class="question-hyperlink">Highcharts: add different colors to legend in one series histogram</a></div><div class="spacer js-gps-track"><a href="https://stackoverflow.com/q/17295283?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">0</div></a><a href="https://stackoverflow.com/questions/17295283/hiding-legend-item-box-when-using-check-box-in-highcharts?rq=1" class="question-hyperlink">Hiding legend item box when using check box in Highcharts</a></div><div class="spacer js-gps-track"><a href="https://stackoverflow.com/q/19810195?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">2</div></a><a href="https://stackoverflow.com/questions/19810195/jquery-highcharts-legend-items-sorting?rq=1" class="question-hyperlink">Jquery Highcharts Legend items sorting</a></div><div class="spacer js-gps-track"><a href="https://stackoverflow.com/q/25849688?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">6</div></a><a href="https://stackoverflow.com/questions/25849688/google-charts-hide-only-some-series-in-legend?rq=1" class="question-hyperlink">Google Charts hide only some series in legend</a></div><div class="spacer js-gps-track"><a href="https://stackoverflow.com/q/28485852?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">2</div></a><a href="https://stackoverflow.com/questions/28485852/how-to-hide-one-series-data-info-in-tooltip-using-highcharts?rq=1" class="question-hyperlink">How to hide one series data info in tooltip using highcharts</a></div><div class="spacer js-gps-track"><a href="https://stackoverflow.com/q/30311993?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">0</div></a><a href="https://stackoverflow.com/questions/30311993/hide-show-multiple-series-in-highcharts?rq=1" class="question-hyperlink">Hide/Show multiple series in HighCharts</a></div><div class="spacer js-gps-track"><a href="https://stackoverflow.com/q/42505571?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">0</div></a><a href="https://stackoverflow.com/questions/42505571/disable-highchart-legend-if-series-name-sp?rq=1" class="question-hyperlink">Disable highchart legend if series name = 'SP'</a></div>
+                    </div>
+				</div>
+            
+
+<div id="hot-network-questions" class="module tex2jax_ignore">
+    <h4>
+        <a href="https://stackexchange.com/questions?tab=hot" class="js-gps-track" data-gps-track="posts_hot_network.click({ item_type:1, location:11 })">
+            Hot Network Questions
+        </a>
+    </h4>
+    <ul>
+            <li>
+                <div class="favicon favicon-english" title="English Language &amp; Usage Stack Exchange"></div><a href="https://english.stackexchange.com/questions/395556/is-there-a-term-for-deliberately-misestimating-a-value-to-avoid-a-threshold" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:97 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Is there a term for deliberately misestimating a value to avoid a threshold?
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-dba" title="Database Administrators Stack Exchange"></div><a href="https://dba.stackexchange.com/questions/177266/how-to-prevent-a-login-from-listing-a-table-or-view-definition-in-postgresql" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:182 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How to prevent a login from 'listing' a table or view definition in PostgreSQL?
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-rpg" title="Role-playing Games Stack Exchange"></div><a href="https://rpg.stackexchange.com/questions/102283/pcs-using-disciplinary-talk-from-dm-as-leverage-leading-to-group-dysfunction" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:122 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    PCs Using Disciplinary Talk from DM as Leverage, Leading to Group Dysfunction
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-gamedev" title="Game Development Stack Exchange"></div><a href="https://gamedev.stackexchange.com/questions/142984/how-can-i-clean-up-excessive-player-created-rubble" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:53 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How can I clean up excessive player-created rubble?
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-english" title="English Language &amp; Usage Stack Exchange"></div><a href="https://english.stackexchange.com/questions/395800/a-verb-for-a-more-precise-way-of-showing-a-puzzle" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:97 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    a verb for a more precise way of showing a puzzle?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-webmasters" title="Webmasters Stack Exchange"></div><a href="https://webmasters.stackexchange.com/questions/107326/when-buying-a-domain-what-are-the-differences-between-nameservers-ns-records-a" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:45 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    When buying a domain what are the differences between nameservers (NS records) and other DNS servers?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-workplace" title="The Workplace Stack Exchange"></div><a href="https://workplace.stackexchange.com/questions/93554/am-i-obligated-to-enforce-detrimental-company-policy" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:423 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Am I Obligated to Enforce Detrimental Company Policy?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-crypto" title="Cryptography Stack Exchange"></div><a href="https://crypto.stackexchange.com/questions/48638/whats-the-difference-between-polylogarithmic-and-logarithmic" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:281 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What's the difference between polylogarithmic and logarithmic?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-stackoverflow" title="Stack Overflow"></div><a href="https://stackoverflow.com/questions/44765482/multiple-constructors-the-pythonic-way" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:1 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Multiple constructors: the pythonic way?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-parenting" title="Parenting Stack Exchange"></div><a href="https://parenting.stackexchange.com/questions/30625/teenagers-ogling-my-daughter-what-to-do" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:228 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Teenagers Ogling my Daughter. What to do?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-tex" title="TeX - LaTeX Stack Exchange"></div><a href="https://tex.stackexchange.com/questions/376841/is-it-okay-to-have-numbers-and-decimals-in-variable-names-in-context" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:85 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Is it okay to have numbers and decimals in variable names in ConTeXt?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-rpg" title="Role-playing Games Stack Exchange"></div><a href="https://rpg.stackexchange.com/questions/102268/can-i-combine-shield-master-and-great-weapon-master" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:122 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Can I Combine Shield Master and Great Weapon Master?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-askubuntu" title="Ask Ubuntu"></div><a href="https://askubuntu.com/questions/929252/find-ids-in-one-file-that-are-not-in-another" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:89 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Find IDs in one file that are not in another
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-sharepoint" title="SharePoint Stack Exchange"></div><a href="https://sharepoint.stackexchange.com/questions/219196/size-of-content-database-does-not-decrease-after-deleting-content" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:232 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    size of content database does not decrease after deleting content
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-rpg" title="Role-playing Games Stack Exchange"></div><a href="https://rpg.stackexchange.com/questions/102255/must-a-multiclassed-caster-use-2-different-spellcasting-focuses" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:122 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Must a multiclassed caster use 2 different spellcasting focuses?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-french" title="French Language Stack Exchange"></div><a href="https://french.stackexchange.com/questions/26300/many-meanings-in-french" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:299 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    "Many meanings" in French
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-codegolf" title="Programming Puzzles &amp; Code Golf Stack Exchange"></div><a href="https://codegolf.stackexchange.com/questions/128399/ascii-rubiks-cube" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:200 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    ASCII Rubik's Cube
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-apple" title="Ask Different"></div><a href="https://apple.stackexchange.com/questions/287952/macbook-12-2017-cpu-speed-1-4-ghz-but-intel-says-its-1-3-ghz" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:118 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    MacBook 12'' 2017 cpu speed: 1.4 GHz but Intel says it's 1.3 GHz
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-history" title="History Stack Exchange"></div><a href="https://history.stackexchange.com/questions/38736/which-company-offered-this-aircraft-interior-in-the-60s" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:324 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Which company offered this aircraft interior in the 60s?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-codegolf" title="Programming Puzzles &amp; Code Golf Stack Exchange"></div><a href="https://codegolf.stackexchange.com/questions/128269/make-it-explode" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:200 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Make it explode!
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-apple" title="Ask Different"></div><a href="https://apple.stackexchange.com/questions/287970/how-can-i-install-hundreds-of-pkg-files" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:118 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How can I install hundreds of pkg files?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-tex" title="TeX - LaTeX Stack Exchange"></div><a href="https://tex.stackexchange.com/questions/376851/missing-inserted-endframe" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:85 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Missing $ inserted \end{frame}
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-mathematica" title="Mathematica Stack Exchange"></div><a href="https://mathematica.stackexchange.com/questions/149090/series-sum-approximation" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:387 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Series sum approximation
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-chemistry" title="Chemistry Stack Exchange"></div><a href="https://chemistry.stackexchange.com/questions/76757/why-does-mercury-decolourise-a-gold-ring" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:431 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why does mercury decolourise a gold ring?
+                </a>
+
+            </li>
+    </ul>
+
+        
+</div>
+		</div>
+	
+<div id="feed-link">
+    <div id="feed-link-text">
+        <a href="https://stackoverflow.com/feeds/question/9479370" title="feed of this question and its answers">
+            <span class="feed-icon"></span>question feed
+        </a>
+    </div>
+</div>	<script>
+StackExchange.ready(function(){$.get('/posts/9479370/ivc/4d83');});
+</script>
+<noscript>
+    &lt;div&gt;&lt;img src="/posts/9479370/ivc/4d83" class="dno" alt="" width="0" height="0"&gt;&lt;/div&gt;
+</noscript><div style="display:none" id="prettify-lang">default</div></div>
+
+
+        </div>
+    </div><script async="" src="./javascript - HighCharts Hide Series Name from the Legend - Stack Overflow_files/clc.min.js"></script>
+
+        <footer id="footer" class="s-footer categories" role="contentinfo">
+            <div class="-container g-column">
+                <ul class="-menu g-row">
+
+                    <li class="-item g-col"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 1 })" href="https://stackoverflow.com/company/about">about us</a></li>
+                        <li class="-item g-col"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 2 })" href="https://stackoverflow.com/tour">tour</a></li>
+                    <li class="-item g-col"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 3 })" href="https://stackoverflow.com/help">help</a></li>
+                    <li class="-item g-col"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 4 })" href="https://stackoverflow.blog/?blb=1">blog</a></li>
+                        <li class="-item g-col"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 5 })" href="https://chat.stackoverflow.com/">chat</a></li>
+                    <li class="-item g-col"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 6 })" href="https://data.stackexchange.com/">data</a></li>
+                    <li class="-item g-col"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 7 })" href="https://stackexchange.com/legal">legal</a></li>
+                    <li class="-item g-col"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 8 })" href="https://stackexchange.com/legal/privacy-policy">privacy policy</a></li>
+                    <li class="-item g-col"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 9 })" href="https://stackoverflow.com/company/work-here">work here</a></li>
+                    <li class="-item g-col"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 10 })" href="https://www.stackoverflowbusiness.com/advertise">advertising info</a></li>
+                        <li class="-item g-col"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 11 })" href="https://stackoverflow.com/jobs/directory/developer-jobs">developer jobs directory</a></li>
+
+                    <li class="-item g-col"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 12 })" onclick="StackExchange.switchMobile(&quot;on&quot;)">mobile</a></li>
+                    <li class="-item g-col"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 13 })" href="https://stackoverflow.com/contact"><strong>contact us</strong></a></li>
+                        <li class="-item g-col"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 14 })" href="https://meta.stackoverflow.com/"><strong>feedback</strong></a></li>
+                    <li class="-item g-col">
+                        
+                    </li>
+                </ul>
+                <div class="-toc g-row" id="footer-sites">
+                    <table>
+    <tbody><tr>
+            <th colspan="3">
+                <strong>Technology</strong>
+            </th>
+            <th>
+                <strong>Life / Arts</strong>
+            </th>
+            <th>
+                <strong>Culture / Recreation</strong>
+            </th>
+            <th>
+                <strong>Science</strong>
+            </th>
+            <th>
+                <strong>Other</strong>
+            </th>
+    </tr>
+    <tr>
+            <td>
+                <ol>
+                        <li><a href="https://stackoverflow.com/" class="-link js-gps-track" title="professional and enthusiast programmers" data-gps-track="footer.click({ location: 2, link: 25 })">Stack Overflow</a></li>
+                        <li><a href="https://serverfault.com/" class="-link js-gps-track" title="system and network administrators" data-gps-track="footer.click({ location: 2, link: 25 })">Server Fault</a></li>
+                        <li><a href="https://superuser.com/" class="-link js-gps-track" title="computer enthusiasts and power users" data-gps-track="footer.click({ location: 2, link: 25 })">Super User</a></li>
+                        <li><a href="https://webapps.stackexchange.com/" class="-link js-gps-track" title="power users of web applications" data-gps-track="footer.click({ location: 2, link: 25 })">Web Applications</a></li>
+                        <li><a href="https://askubuntu.com/" class="-link js-gps-track" title="Ubuntu users and developers" data-gps-track="footer.click({ location: 2, link: 25 })">Ask Ubuntu</a></li>
+                        <li><a href="https://webmasters.stackexchange.com/" class="-link js-gps-track" title="pro webmasters" data-gps-track="footer.click({ location: 2, link: 25 })">Webmasters</a></li>
+                        <li><a href="https://gamedev.stackexchange.com/" class="-link js-gps-track" title="professional and independent game developers" data-gps-track="footer.click({ location: 2, link: 25 })">Game Development</a></li>
+                        <li><a href="https://tex.stackexchange.com/" class="-link js-gps-track" title="users of TeX, LaTeX, ConTeXt, and related typesetting systems" data-gps-track="footer.click({ location: 2, link: 25 })">TeX - LaTeX</a></li>
+                        <li><a href="https://softwareengineering.stackexchange.com/" class="-link js-gps-track" title="professionals, academics, and students working within the systems development life cycle" data-gps-track="footer.click({ location: 2, link: 25 })">Software Engineering</a></li>
+                        <li><a href="https://unix.stackexchange.com/" class="-link js-gps-track" title="users of Linux, FreeBSD and other Un*x-like operating systems" data-gps-track="footer.click({ location: 2, link: 25 })">Unix &amp; Linux</a></li>
+                        <li><a href="https://apple.stackexchange.com/" class="-link js-gps-track" title="power users of Apple hardware and software" data-gps-track="footer.click({ location: 2, link: 25 })">Ask Different (Apple)</a></li>
+                        <li><a href="https://wordpress.stackexchange.com/" class="-link js-gps-track" title="WordPress developers and administrators" data-gps-track="footer.click({ location: 2, link: 25 })">WordPress Development</a></li>
+                            </ol></td><td><ol>
+                        <li><a href="https://gis.stackexchange.com/" class="-link js-gps-track" title="cartographers, geographers and GIS professionals" data-gps-track="footer.click({ location: 2, link: 25 })">Geographic Information Systems</a></li>
+                        <li><a href="https://electronics.stackexchange.com/" class="-link js-gps-track" title="electronics and electrical engineering professionals, students, and enthusiasts" data-gps-track="footer.click({ location: 2, link: 25 })">Electrical Engineering</a></li>
+                        <li><a href="https://android.stackexchange.com/" class="-link js-gps-track" title="enthusiasts and power users of the Android operating system" data-gps-track="footer.click({ location: 2, link: 25 })">Android Enthusiasts</a></li>
+                        <li><a href="https://security.stackexchange.com/" class="-link js-gps-track" title="information security professionals" data-gps-track="footer.click({ location: 2, link: 25 })">Information Security</a></li>
+                        <li><a href="https://dba.stackexchange.com/" class="-link js-gps-track" title="database professionals who wish to improve their database skills and learn from others in the community" data-gps-track="footer.click({ location: 2, link: 25 })">Database Administrators</a></li>
+                        <li><a href="https://drupal.stackexchange.com/" class="-link js-gps-track" title="Drupal developers and administrators" data-gps-track="footer.click({ location: 2, link: 25 })">Drupal Answers</a></li>
+                        <li><a href="https://sharepoint.stackexchange.com/" class="-link js-gps-track" title="SharePoint enthusiasts" data-gps-track="footer.click({ location: 2, link: 25 })">SharePoint</a></li>
+                        <li><a href="https://ux.stackexchange.com/" class="-link js-gps-track" title="user experience researchers and experts" data-gps-track="footer.click({ location: 2, link: 25 })">User Experience</a></li>
+                        <li><a href="https://mathematica.stackexchange.com/" class="-link js-gps-track" title="users of Wolfram Mathematica" data-gps-track="footer.click({ location: 2, link: 25 })">Mathematica</a></li>
+                        <li><a href="https://salesforce.stackexchange.com/" class="-link js-gps-track" title="Salesforce administrators, implementation experts, developers and anybody in-between" data-gps-track="footer.click({ location: 2, link: 25 })">Salesforce</a></li>
+                        <li><a href="https://expressionengine.stackexchange.com/" class="-link js-gps-track" title="administrators, end users, developers and designers for ExpressionEngine® CMS" data-gps-track="footer.click({ location: 2, link: 25 })">ExpressionEngine® Answers</a></li>
+                        <li><a href="https://crypto.stackexchange.com/" class="-link js-gps-track" title="software developers, mathematicians and others interested in cryptography" data-gps-track="footer.click({ location: 2, link: 25 })">Cryptography</a></li>
+                            </ol></td><td><ol>
+                        <li><a href="https://codereview.stackexchange.com/" class="-link js-gps-track" title="peer programmer code reviews" data-gps-track="footer.click({ location: 2, link: 25 })">Code Review</a></li>
+                        <li><a href="https://magento.stackexchange.com/" class="-link js-gps-track" title="users of the Magento e-Commerce platform" data-gps-track="footer.click({ location: 2, link: 25 })">Magento</a></li>
+                        <li><a href="https://dsp.stackexchange.com/" class="-link js-gps-track" title="practitioners of the art and science of signal, image and video processing" data-gps-track="footer.click({ location: 2, link: 25 })">Signal Processing</a></li>
+                        <li><a href="https://raspberrypi.stackexchange.com/" class="-link js-gps-track" title="users and developers of hardware and software for Raspberry Pi" data-gps-track="footer.click({ location: 2, link: 25 })">Raspberry Pi</a></li>
+                        <li><a href="https://codegolf.stackexchange.com/" class="-link js-gps-track" title="programming puzzle enthusiasts and code golfers" data-gps-track="footer.click({ location: 2, link: 25 })">Programming Puzzles &amp; Code Golf</a></li>
+                                            <li>
+                            <a href="https://stackexchange.com/sites#technology" class="more js-gps-track" data-gps-track="footer.click({ location: 2, link: 26 })">
+                                more (7)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="https://photo.stackexchange.com/" class="-link js-gps-track" title="professional, enthusiast and amateur photographers" data-gps-track="footer.click({ location: 2, link: 25 })">Photography</a></li>
+                        <li><a href="https://scifi.stackexchange.com/" class="-link js-gps-track" title="science fiction and fantasy enthusiasts" data-gps-track="footer.click({ location: 2, link: 25 })">Science Fiction &amp; Fantasy</a></li>
+                        <li><a href="https://graphicdesign.stackexchange.com/" class="-link js-gps-track" title="Graphic Design professionals, students, and enthusiasts" data-gps-track="footer.click({ location: 2, link: 25 })">Graphic Design</a></li>
+                        <li><a href="https://movies.stackexchange.com/" class="-link js-gps-track" title="movie and tv enthusiasts" data-gps-track="footer.click({ location: 2, link: 25 })">Movies &amp; TV</a></li>
+                        <li><a href="https://music.stackexchange.com/" class="-link js-gps-track" title="musicians, students, and enthusiasts" data-gps-track="footer.click({ location: 2, link: 25 })">Music: Practice &amp; Theory</a></li>
+                        <li><a href="https://cooking.stackexchange.com/" class="-link js-gps-track" title="professional and amateur chefs" data-gps-track="footer.click({ location: 2, link: 25 })">Seasoned Advice (cooking)</a></li>
+                        <li><a href="https://diy.stackexchange.com/" class="-link js-gps-track" title="contractors and serious DIYers" data-gps-track="footer.click({ location: 2, link: 25 })">Home Improvement</a></li>
+                        <li><a href="https://money.stackexchange.com/" class="-link js-gps-track" title="people who want to be financially literate" data-gps-track="footer.click({ location: 2, link: 25 })">Personal Finance &amp; Money</a></li>
+                        <li><a href="https://academia.stackexchange.com/" class="-link js-gps-track" title="academics and those enrolled in higher education" data-gps-track="footer.click({ location: 2, link: 25 })">Academia</a></li>
+                                            <li>
+                            <a href="https://stackexchange.com/sites#lifearts" class="more js-gps-track" data-gps-track="footer.click({ location: 2, link: 26 })">
+                                more (8)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="https://english.stackexchange.com/" class="-link js-gps-track" title="linguists, etymologists, and serious English language enthusiasts" data-gps-track="footer.click({ location: 2, link: 25 })">English Language &amp; Usage</a></li>
+                        <li><a href="https://skeptics.stackexchange.com/" class="-link js-gps-track" title="scientific skepticism" data-gps-track="footer.click({ location: 2, link: 25 })">Skeptics</a></li>
+                        <li><a href="https://judaism.stackexchange.com/" class="-link js-gps-track" title="those who base their lives on Jewish law and tradition and anyone interested in learning more" data-gps-track="footer.click({ location: 2, link: 25 })">Mi Yodeya (Judaism)</a></li>
+                        <li><a href="https://travel.stackexchange.com/" class="-link js-gps-track" title="road warriors and seasoned travelers" data-gps-track="footer.click({ location: 2, link: 25 })">Travel</a></li>
+                        <li><a href="https://christianity.stackexchange.com/" class="-link js-gps-track" title="committed Christians, experts in Christianity and those interested in learning more" data-gps-track="footer.click({ location: 2, link: 25 })">Christianity</a></li>
+                        <li><a href="https://ell.stackexchange.com/" class="-link js-gps-track" title="speakers of other languages learning English" data-gps-track="footer.click({ location: 2, link: 25 })">English Language Learners</a></li>
+                        <li><a href="https://japanese.stackexchange.com/" class="-link js-gps-track" title="students, teachers, and linguists wanting to discuss the finer points of the Japanese language" data-gps-track="footer.click({ location: 2, link: 25 })">Japanese Language</a></li>
+                        <li><a href="https://gaming.stackexchange.com/" class="-link js-gps-track" title="passionate videogamers on all platforms" data-gps-track="footer.click({ location: 2, link: 25 })">Arqade (gaming)</a></li>
+                        <li><a href="https://bicycles.stackexchange.com/" class="-link js-gps-track" title="people who build and repair bicycles, people who train cycling, or commute on bicycles" data-gps-track="footer.click({ location: 2, link: 25 })">Bicycles</a></li>
+                        <li><a href="https://rpg.stackexchange.com/" class="-link js-gps-track" title="gamemasters and players of tabletop, paper-and-pencil role-playing games" data-gps-track="footer.click({ location: 2, link: 25 })">Role-playing Games</a></li>
+                        <li><a href="https://anime.stackexchange.com/" class="-link js-gps-track" title="anime and manga fans" data-gps-track="footer.click({ location: 2, link: 25 })">Anime &amp; Manga</a></li>
+                        <li><a href="https://mechanics.stackexchange.com/" class="-link js-gps-track" title="mechanics and DIY enthusiast owners of cars, trucks, and motorcycles" data-gps-track="footer.click({ location: 2, link: 25 })">Motor Vehicle Maintenance &amp; Repair</a></li>
+                                            <li>
+                            <a href="https://stackexchange.com/sites#culturerecreation" class="more js-gps-track" data-gps-track="footer.click({ location: 2, link: 26 })">
+                                more (17)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="https://mathoverflow.net/" class="-link js-gps-track" title="professional mathematicians" data-gps-track="footer.click({ location: 2, link: 25 })">MathOverflow</a></li>
+                        <li><a href="https://math.stackexchange.com/" class="-link js-gps-track" title="people studying math at any level and professionals in related fields" data-gps-track="footer.click({ location: 2, link: 25 })">Mathematics</a></li>
+                        <li><a href="https://stats.stackexchange.com/" class="-link js-gps-track" title="people interested in statistics, machine learning, data analysis, data mining, and data visualization" data-gps-track="footer.click({ location: 2, link: 25 })">Cross Validated (stats)</a></li>
+                        <li><a href="https://cstheory.stackexchange.com/" class="-link js-gps-track" title="theoretical computer scientists and researchers in related fields" data-gps-track="footer.click({ location: 2, link: 25 })">Theoretical Computer Science</a></li>
+                        <li><a href="https://physics.stackexchange.com/" class="-link js-gps-track" title="active researchers, academics and students of physics" data-gps-track="footer.click({ location: 2, link: 25 })">Physics</a></li>
+                        <li><a href="https://chemistry.stackexchange.com/" class="-link js-gps-track" title="scientists, academics, teachers and students" data-gps-track="footer.click({ location: 2, link: 25 })">Chemistry</a></li>
+                        <li><a href="https://biology.stackexchange.com/" class="-link js-gps-track" title="biology researchers, academics, and students" data-gps-track="footer.click({ location: 2, link: 25 })">Biology</a></li>
+                        <li><a href="https://cs.stackexchange.com/" class="-link js-gps-track" title="students, researchers and practitioners of computer science" data-gps-track="footer.click({ location: 2, link: 25 })">Computer Science</a></li>
+                        <li><a href="https://philosophy.stackexchange.com/" class="-link js-gps-track" title="those interested in the study of the fundamental nature of knowledge, reality, and existence" data-gps-track="footer.click({ location: 2, link: 25 })">Philosophy</a></li>
+                                            <li>
+                            <a href="https://stackexchange.com/sites#science" class="more js-gps-track" data-gps-track="footer.click({ location: 2, link: 26 })">
+                                more (3)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="https://meta.stackexchange.com/" class="-link js-gps-track" title="meta-discussion of the Stack Exchange family of Q&amp;A websites" data-gps-track="footer.click({ location: 2, link: 25 })">Meta Stack Exchange</a></li>
+                        <li><a href="https://stackapps.com/" class="-link js-gps-track" title="apps, scripts, and development with the Stack Exchange API" data-gps-track="footer.click({ location: 2, link: 25 })">Stack Apps</a></li>
+                        <li><a href="https://area51.stackexchange.com/" class="-link js-gps-track" title="proposing new sites in the Stack Exchange network" data-gps-track="footer.click({ location: 2, link: 25 })">Area 51</a></li>
+                        <li><a href="https://www.stackoverflowbusiness.com/talent" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })">Stack Overflow Talent</a></li>
+                                    </ol>
+            </td>
+    </tr>
+</tbody></table>
+                </div>
+                <div class="g-col -copyright" id="copyright">
+                    site design / logo © 2017 Stack Exchange Inc; user contributions licensed under <a class="-link" href="https://creativecommons.org/licenses/by-sa/3.0/" rel="license">cc by-sa 3.0</a>
+                    with <a class="-link" href="https://stackoverflow.blog/2009/06/25/attribution-required/" rel="license">attribution required</a>
+                </div>
+                <div class="g-col -copyright _muted" id="svnrev">
+                    rev 2017.6.26.26332
+                </div>
+
+            </div>
+        </footer>
+
+    <noscript>
+        &lt;div id="noscript-warning"&gt;Stack Overflow works best with JavaScript enabled
+            &lt;img src="https://pixel.quantserve.com/pixel/p-c1rF4kxgLUzNc.gif" alt="" class="dno"&gt;
+        &lt;/div&gt;
+    </noscript>
+<script>var z=document.createElement("script");z.type="text/javascript",z.async=!0,z.src="https://static.adzerk.net/ados.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(z,s);</script>
+<script>
+var ados = ados || {};
+ados.run = ados.run || [];
+
+
+ados.run.push(function () {
+    setTimeout(function () { $("#adzerk-user-match").remove(); }, window.AUMIframeDone ? 0 : 2000);
+    ados_setKeywords('javascript,hide,highcharts,legend,series,x-cross-site-stats.stackexchange.com');; ados_load();
+});   
+
+</script>
+
+    <script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function() { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m);
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+                ga('create', 'UA-5620270-1');
+                ga('create', 'UA-5620270-59', {name: 'pageData', sampleRate: 5 });
+                ga('set', 'dimension2', '|javascript|hide|highcharts|legend|series|');
+                ga('pageData.set', 'dimension2', '|javascript|hide|highcharts|legend|series|');
+                ga('send', 'pageview');
+                ga('pageData.send', 'pageview');
+        var _qevents = _qevents || [],
+            _comscore = _comscore || [];
+        (function () {
+            var ssl='https:'==document.location.protocol,
+                s=document.getElementsByTagName('script')[0],
+                qc=document.createElement('script');
+                qc.async = true;
+                qc.src = (ssl ? 'https://secure' : 'http://edge') + '.quantserve.com/quant.js';
+                s.parentNode.insertBefore(qc, s);
+                _qevents.push({ qacct: "p-c1rF4kxgLUzNc" });
+                            var sc=document.createElement('script');
+                sc.async=true;
+                sc.src=(ssl?'https://sb':'http://b') + '.scorecardresearch.com/beacon.js';
+                s.parentNode.insertBefore(sc, s);
+                _comscore.push({ c1: "2", c2: "17440561" });
+        })();
+
+    </script>
+        
+    
+            <script type="text/javascript">
+                
+                (function(appendChild) {
+                    Node.prototype.appendChild = function() {
+                        var parent = this;
+                        var newNode = arguments[0];
+                        if (parent.nodeName === 'HEAD'
+                            && newNode
+                            && newNode.nodeName === 'SCRIPT'
+                            && newNode.src) {
+                            
+                            window.setTimeout(function() {
+                                var result = newNode.src.match(/^https:\/\/maps\.googleapis\.com\/maps\/api\/place\/js\/(\w+)Service\./i) || [];
+                                var service = result[1];
+                                if (service) {
+                                    if (service === 'Autocompletion') service =  2;
+                                    else if (service === 'Place') service = 1;
+                                    else service = 0;
+                                    StackExchange.using('gps', function() {
+                                        StackExchange.gps.track('google_maps_places_api.call', { service: service });
+                                    });
+                                }
+                            }, 0);
+                        }
+                        return appendChild.apply(this, arguments);
+                    };
+                })(Node.prototype.appendChild);
+            </script>
+    
+
+</body></html>

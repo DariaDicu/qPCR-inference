@@ -36,12 +36,14 @@ var myChart1 = Highcharts.chart('uniform_prior', {
         allowDecimals: false,
         gridLineWidth: 1,
         min: 1,
-        max: 100
+        max: 100,
+        title: {
+            text: 'Initial copy number X<sub>0</sub>(molecules)',
+            useHTML: true
+        },
     },
     yAxis: {
         allowDecimals: true,
-        min: 0,
-        max: 1,
         title: {
             text: 'π(x<sub>0</sub> )',
             useHTML: true
@@ -64,7 +66,7 @@ var myChart1 = Highcharts.chart('uniform_prior', {
     },
     series: [
     {
-        name: 'x0 prior',
+        showInLegend: false,  
         dashStyle: 'dash',
         data: generate_uniform_prior(0, 100, 0.01),
         type: 'spline',
@@ -77,19 +79,23 @@ var myChart1 = Highcharts.chart('uniform_prior', {
 
 var myChart2 = Highcharts.chart('beta_prior', {
     title: {
-        text: 'Beta(0.5, 0.5) prior on r',
+        text: 'Jeffreys on prior on r (Beta(0.5, 0.5))',
         useHTML: true
     },
     xAxis: {
         allowDecimals: false,
         gridLineWidth: 1,
         min: 0,
-        max: 1.0
+        max: 1.0,
+        title: {
+            text: 'Efficiency r',
+            useHTML: true
+        },
     },
     yAxis: {
         allowDecimals: true,
         min: 0,
-        max: 1.0,
+        max: 2.2,
         title: {
             text: 'π(r)',
             useHTML: true
@@ -112,7 +118,7 @@ var myChart2 = Highcharts.chart('beta_prior', {
     },
     series: [
     {
-        name: 'x0 prior',
+        showInLegend: false,  
         dashStyle: 'dash',
         data: generate_beta_prior(0, 1.0, 0.001, 1.0),
         type: 'spline',
@@ -125,21 +131,25 @@ var myChart2 = Highcharts.chart('beta_prior', {
 
 var myChart3 = Highcharts.chart('jeff_prior', {
     title: {
-        text: 'Jeffreys prior on σ <sup>2</sup>',
+        text: 'Jeffreys prior on σ<sup>2</sup> (1/√σ)',
         useHTML: true
     },
     xAxis: {
         allowDecimals: false,
         gridLineWidth: 1,
         min: 0,
-        max: 100
+        max: 100,
+        title: {
+            text: 'Noise variance σ<sup>2</sup>',
+            useHTML: true
+        },
     },
     yAxis: {
         allowDecimals: true,
         min: 0,
         max: 1,
         title: {
-            text: 'π(σ <sup>2</sup>)',
+            text: 'π(σ<sup>2</sup>)',
             useHTML: true
         },
         plotLines: [{
@@ -160,7 +170,7 @@ var myChart3 = Highcharts.chart('jeff_prior', {
     },
     series: [
     {
-        name: 'σ <sup>2</sup> prior',
+        showInLegend: false,  
         dashStyle: 'dash',
         data: generate_jeff_prior(0, 100, 0.01),
         type: 'spline',
