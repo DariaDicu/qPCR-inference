@@ -100,12 +100,8 @@ double log_posterior(const double *F, int* n, double alpha, const double *theta,
 	int params) {
 	int exp_count = params - 2;
 	int64_t x0[exp_count];
-	//for (int i = 0; i < exp_count; i++) printf("%lf ", theta[i]);
-	//printf("\n");
 	for (int i = 0; i < exp_count; i++) {
-		//printf("%lf ", theta[i]);
 		x0[i] = (int64_t)theta[i];
-		//printf("%"PRId64"|", x0[i]);
 		if (x0[i] < MIN_X0 || x0[i] > MAX_X0) {
 			// Automatically reject if x0 out of bounds.
 			return NEG_INF;
@@ -298,7 +294,6 @@ void simulate_for_MAP(double *F, int* n, int params, double *cov,
 		// Accept with probability r and if r > 1, then accept.
 		double r = uniform_in_range(0,1);
 
-		//printf("%lf %lf %lf %d\n", lp_proposal, lp_sample, r, out_of_bounds);
 		if (lp_proposal - lp_sample > log(r) && !out_of_bounds) {
 			// Accept.
 			lp_sample = lp_proposal;
@@ -350,13 +345,10 @@ void simulate_adaptive_mh(double *f, int* n, int params, double* cov0,
 
 		// Accept with probability r and if r > 1, then accept.
 		double r = uniform_in_range(0, 1);
-		//printf("%lf %lf\n", lp_proposal, lp_sample);
 		if (lp_proposal - lp_sample > log(r) && !out_of_bounds) {
 			// Accept.
 			lp_sample = lp_proposal;
 			accepted += 1;
-			//for (int i = 0; i < params; i++)
-				//printf("%d Old %G, new %G, prob: %G %G\n", i, theta[i], new_theta[i], lp_proposal, lp_sample);
 			memcpy(theta, new_theta, sizeof(new_theta));
 		}
 
@@ -470,40 +462,6 @@ void simple_metropolis(FILE *sample_fp, double *f, int* n, int params,
 		out_of_bounds_rejections_count);
 
 }
-/*
-// Generate fluorescence data F from a fixed theta = [X0 p sigma].
-void generate_data(double alpha, double *F, int n) {
-	FILE *fp;
-	fp = fopen("qpcr_generated_data.dat", "w");
-	int64_t x = TRUE_X0;
-	double p = TRUE_P;
-	double sigma = TRUE_SIGMA;
-	for (int i = 1; i <= n; i++) {
-		x = x + binomial_sample(p, x);
-		// First amplify, then measure fluorescence (since no F0 for x0).
-		F[i] = alpha*x + sqrt(sigma)*rand_N();
-		fprintf(fp, "%lf\n", F[i]);
-	}
-	fclose(fp);
-}*/
-
-void read_alpha_samples(double *alphas, int* alpha_count) {
-	FILE *fp;
-	fp = fopen("sigmoid/alpha_samples_10_03_17.dat", "r");
-	*alpha_count = 0;
-	// F[0] will be 0 (index at 1, since no read for X0).
-	double d;
-	while (fscanf(fp, "%lf", &d) != EOF) {
-		alphas[*alpha_count] = d;
-		(*alpha_count)++;
-		printf("%G\n", alphas[(*alpha_count)-1]);
-	}
-
-	if (*alpha_count == 0) {
-		printf("Error! No alpha found, so no simulations will be run.");
-	}
-	fclose(fp);
-}
 
 int main(int argc, char* argv[]) {
 	int my_seed;
@@ -562,7 +520,7 @@ int main(int argc, char* argv[]) {
 
 	//********************************************************
 	FILE *sample_fp;
-	sample_fp = fopen("qpcr_joint_posterior_samples.dat", "w");
+	sample_fp = fopen("inference_data/qpcr_joint_posterior_samples.dat", "w");
 	
 	// Uncomment if simulating experiment in silico.
 	// generate_data(alpha, F, n);

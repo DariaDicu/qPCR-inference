@@ -424,7 +424,7 @@ void simple_metropolis(FILE *sample_fp, double *f, int n, int params,
 		// TODO: buffer before writing to file. (maybe fprintf does it?)
 		// THIN should be power of two to make it a bitwise operation rather
 		// than taking % at every step. Condition: i&THIN && 
-		if (i > BURNIN && i%THIN == 0)
+		if (i > BURNIN)// && i%THIN == 0)
 		{
 			for (int j = 0; j < params; j++) {
 				fprintf(sample_fp, "%lf ", theta[j]);
@@ -447,7 +447,7 @@ void simple_metropolis(FILE *sample_fp, double *f, int n, int params,
 // Code to generate fluorescence reads.
 void generate_data(double alpha, double *F, int n) {
 	FILE *fp;
-	fp = fopen("qpcr_generated_data.dat", "w");
+	fp = fopen("inference_data/qpcr_generated_data.dat", "w");
 	int64_t x = TRUE_X0;
 	double p = TRUE_P;
 	double sigma = TRUE_SIGMA;
@@ -499,7 +499,6 @@ int main(int argc, char* argv[]) {
 	sample_fp = fopen("inference_data/qpcr_posterior_samples_alphas.dat", "w");
 
 	// Empirical covariance to be derived using Adaptive MH or a simple MH run.
-	double alpha = alphas[run];
 	double empirical_cov[9];
 	double empirical_chol[9];
 	double theta_map[3];
@@ -519,7 +518,7 @@ int main(int argc, char* argv[]) {
 	
 	// Run MH with bootstrap particle filter step using covariance estimate
 	// from adaptive MH.
-	simple_metropolis(sample_fp, F, n, 3, empirical_chol, theta_map, 1000000,
+	simple_metropolis(sample_fp, F, n, 3, empirical_chol, theta_map, 100000,
 		ALPHA);
 
 	// Print time.

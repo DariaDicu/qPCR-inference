@@ -97,12 +97,8 @@ double log_posterior(const double *F, int* n, double alpha, const double *theta,
 	int params) {
 	int exp_count = params - 2;
 	int64_t x0[exp_count];
-	//for (int i = 0; i < exp_count; i++) printf("%lf ", theta[i]);
-	//printf("\n");
 	for (int i = 0; i < exp_count; i++) {
-		//printf("%lf ", theta[i]);
 		x0[i] = (int64_t)theta[i];
-		//printf("%"PRId64"|", x0[i]);
 		if (x0[i] < MIN_X0 || x0[i] > MAX_X0) {
 			// Automatically reject if x0 out of bounds.
 			return NEG_INF;
@@ -296,7 +292,6 @@ void simulate_for_MAP(double *F, int* n, int params, double *cov,
 		// Accept with probability r and if r > 1, then accept.
 		double r = uniform_in_range(0,1);
 
-		//printf("%lf %lf %lf %d\n", lp_proposal, lp_sample, r, out_of_bounds);
 		if (lp_proposal - lp_sample > log(r) && !out_of_bounds) {
 			// Accept.
 			lp_sample = lp_proposal;
@@ -348,13 +343,10 @@ void simulate_adaptive_mh(double *f, int* n, int params, double* cov0,
 
 		// Accept with probability r and if r > 1, then accept.
 		double r = uniform_in_range(0, 1);
-		//printf("%lf %lf\n", lp_proposal, lp_sample);
 		if (lp_proposal - lp_sample > log(r) && !out_of_bounds) {
 			// Accept.
 			lp_sample = lp_proposal;
 			accepted += 1;
-			//for (int i = 0; i < params; i++)
-				//printf("%d Old %G, new %G, prob: %G %G\n", i, theta[i], new_theta[i], lp_proposal, lp_sample);
 			memcpy(theta, new_theta, sizeof(new_theta));
 		}
 
@@ -535,7 +527,7 @@ int main(int argc, char* argv[]) {
 	*/
 
 	FILE *fp;
-	fp = fopen("joint_fluorescence_reads.dat", "r");
+	fp = fopen("inference_data/joint_fluorescence_reads.dat", "r");
 	// F[0] will be 0 (index at 1, since no read for X0).
 	
 	fscanf(fp, "%d", &E);
@@ -554,7 +546,8 @@ int main(int argc, char* argv[]) {
 	fclose(fp);
 
 	FILE *sample_fp;
-	sample_fp = fopen("qpcr_joint_posterior_samples_alphas.dat", "w");
+	sample_fp = fopen("inference_data/qpcr_joint_posterior_samples_alphas.dat",
+		"w");
 
 	double alphas[100];
 	int alpha_count;
