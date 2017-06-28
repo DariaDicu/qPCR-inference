@@ -120,16 +120,6 @@ double log_posterior(const double *F, int* n, double alpha, const double *theta,
 	// Add on Jeffreys prior for sigma.
 	ll -= log(sigma);
 
-	// Add on prior for x0: log(x0) is uniformly distributed.
-	// P(X0 = l) = c/l with c = 1/(Sum_l' (1/l')) -- Lalam paper.
-	
-
-	// Add log prior for X0. TODO: Do we need to compute c actually?
-	// double c = 0;
-	//for (int i = MIN_X0; i <= MAX_X0; i++) c += (1/i);
-	//ll -= log(x0);
-
-	// NO PRIOR FOR X0 (i.e. uniform).
 
 	for (int e = 0; e < exp_count; e++) {
 		// Initialize particles at t = 0.
@@ -176,13 +166,6 @@ double log_posterior(const double *F, int* n, double alpha, const double *theta,
 					(exp(w[k] - log(sum_exp_weights))) : 
 					0;
 			}
-			/*
-			if (i == n) {
-				for (int k = 0; k < M; k++) {
-					printf("%"PRIu64" ", x_samples[k]);
-				}
-				printf("\n\n\n\n");
-			}*/
 			// Normally log(2*M_PI*sigma)/2 is part of all w[k], but we
 			// subtract it only when computing the likelihood to avoid
 			// dealing with very small numbers (since it is constant for
@@ -261,8 +244,6 @@ void simulate_for_MAP(double *F, int* n, int params, double *cov,
 	theta[1] = 78;
 	theta[2] = 61;
 	theta[params-2] = TRUE_P; theta[params-1] = TRUE_SIGMA;
-	// TODO: Generalize range for sampling.
-	// for (int i = 0; i < params; i++) theta[i] = uniform_in_range(0, 20); 
 
 	double lp_sample = log_posterior(F, n, alpha, theta, params);
 
@@ -438,11 +419,6 @@ void simple_metropolis(FILE *sample_fp, double *f, int* n, int params,
 			memcpy(theta_map, new_theta, sizeof(new_theta));
 		}
 		
-		// Print to file for plots.
-		// Assuming BURNIN accounts for thinning parameter.
-		// TODO: buffer before writing to file. (maybe fprintf does it?)
-		// THIN should be power of two to make it a bitwise operation rather
-		// than taking % at every step. Condition: i&THIN && 
 		if (i > BURNIN)// && i%THIN == 0)
 		{
 			for (int j = 0; j < params; j++) {

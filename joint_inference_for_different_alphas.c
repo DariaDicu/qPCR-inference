@@ -9,7 +9,6 @@
 #include <gsl/gsl_randist.h>
 #include <inttypes.h>
 
-//#define THIN 100
 #define ADAPTIVE_THRESHOLD 100
 #define NEG_INF -DBL_MAX
 #define ADAPTIVE_SCALE 1.92
@@ -27,7 +26,7 @@
 #define TRUE_SIGMA 2.0
 
 // To be used in log-sum-exp calculations.
-#define LOG_EPS -36 // ln(2^-53)
+#define LOG_EPS -36 // ln(2^-53) // Wanted precision for log-sum-exp trick.
 #define LOG_M 5.29831736655 // ln(200)
 
 // Random number generator from GSL library used to sample from binomial.
@@ -126,8 +125,6 @@ double log_posterior(const double *F, int* n, double alpha, const double *theta,
 	//for (int i = MIN_X0; i <= MAX_X0; i++) c += (1/i);
 	//ll -= log(x0);
 
-	// NO PRIOR FOR X0 (i.e. uniform).
-
 	for (int e = 0; e < exp_count; e++) {
 		// Initialize particles at t = 0.
 		for (int k = 0; k < M; k++) {
@@ -173,13 +170,6 @@ double log_posterior(const double *F, int* n, double alpha, const double *theta,
 					(exp(w[k] - log(sum_exp_weights))) : 
 					0;
 			}
-			/*
-			if (i == n) {
-				for (int k = 0; k < M; k++) {
-					printf("%"PRIu64" ", x_samples[k]);
-				}
-				printf("\n\n\n\n");
-			}*/
 			// Normally log(2*M_PI*sigma)/2 is part of all w[k], but we
 			// subtract it only when computing the likelihood to avoid
 			// dealing with very small numbers (since it is constant for
@@ -245,7 +235,6 @@ void multivariate_with_cholesky(int params, const double *chol, double *noise) {
 		noise[i] = 0;
 		for (int j = 0; j < params; j++) {
 			noise[i] += chol[params*i + j] * z[j];
-			//if (noise[i] != noise[i]) printf("noise is NaN!!\n");
 		}
 	}
 }
@@ -257,9 +246,7 @@ void simulate_for_MAP(double *F, int* n, int params, double *cov,
 	theta[0] = 61;
 	theta[1] = 79;
 	theta[2] = 58;
-	theta[3] = 71;
-	theta[params-2] = TRUE_P; theta[params-1] = TRUE_SIGMA;
-	// TODO: Generalize range for sampling.
+	theta[3] = TRUE_P; theta[4] = TRUE_SIGMA;
 	// for (int i = 0; i < params; i++) theta[i] = uniform_in_range(0, 20); 
 
 	double lp_sample = log_posterior(F, n, alpha, theta, params);
@@ -552,9 +539,6 @@ int main(int argc, char* argv[]) {
 	double alphas[100];
 	int alpha_count;
 
-	// Use mean alpha.
-	//alpha_count = 1;
-	//alphas[0] = ALPHA;
 	read_alpha_samples(alphas, &alpha_count);
 
 	

@@ -40,7 +40,7 @@
 #define TRUE_SIGMA 2.0
 
 // To be used in log-sum-exp calculations.
-#define LOG_EPS -36 // ln(2^-53)
+#define LOG_EPS -36 // ln(2^-53) // Wanted precision for log-sum-exp trick.
 #define LOG_M 5.29831736655 // ln(200)
 
 // Random number generator from GSL library used to sample from binomial.
@@ -141,14 +141,21 @@ double log_posterior(const double *F, int n, double alpha, const double *theta) 
 		// Resample according to w.
 		int sample_indices[M];
 		int64_t x_samples[M];
+		
+		// The array sample_indices will contain the indices in x_samples that
+		// have been resampled by the discrete sampling procedure (not the
+		// values).
 		sample_discrete(w, sample_indices);
-		// Replace sample index sample[i] with x[sample[i]] (in place).
+
+		// Use the indices from sample_indices to compute the new values.
 		for (int k = 0; k < M; k++) x_samples[k] = x[sample_indices[k]];
 
 		// First compute the maximum from all the negative numbers to apply
 		// exp-normalize: norm(i) = exp(pi - max_p) / sum_j(exp(pj - max_p)).
+		// This is a trick to avoid unrepresentable point numbers.
 		double max_p, prob;
 		for (int k = 0; k < M; k++) {
+			// Propagate each particle forward using the resampled value.
 			x[k] = x_samples[k] + binomial_sample(p, x_samples[k]);
 			prob = -(F[i] - alpha*x[k])*(F[i] - alpha*x[k])/(2*sigma);
 			if (k == 0) max_p = prob;
@@ -162,6 +169,9 @@ double log_posterior(const double *F, int n, double alpha, const double *theta) 
 			// Assign w[k] to be log(p(y_t | x_t)). Subtract max_p to avoid
 			// underflow.
 			w[k] = prob - max_p;
+			// If the weight will be unrepresentable (w[k] < LOG_EPS - LOG_M),
+			// do not add it (to get relative precision LOG_EPS):
+			// https://stats.stackexchange.com/questions/66616/converting-normalizing-very-small-likelihood-values-to-probability
 			sum_exp_weights += (w[k] >= (LOG_EPS - LOG_M)) ?
 				exp(w[k]) : 0;
 		}
@@ -169,6 +179,9 @@ double log_posterior(const double *F, int n, double alpha, const double *theta) 
 		// Normalize the weights so they add up to 1. Move from log space
 		// to linear.
 		for (int k = 0; k < M; k++) {
+			// If the weight will be unrepresentable (w[k] < LOG_EPS - LOG_M),
+			// do not add it (to get relative precision LOG_EPS):
+			// https://stats.stackexchange.com/questions/66616/converting-normalizing-very-small-likelihood-values-to-probability
 			w[k] = (w[k] >= (LOG_EPS - LOG_M)) ? 
 				(exp(w[k] - log(sum_exp_weights))) : 
 				0;
@@ -237,7 +250,6 @@ void multivariate_with_cholesky(int params, const double *chol, double *noise) {
 		noise[i] = 0;
 		for (int j = 0; j < params; j++) {
 			noise[i] += chol[params*i + j] * z[j];
-			//if (noise[i] != noise[i]) printf("noise is NaN!!\n");
 		}
 	}
 }
@@ -245,10 +257,7 @@ void multivariate_with_cholesky(int params, const double *chol, double *noise) {
 void simulate_for_MAP(double *F, int n, int params, double *cov,
 	double *theta_map, int iters, double alpha) {
 	double theta[params];
-	// Initialize with something close to true theta for now.
 	theta[0] = TRUE_X0; theta[1] = TRUE_P; theta[2] = TRUE_SIGMA;
-	// TODO: Generalize range for sampling.
-	// for (int i = 0; i < params; i++) theta[i] = uniform_in_range(0, 20); 
 
 	double lp_sample = log_posterior(F, n, alpha, theta);
 
@@ -420,10 +429,6 @@ void simple_metropolis(FILE *sample_fp, double *f, int n, int params,
 		}
 		
 		// Print to file for plots.
-		// Assuming BURNIN accounts for thinning parameter.
-		// TODO: buffer before writing to file. (maybe fprintf does it?)
-		// THIN should be power of two to make it a bitwise operation rather
-		// than taking % at every step. Condition: i&THIN && 
 		if (i > BURNIN)// && i%THIN == 0)
 		{
 			for (int j = 0; j < params; j++) {

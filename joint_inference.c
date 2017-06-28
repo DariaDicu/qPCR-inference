@@ -25,9 +25,12 @@
 
 #define TRUE_P 0.75
 #define TRUE_SIGMA 2.0
+#define TRUE_X01 61
+#define TRUE_X02 79
+#define TRUE_X03 58
 
 // To be used in log-sum-exp calculations.
-#define LOG_EPS -36 // ln(2^-53)
+#define LOG_EPS -36 // ln(2^-53) // Wanted precision for log-sum-exp trick.
 #define LOG_M 5.29831736655 // ln(200)
 
 // Random number generator from GSL library used to sample from binomial.
@@ -93,6 +96,7 @@ void sample_discrete(const double* p, int* samples) {
 }
 
 // Assumes 3 params in theta: x0, p, sigma.
+// For more detailed comments, look at inference.c
 double log_posterior(const double *F, int* n, double alpha, const double *theta,
 	int params) {
 	int exp_count = params - 2;
@@ -116,17 +120,6 @@ double log_posterior(const double *F, int* n, double alpha, const double *theta,
 
 	// Add on Jeffreys prior for sigma.
 	ll -= log(sigma);
-
-	// Add on prior for x0: log(x0) is uniformly distributed.
-	// P(X0 = l) = c/l with c = 1/(Sum_l' (1/l')) -- Lalam paper.
-	
-
-	// Add log prior for X0. TODO: Do we need to compute c actually?
-	// double c = 0;
-	//for (int i = MIN_X0; i <= MAX_X0; i++) c += (1/i);
-	//ll -= log(x0);
-
-	// NO PRIOR FOR X0 (i.e. uniform).
 
 	for (int e = 0; e < exp_count; e++) {
 		// Initialize particles at t = 0.
@@ -173,13 +166,6 @@ double log_posterior(const double *F, int* n, double alpha, const double *theta,
 					(exp(w[k] - log(sum_exp_weights))) : 
 					0;
 			}
-			/*
-			if (i == n) {
-				for (int k = 0; k < M; k++) {
-					printf("%"PRIu64" ", x_samples[k]);
-				}
-				printf("\n\n\n\n");
-			}*/
 			// Normally log(2*M_PI*sigma)/2 is part of all w[k], but we
 			// subtract it only when computing the likelihood to avoid
 			// dealing with very small numbers (since it is constant for
@@ -245,7 +231,6 @@ void multivariate_with_cholesky(int params, const double *chol, double *noise) {
 		noise[i] = 0;
 		for (int j = 0; j < params; j++) {
 			noise[i] += chol[params*i + j] * z[j];
-			//if (noise[i] != noise[i]) printf("noise is NaN!!\n");
 		}
 	}
 }
@@ -254,13 +239,11 @@ void simulate_for_MAP(double *F, int* n, int params, double *cov,
 	double *theta_map, int iters, double alpha) {
 	double theta[params];
 	// Initialize with something close to true theta for now.
-	theta[0] = 61;
-	theta[1] = 79;
-	theta[2] = 58;
-	theta[3] = 71;
-	theta[params-2] = TRUE_P; theta[params-1] = TRUE_SIGMA;
-	// TODO: Generalize range for sampling.
-	// for (int i = 0; i < params; i++) theta[i] = uniform_in_range(0, 20); 
+	theta[0] = TRUE_X01;
+	theta[1] = TRUE_X02;
+	theta[2] = TRUE_X03;
+	theta[3] = TRUE_P;
+	theta[4] = TRUE_SIGMA;
 
 	double lp_sample = log_posterior(F, n, alpha, theta, params);
 
@@ -349,8 +332,6 @@ void simulate_adaptive_mh(double *f, int* n, int params, double* cov0,
 			// Accept.
 			lp_sample = lp_proposal;
 			accepted += 1;
-			//for (int i = 0; i < params; i++)
-				//printf("%d Old %G, new %G, prob: %G %G\n", i, theta[i], new_theta[i], lp_proposal, lp_sample);
 			memcpy(theta, new_theta, sizeof(new_theta));
 		}
 
@@ -441,10 +422,6 @@ void simple_metropolis(FILE *sample_fp, double *f, int* n, int params,
 		}
 		
 		// Print to file for plots.
-		// Assuming BURNIN accounts for thinning parameter.
-		// TODO: buffer before writing to file. (maybe fprintf does it?)
-		// THIN should be power of two to make it a bitwise operation rather
-		// than taking % at every step. Condition: i&THIN && 
 		if (i > BURNIN)// && i%THIN == 0)
 		{
 			for (int j = 0; j < params; j++) {
