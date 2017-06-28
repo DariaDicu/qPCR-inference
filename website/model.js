@@ -6,7 +6,7 @@ function compute_fill_between_bci(y1, y2) {
 	return data
 }
 // Stochasticity data.
-$.getJSON('http://localhost:8000/stochasticity_alpha_estimate.json', function (data) {
+$.getJSON('stochasticity_alpha_estimate.json', function (data) {
 	var myChart1 = Highcharts.chart('stochasticity_alpha_estimate_1', {
 	    title: {
 	        text: 'Stochasticity in amplification when X<sub>0</sub> = 50',
@@ -395,7 +395,7 @@ Highcharts.theme = {
 
 
 // Alpha dependencies.
-$.getJSON('http://localhost:8000/alpha_boxplots_same_primer.json', function (data) {
+$.getJSON('alpha_boxplots_same_primer.json', function (data) {
 
 	var myChart_sigmoid_fitting = Highcharts.chart('sigmoid_fitting', {
 	    title: {
@@ -493,7 +493,7 @@ $.getJSON('http://localhost:8000/alpha_boxplots_same_primer.json', function (dat
 });
 
 // Alpha dependencies.
-$.getJSON('http://localhost:8000/alpha_boxplots.json', function (data) {
+$.getJSON('alpha_boxplots.json', function (data) {
 	formatted_data = prepare_boxplot_data(data)
 	var myChart = Highcharts.chart('boxplot', {
     chart: {

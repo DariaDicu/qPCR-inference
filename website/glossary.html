@@ -7,6 +7,7 @@
 <html>
 	<head>
 		<title>Absolute quantification of mtDNA</title>
+		<link rel="shortcut icon" href="diagrams/title-icon.ico">
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -45,22 +46,109 @@
 							<header class="major">
 								<h2>Glossary</h2>
 							</header>
-						</div>
-						<div class="glossary_entry 12u$ 12u$(medium)">
-							<h2>Standard</h2>
-							<p>sadjhad</p>
-						</div>
-						<div class="glossary_entry 12u$ 12u$(medium)">
+							<h3>Analyte</h3>
+							<p>Sample being analysed. <a href="https://en.wikipedia.org/wiki/Analyte">[Wikipedia]</a></p>
+
+							<h3>Bernoulli trial</h3>
+							<p>A random experiment with two possible outcomes (success, fail), parameterised by a probability p of success. In the case of qPCR, success is a molecule being amplified during a given cycle, and the probability of success is the efficiency r. <a href="https://en.wikipedia.org/wiki/Bernoulli_trial">[Wikipedia]</a></p>
+
+							<h3>Binomial distribution</h3>
+							<p>The binomial distribution Binom(N, p) is the distribution of the number of successes from N Bernoulli trials with probability p. In the case of qPCR, Binom(X<sub>i</sub>, r) represents the number of molecules amplified after cycle i when the efficiency is r. <a href="https://en.wikipedia.org/wiki/Binomial_distribution">[Wikipedia]</a></p>
+
+							<h3>Binomial branching process</h3>
+							<p>A stochastic process used to model population as a set of discrete random variables X<sub>i</sub> over time units i, where the transition between consecutive states is dictated by a binomial distribution. <a href="https://en.wikipedia.org/wiki/Branching_process">[Wikipedia]</a></p>
+
+							<h3>Dilution series</h3>
+							<p>A set of standards obtained by sequentially diluting the solution by a fixed factor (e.g. 10). For example, a dilution series may have initial copy numbers [100,000; 10,000; 1,000; 100]. Only the initial copy number of the first solution needs to be determined experimentally, the value of others will follow from the dilution factor (smaller by 10 each time).</p>
+
+
+							<h3>Empirical covariance</h3>
+							<p>The empirical covariance is a statistic computed from a set of (possibly multi-dimensional) samples. The empirical covariance of accepted samples is used in the Adaptive Metropolis Hastings algorithm to take into account the history of samples when proposing a new sample. <a href="
+							https://en.wikipedia.org/wiki/Sample_mean_and_covariance">[Wikipedia]</a></p>
+
+
+							<h3>Heteroplasmy</h3>
+							<p>Heteroplasmy represents the presence of more than one type of mtDNA within a cell. <a href="https://en.wikipedia.org/wiki/Heteroplasmy">[Wikipedia]</a></p>
+
+							<h3>Jeffreys prior</h3>
+							<p>A Jeffreys prior is a non-informative prior distribution proportional to the square root of the determinant of the Fisher information matrix. The two choices for priors on efficiency r and noise variance σ<sup>2</sup> used in this project are examples of Jeffreys priors (see <a href=”inference.html#priors”>Priors</a>). <a href="https://en.wikipedia.org/wiki/Jeffreys_prior">[Wikipedia]</a></p>
+
+
+							<h3>Mutant mtDNA</h3>
+							<p>A DNA segment showing a modification (mutation) in several base pairs. These mutations may cause functional defects.</p>
+
+							<h3>Non-linear regression</h3>
+							<p>A form of regression analysis where the function used to model the data is non-linear (in this case, a sigmoidal curve). The regression attempts to minimise the sum of squared residuals between points on the model and data samples, by performing successive approximations. <a href="https://docs.scipy.org/doc/scipy-0.19.0/reference/generated/scipy.optimize.curve_fit.html">[Python documentation]</a></p>
+
+
+							<h3>Posterior distribution</h3>
+							<p>Probability distribution of a variable given observation data. The posterior distribution is the quantity of interest in inference on experimental data, as it provides estimates with error bars that capture our belief in experimental interpretation.</p>
+
+
+							<h3>Primers</h3>
+							<p>A single-stranded complementary DNA sequence that takes advantage of DNA complementarity to bind to a specific segment in the solution. For heteroplasmy measurements, primers are used to distinguish between mutant and wildtype mtDNA molecules by taking advantage of sequence particularities. <a href=”inference.html#priors”>Priors</a>). <a href="https://en.wikipedia.org/wiki/Primer_(molecular_biology)">[Wikipedia]</a></p>
+
+							<h3>Prior distribution</h3>
+							<p>Probability distribution of a model parameter that incorporates prior knowledge about the parameter. For example a prior on the efficiency of a qPCR reaction may incorporate experimental knowledge that efficiency has a lower bound of 0.6.</p>
+
+							<h3>Proposal distribution</h3>
+							<p>A probability distribution used to propose a new sample during inference. For the inference used in this project, the proposal distribution is a multivariate Gaussian distribution N(θ, Σ) centered at the current sample θ and having a covariance Σ. The choice of proposal distribution has a large impact on the mixing of the Markov Chain (see more in <a href="results.html#mixing">Analysing the Markov chain</a>).</p>
+
+
 							<h3>Standard</h3>
-							<p>sadjhad</p>
+							<p>Quantitative analysis term used to described a sample with known properties, used for calibration. In the case of qPCR, a standard is a sample with known initial copy number X<sub>0</sub>. It is used in this project to obtain the fluorescence coefficient α that relates fluorescence intensity to molecule number.</p>
+
+
+							<h3>Target molecule</h3>
+							<p>Molecule of interest. In the case of heteroplasmy measurements, it may be either a mutant mtDNA (when measuring mutant load) or any mtDNA molecule (when measuring total load).</p>
+
+							<h3>Unbiased estimate</h3>
+							<p>An unbiased estimate of a parameter has the mean of the sampling distribution of the estimate equal to the true value of the parameter.</p>
+
+							<h3>Wildtype mtDNA</h3>
+							<p>Non-mutant, common, normally-functioning DNA molecule.</p>
+
 						</div>
+						
 					</div>
 				</div>
 			</section>
+			<section id="two" class="main style2">
+				<div class="container">
+					<div class="row 150%">
+						<div class="12u 12u$(medium)">
+							<header class="major">
+								<h2>Abbreviations and notations</h2>
+							</header>
+							<h3>HMM</h3>
+							<p>Hidden Markov Model</p>
 
+							<h3>PMMH</h3>
+							<p>Pseudo-marginal Metropolis Hastings</p>
+
+							<h3>mtDNA</h3>
+							<p>Mitochondrial DNA</p>
+
+							<h3>qPCR</h3>
+							<p>Quantitative Polymerase Chain Reaction</p>
+
+							<h3>Binom(N , p)</h3>
+							<p>Binomial distribution with N trials and success rate p</p>
+
+
+							<h3>N(μ, σ<sup>2</sup>)</h3>
+							<p>Normal distribution with mean μ and variance σ<sup>2</sup></p>
+
+						</div>
+						
+					</div>
+				</div>
+			</section>
 		<!-- Footer -->
 			<section id="footer">
 				<ul class="copyright">
+					<li>© 2017 Daria Dicu</li>
+					<li>Imperial College London</li>
 					<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 				</ul>
 			</section>
@@ -76,6 +164,5 @@
 			<script src="https://code.highcharts.com/highcharts.js"></script>
 			<script src="https://code.highcharts.com/modules/exporting.js"></script>
 			<script type="text/javascript" src="https://www.draw.io/js/viewer.min.js"></script>
-
 	</body>
 </html>

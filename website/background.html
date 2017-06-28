@@ -7,6 +7,7 @@
 <html>
 	<head>
 		<title>Absolute quantification of mtDNA</title>
+		<link rel="shortcut icon" href="diagrams/title-icon.ico">
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -40,7 +41,7 @@
 			</nav>
 
 		<!-- One -->
-			<section id="one" class="main style1">
+			<section id="qpcr" class="main style1">
 				<div class="container">
 					<div class="row 150%">
 						<div class="12u$ 12u$(medium)">
@@ -51,7 +52,7 @@
 						</div>
 						<div class="6u 12u$(medium)">
 							<h3>Basics of qPCR</h3>
-							<p>Quantitative polymerase chain reaction (qPCR) is a technique used to amplify a set of DNA segment copies. It is useful for measuring the initial molecule copy number when it is too small to be determined experimentally without amplification.</p>
+							<p>Quantitative polymerase chain reaction (qPCR, <a href="references.html#heid">Heid et al., 1996</a>) is a technique used to amplify a set of DNA segment copies. It is useful for measuring the initial molecule copy number when it is too small to be determined experimentally without amplification.</p>
 							<p>
 							The molecules undergo a series of thermal cycles (Fig. 6). During every cycle, the following steps occur:
 							<ol>
@@ -62,15 +63,16 @@
 							</ol>
 						</div>
 						<div class="6u$ 12u$(medium)">
-							<img src="diagrams/pcr_amplification.png" style="width:100%" alt="mtDNA diagram">
+							<center><img src="diagrams/qpcr_amplification.svg" style="width:80%" alt="mtDNA diagram"></center>
 							<figcaption><center><b>Figure 6.</b> The qPCR experiment amplifies a set of DNA fragments using primers designed to identify and bind to these fragments. The molecules are amplified over a set of thermal cycles and a fluorescence intensity is reported after each cycle.</center></figcaption>
 						</div>
 						<div class="12u$ 12u$(medium)">
 							<p>
-							A primer is a short segment of single-stranded complimentary DNA designed to bind to a specific DNA sequence. Different primers are used to amplify mutant mtDNA molecules and any mtDNA molecule. Similarly to a primer, a probe is a short segment of single-stranded DNA design to bind to a specific DNA location. When polymerisation ends, it releases a reporter that causes an increase in fluorescence.
-
-							The efficiency of a qPCR experiment is dependent on both the primers and DNA template, and is an important aspect when interpreting qPCR amplification data, as we discuss below.
-
+							A primer is a short segment of single-stranded complimentary DNA designed to bind to a specific DNA sequence. Different primers are used to amplify mutant mtDNA molecules and any mtDNA molecule. Similarly to a primer, a probe is a short segment of single-stranded DNA design to bind to a specific DNA sequence. When polymerisation ends, it releases a reporter that causes an increase in fluorescence.
+							</p>
+							<p>
+							The efficiency of a qPCR experiment dictates how many molecules are amplified during each cycle. Is dependent on both the primers and the DNA template, and is an important aspect when interpreting qPCR amplification data, as we discuss below.
+							</p>
 							<h3>The amplification curve</h3>
 
 							<p>Fluorescence intensities recorded after each qPCR cycle form a sigmoidal amplification curve. The inference method uses a mathematical model with a set of parameters to represent the amplification curve. It infers the parameters that best fit the model to the amplification data.
@@ -81,14 +83,14 @@
 							
 
 							<div id="qpcr_plot" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-							<figcaption><center><b>Figure 7.</b>The amplification curve consists of three phases: exponential (peak, constant efficiency), linear (decrease in efficiency) and plateau (efficiency 0, reaction stops). Information from the exponential phase is used for the inference. </center></figcaption>
+							<figcaption><center><b>Figure 7.</b>The amplification curve consists of three phases: exponential (peak, constant efficiency), linear (decrease in efficiency) and plateau (efficiency 0, reaction stops). Only the information from the exponential phase, when efficiency is constant, is used for the inference. </center></figcaption>
 						</div>
 					</div>
 				</div>
 			</section>
 
 		<!-- Two -->
-		<section id="one" class="main style2">
+		<section id="protocol" class="main style2" style="margin-top:-70px; padding-top:70px">
 				<div class="container">
 					<div class="row 150%">
 						<div class="12u$ 12u$(medium)">
@@ -102,13 +104,13 @@
 						</div>
 
 						<div class="6u 12u$(medium)">
-							<p>The experimental protocol aims to equally divide the contents of a single cell into two separate solutions, each containing a half of the mutant load (m/2) and a half of the total load (N/2). One solution is used to infer the initial amount of mutant (m), while the other is used to infer the initial amount of total mtDNA (N). The assumption is that after the solution is well mixed and after it is split, both solutions contain half of the mutant and half of the total number of mtDNA molecules.</p>
+							<p>The experimental protocol aims to equally divide the contents of a single cell into two separate samples, each containing a half of the mutant load (m/2) and a half of the total load (N/2). One sample is used to infer the initial amount of mutant (m), while the other is used to infer the initial amount of total mtDNA (N). The assumption is that the initial solution is well mixed and after it is split, both samples contain half of the mutant and half of the total number of mtDNA molecules.</p>
 							<p>For each of the two solutions, a qPCR primer is used to identify and amplify either a DNA segment specific to mutant mtDNA, or a segment present in any mtDNA molecule.</p>
 							<p>A qPCR machine consists of a plate with 384 wells, allowing a maximum of 384 samples to be analysed in parallel. When the contents of a single cell are split into two halves, the resulting samples are placed on two wells of the same qPCR plate. The fluorescence intensity reads from the qPCR experiment consist of two amplification curves. We use this data to estimate and model the measurement error in the initial number of molecules m/2 and N/2 (Fig. 8).</p>
 						</div>
 						<br/>
 						<div class="6u$ 12u$(medium) important(medium)">
-							<center><img src="diagrams/qpcr_plate.svg" style="width:80%" alt="Protocol diagram"></center>
+							<center><img src="diagrams/qpcr_plate.svg" style="width:70%" alt="Protocol diagram"></center>
 							<figcaption><center><b>Figure 8.</b> Heteroplasmy is quantified by mixing cell contents, splitting in two halves and placing them onto separate qPCR wells. A qPCR experiment is used to amplify a sequence specific to the mutation in one well, while the other is used to amplify the a sequence specific to any mtDNA molecule.</center></figcaption>
 						</div>
 					</div>
@@ -124,12 +126,12 @@
 							</header>
 						</div>
 						<div class="6u 12u$(medium)">
-							<p>The standard curve method is a technique for building a calibration curve from samples with known properties. In the case of qPCR, the standard curve method is called comparative C<sub>T</sub> (<a href="references.html#schmittgenlivak">Schmittgen and Livak, 2008</a>). It uses a set of samples (standards) where the initial number of molecules <i>X<sub>0</sub></i> is known. For each standard, the cycle <i>i</i> where the fluorescence <i>F<sub>i</sub></i> exceeds a fixed threshold <i>T</i> is recorded. A calibration curve is constructed from the (<i>X<sub>0</sub><sup>j</sup></i>, <i>C<sub>T</sub><sup>j</sup></i>) for each standard <i>j</i>.
+							<p>The standard curve method is a technique for building a calibration curve from samples with known properties. In the case of qPCR, the standard curve method is called comparative C<sub>T</sub> (<a href="references.html#schmittgenlivak">Schmittgen and Livak, 2008</a>). It uses a set of samples (standards) where the initial number of molecules X<sub>0</sub> is known. For each standard, the cycle i where the fluorescence F<sub>i</sub> exceeds a fixed threshold T is recorded. A calibration curve is constructed from the (X<sub>0</sub><sup>j</sup>, C<sub>T</sub><sup>j</sup>) for each standard j.
 							</p>
 							
-							<p>The adjoining figure shows an example calibration curve constructed from real experimental data. The standard is a dilution series where the initial copy number <i>X<sub>0</sub></i> is progressively diluted in factors of 10, from 1,000,000 to 100. The calibration curve is linear when plotting the logarithm of the copy number, under the assumption that efficiency is constant.
+							<p>Figure 9 shows an example calibration curve constructed from real experimental data. The standard is a dilution series where the initial copy number X<sub>0</sub> is progressively diluted in factors of 10, from 1,000,000 to 100. The calibration curve is linear when plotting the logarithm of the copy number, under the assumption that efficiency is constant.
 							</p>
-							<p>The calibration curve is used to estimate the unknown initial number of molecules <i>X<sub>0</sub></i> for new samples by using the observed C<sub>T</sub> value (Fig. 9).</p>
+							<p>The calibration curve is used to estimate the unknown initial number of molecules X<sub>0</sub> for new samples by using the observed C<sub>T</sub> value (Fig. 9).</p>
 						</div>
 						<div class="6u$ 12u$(medium)">
 							<div id="standard_curve" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
@@ -138,7 +140,7 @@
 						<div class="6u 12u$(medium)">
 							<h3>Disadvantages</h3>
 							<p>One of the main disadvantages of the standard curve method is that it assumes the amplification efficiency between the standards used to construct the curve and the analysed samples is the same.</p>
-							<p>Another disadvantage is that the standard curve method does not model the qPCR amplification as a stochastic process. For small numbers of initial molecules (<i>X<sub>0</sub></i>~<i>100</i>) and efficiency smaller than 1, which is the case for single-cell mtDNA, the amplification process shows stochasticity which is not captured by the standard curve method (Fig. 10). For a stochastic process, a sample with the same <i>X<sub>0</sub></i> may yield different C<sub>T</sub> values under different runs. Therefore, both a stochastic model and more information than just a point on the amplification curve are needed for an accurate estimate of  <i>X<sub>0</sub></i>.</p>
+							<p>Another disadvantage is that the standard curve method does not model the qPCR amplification as a stochastic process. For small numbers of initial molecules (X<sub>0</sub>~100) and efficiency smaller than 1, which is the case for single-cell mtDNA, the amplification process shows stochasticity which is not captured by the standard curve method (Fig. 10). For a stochastic process, a sample with the same X<sub>0</sub> may yield different C<sub>T</sub> values under different runs. Therefore, both a stochastic model and more information than just a point on the amplification curve are needed for an accurate estimate of the copy number X<sub>0</sub>.</p>
 						</div>
 						<div class="6u$ 12u$(medium)">
 							<div id="stochasticity2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
@@ -155,16 +157,16 @@
 						<div class="12u$ 12u$(medium)">
 							<header class="major">
 								<h2>Single-experiment inference</h2>
-								<p>The standard curve method discussed above uses a single point on the amplification curve to estimate the inital target quantity <i>X<sub>0</sub></i>. It does not provide an error model and fails to account for the inherent stochasticity of the qPCR process. This projects extends the work of <a href="references.html#lalam">Lalam, 2007</a> and uses Bayesian inference on the data from the entire amplification curve to determine <i>X<sub>0</sub></i>. Most importantly, it provides error bars that capture our belief in the copy number estimate, which is essential for interpreting experimental results.
+								<p>The standard curve method discussed above uses a single point on the amplification curve to estimate the inital target quantity X<sub>0</sub>. It does not provide an error model and fails to account for the inherent stochasticity of the qPCR process. This projects extends the work of <a href="references.html#lalam">Lalam, 2007</a> and uses Bayesian inference on the data from the entire amplification curve to determine X<sub>0</sub>. Most importantly, it provides error bars that capture our belief in the copy number estimate, which is essential for interpreting experimental results.
 								</p>
 							</header>
-							<p>Single-experiment inference uses as data the fluorescence intensity reads from the amplification curve of a sample with unknown initial copy number <i>X<sub>0</sub></i>. By looking at the entire amplification curve rather than just the C<sub>T</sub> value, it can infer the efficiency of a sample without assuming it is the same of that of a standard. 
+							<p>Single-experiment inference uses as data the fluorescence intensity reads from the amplification curve of a sample with unknown initial copy number X<sub>0</sub>. By looking at the entire amplification curve rather than just the C<sub>T</sub> value, it can infer the efficiency of a sample without assuming it is the same as that of a standard. 
 							</p>
 						</div>
 						<div class="6u 12u$(medium)">
 							<h3>The model and inference method</h3>
-							<p>A stochastic model to capture the amplification process. This mathematical model is a Hidden Markov Model parameterised by the efficiency <i>r</i>, the initial number of molecules <i>X<sub>0</sub></i> and the noise variance in fluorescence reads <i>σ <sup>2</sup></i>. More details and a motivation for the choice of model can be found in <a href="model.html">the Model section</a>.</p>
-							<p>The parameters of model are infered using the pseudo-marginal Metropolis Hastings algorithm. The algorithm uses observation data (fluorescence intensity reads) to sample from the joint posterior distribution of the model parameters. Most importantly, one of the parameters of the model is the initial copy number <i>X<sub>0</sub></i>, the quantity of interest. Knowing the shape of the posterior distribution for <i>X<sub>0</sub></i> gives both an estimate of the initial copy number and an error bar on this estimation (see adjoining figure). More details about what a posterior distribution is and inference in general can be found in <a href="inference.html">the Inference section</a>.</p>
+							<p>A stochastic model to capture the amplification process. This mathematical model is a Hidden Markov Model parameterised by the efficiency r, the initial number of molecules X<sub>0</sub> and the noise variance in fluorescence reads σ<sup>2</sup>. More details and a motivation for the choice of model can be found in <a href="model.html">the Model section</a>.</p>
+							<p>The parameters of model are infered using the pseudo-marginal Metropolis Hastings algorithm. The algorithm uses observation data (fluorescence intensity reads) to sample from the joint posterior distribution of the model parameters. Most importantly, one of the parameters of the model is the initial copy number X<sub>0</sub>, the quantity of interest. Knowing the shape of the posterior distribution for X<sub>0</sub> gives both an estimate of the initial copy number and an error bar on this estimation (Fig. 11). More details about what a posterior distribution is and inference in general can be found in <a href="inference.html">the Inference section</a>.</p>
 						</div>
 
 						<div class="6u$ 12u$(medium)">
@@ -183,6 +185,8 @@
 					<li><a href="model.html" class="button scrolly">Read next section</a></li>
 				</ul>
 				<ul class="copyright">
+					<li>© 2017 Daria Dicu</li>
+					<li>Imperial College London</li>
 					<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 				</ul>
 			</section>

@@ -7,6 +7,7 @@
 <html>
 	<head>
 		<title>Absolute quantification of mtDNA</title>
+		<link rel="shortcut icon" href="diagrams/title-icon.ico">
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -75,7 +76,7 @@
 							<p>Mitochondrial DNA (mtDNA) is a short, circular DNA molecule found in mitochondria (Fig. 2). It is present in mammalian cells in copies on the order of thousands and codes for essential energy genes. The mutation rate of mitochondrial DNA is much higher than that nuclear DNA. Some mutations reach significant levels within the cell, causing a state called heteroplasmy.
 							</p>
 							<p>
-								Heteroplasmy represents the presence of more than one type of mtDNA within a cell (Fig. 3). <a href="references.html#wallacechalkia">Wallace and Chalkia, 2013</a> discuss some of the underlying mechanisms of heteroplasmic mutations in both germline and somatic tissue cells.
+								Heteroplasmy represents the presence of more than one type of mtDNA within a cell (Fig. 3). <a href="references.html#wallacechalkia">Wallace and Chalkia, 2013</a> discuss some of the mechanisms underlying heteroplasmic mutations in both germline and somatic tissue cells.
 							</p>
 						</div>
 						<br/>
@@ -83,13 +84,12 @@
 						<div class="6u$ 12u$(medium) important(medium)">
 							<br>
 							<center><img src="diagrams/map_mtdna.svg" style="width:60%" alt="mtDNA diagram"></center>
-							<figcaption><center><b>Figure 1.</b> The human mitochondrial DNA is a short, circular DNA molecule present in cells in copies of 100-100,000.
-								<br><i>This picture is a work by Emmanuel Douzery</center></i></figcaption> 
+							<figcaption><center><b>Figure 1.</b> The human mitochondrial DNA is a short, circular DNA molecule present in cells in copies of 100-100,000. This picture is a work by <a href="https://commons.wikimedia.org/wiki/User:Manudouz">Emmanuel Douzery</a>.</center></figcaption> 
 						</div>
 						<div class="12u$ 12u$(medium)">
 							<center><img src="diagrams/heteroplasmy.svg" style="width:55%" alt="mtDNA diagram"></center>
 							<figcaption><center><b>Figure 2.</b> Different levels of heteroplasmy in single cells. For pathogenic mutations, a functional defect appears only above a certain heteroplasmy threshold (e.g. 80%).<br>
-							Adapted from <a href="references.html#stewartchinnery">Stewart and Chinnery, 2015</a></center></figcaption>
+							Adapted from <a href="references.html#stewartchinnery">Stewart and Chinnery, 2015.</a></center></figcaption>
 						</div>
 					</div>
 				</div>
@@ -105,11 +105,11 @@
 							</header>
 							<p>Common mtDNA mutations were found to increase the risk of developing complex health issues in humans, including late-onset diseases. For more details, <a href="references.html#stewartchinnery">Stewart and Chinnery, 2015</a> discuss the implication of human heteroplasmy on human health and disease. However, many of the mechanisms of mtDNA mutations are yet to be understood, and a first step in this direction would be performing accurate quantification of mtDNA heteroplasmy within single cells.
 							</p>
-							<p>Measuring single-cell mtDNA load is a more difficult task both experimentally and quantitatively, due to stochasticity having a larger effect at small number of molecules (~100). Aggregate measurements over sets of many cells are a common alternative to explain biological phenomena. The following points show the importance of single-cell mtDNA quantification, compared to aggregate measurements:</p>
+							<p>Measuring single-cell mtDNA load is a difficult task both experimentally and quantitatively, due to the stochasticity having a larger effect on estimation at small numbers of molecules, as it is the case with single-cell data. Aggregate measurements over sets of many cells are a common alternative to explain biological phenomena. The following points show the importance of single-cell mtDNA quantification, compared to aggregate measurements:</p>
 						</div>
 						<div class="6u 12u$(medium)">
 							<ol>
-								<li>Phenomena at tissue level can either be modelled microscopically (called bottom-up model) or phenomenologically. Quantification of single-cell mtDNA would allow parametrisation of bottom-up models using mtDNA estimates, thus capturing more detail and taking into account the interplay of cellular mechanisms.</li> 
+								<li>Phenomena at tissue level can be modelled either microscopically (called bottom-up model) or phenomenologically. The quantification of single-cell mtDNA copy number would allow the parametrisation of bottom-up models, thus capturing more detail and taking into account the interplay of mechanisms at the cellular level.</li> 
 								<li>Aggregate measurements of heteroplasmy were shown to not be indicative of single cell behaviour. For example, the tissue homogenate heteroplasmy in humans was shown to increase with age, while the cellular mean heteroplasmy remained constant (<a href="references.html#hoitzingetal">Hoitzing et al., 2017</a>).</li>
 								<li>Aggregate measurements only provide information about the mean of the single-cell heteroplasmy distribution, not the variance. The variance of the distribution is important when taking into account the threshold effect of heteroplasmy (Fig. 3), and can only be measured from single-cell data.</li>
 							</ol>
@@ -117,7 +117,7 @@
 						</div>
 						<div class="6u$ 12u$(medium)">
 							<div id="heteroplasmy_demo" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-							<figcaption><center><b>Figure 3.</b> Two patients have heteroplasmy distributions 1 and 2, with the same mean and different variances. Only patient 1 experiences pathological defects due to the threshold effect of heteroplasmy, as they have a significant amount of cells with heteroplasmy above the threshold level 0.8.
+							<figcaption><center><b>Figure 3.</b> Two patients have heteroplasmy distributions 1 and 2, with the same mean and different variances. The threshold effect dictates that physiological defects appear only when heteroplasmy is larger than 0.8. Only patient 1 experiences pathological defects due to this effect, as they have a significant amount of cells with heteroplasmy above the threshold level 0.8.
 							</center></figcaption>
 						</div>
 						<div class="6u$ 12u$(medium)">
@@ -139,7 +139,7 @@
 						</div>
 						<div class="6u 12u$(medium)">
 							<p>The heteroplasmy of a single cell is determined by quantifying the number of mutant mtDNA molecules and the total number of mtDNA molecules.</p>
-							<p>The experimental protocol for measuring the two quantities is based on quantitative PCR (qPCR). This is a technique used for amplifying a specific DNA segment (more details in <a href="background.html#one">Background)</a>. The procedure is used when the initial number of molecules is too small to be measured directly, which is the case for mtDNA. It progressively amplifies the number of target molecules over a series of thermal cycles, and provides a fluorescence measurement after each cycle, indicating the number molecules present on the plate.
+							<p>The experimental protocol for measuring the two quantities is based on quantitative PCR (qPCR). This is a technique used for amplifying a specific DNA segment (more details in <a href="background.html#qpcr">Background</a>). The procedure is used when the initial number of molecules is too small to be measured directly, which is the case for mtDNA. It progressively amplifies the number of target molecules over a series of thermal cycles, and provides a fluorescence measurement after each cycle, indicating the number molecules present on the plate.
 							</p>
 							<p>The mutant and total quantities are determined in separate qPCR experiments, as different DNA primers must be used to identify and amplify each (Fig. 4).</p>
 							<p>We use the qPCR data to estimate and model the measurement error in the initial number of either mutant or total number of molecules.</p>
@@ -164,8 +164,8 @@
 					<header class="major">
 						<h2>Quantification aims</h2>
 					</header>
-					<p>The aim of this project is to model the error in mtDNA quantification for single-cell data, and ultimately quantify single-cell heteroplasmy. The analysed data consists of qPCR amplification curves in the form of fluorescence intensity reads (Fig. 5). Fluorescence intensity reads indicate the number of amplified target molecules at each cycle of the qPCR experiment (more details in <a href="background.html#one">Background</a>).</p>
-					<p>The amplification process is modelled as a Hidden Markov Model (more details in <a href="model.html">Model</a>), and Bayesian inference (pseudo-marginal Metropolis Hastings) is used to infer the parameters of this model that best fit the amplification curve (more details in <a href="inference.html">Inference</a>). The parameter of interest is the initial number of molecules <i>X<sub>0</sub></i>, which gives either the number of mutant or total mtDNA molecules, depending on the experiment.</p>
+					<p>The aim of this project is to model the error in mtDNA quantification for single-cell data, and ultimately quantify single-cell heteroplasmy. The analysed data consists of qPCR amplification curves in the form of fluorescence intensity reads (Fig. 5). Fluorescence intensity reads indicate the number of amplified target molecules at each cycle of the qPCR experiment (more details in <a href="background.html#qpcr">Background</a>).</p>
+					<p>The amplification process is modelled as a Hidden Markov Model (more details in <a href="model.html">Model</a>), and Bayesian inference (pseudo-marginal Metropolis Hastings) is used to infer the parameters of this model that best fit the amplification curve (more details in <a href="inference.html">Inference</a>). The parameter of interest is the initial number of molecules X<sub>0</sub>, which gives either the number of mutant or total mtDNA molecules, depending on the experiment.</p>
 				</div>
 			</div>
 		</div>
@@ -497,6 +497,8 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 					<li><a href="background.html" class="button scrolly">Read next section</a></li>
 				</ul>
 				<ul class="copyright">
+					<li>© 2017 Daria Dicu</li>
+					<li>Imperial College London</li>
 					<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 				</ul>
 			</section>

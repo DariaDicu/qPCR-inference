@@ -157,7 +157,7 @@ function compute_fill_between_bci(y1, y2) {
 }
 
 // Stochasticity data.
-$.getJSON('http://localhost:8000/stochasticity_p075.json', function (data) {
+$.getJSON('stochasticity_p075.json', function (data) {
 	var myChart2 = Highcharts.chart('stochasticity2', {
 	    title: {
 	        text: 'Stochasticity in amplification for the same X<sub>0</sub>',
@@ -171,7 +171,7 @@ $.getJSON('http://localhost:8000/stochasticity_p075.json', function (data) {
 	    xAxis: {
 	        allowDecimals: true,
 	        gridLineWidth: 1,
-	        min: 32,
+	        min: 27,
 	        title: {
 	        	text: 'Cycles'
 	        }
@@ -448,7 +448,7 @@ Highcharts.theme = {
 };
 
 
-$.getJSON('http://localhost:8000/all_marginals_10_3_17_joint_inf.json', function (data) {
+$.getJSON('all_marginals_10_3_17_joint_inf.json', function (data) {
 	// Apply the theme
 	Highcharts.setOptions(Highcharts.theme);
 	 var myChart = Highcharts.chart('x0_posterior', {

@@ -7,6 +7,7 @@
 <html>
 	<head>
 		<title>Absolute quantification of mtDNA</title>
+		<link rel="shortcut icon" href="diagrams/title-icon.ico">
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -18,7 +19,7 @@
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	</head>
 	<body>
-			<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+			<nav id="navbar" class="navbar navbar-default navbar-fixed-top navbar-inverse">
 			  <div class="container-fluid">
 			  <ul class="nav navbar-nav navbar-left">
 			  	<li><a href="index.html#landing_page">
@@ -85,7 +86,7 @@
 				<div class="row 150%">
 					<div class="6u 12u$(medium)">
 						<img src="diagrams/HMM.svg" style="width:100%" alt="HMM diagram">
-						<figcaption><center><b>Figure 13.</b> The Hidden Markov Model used to represent the qPCR experiment. The hidden states are X<sub>i</sub>, the copy number at each amplification cycle i and the observed states are fluorescence intensity reads F<sub>i</sub>. The model is parameterised by θ = [X<sub>0</sub> , r, σ<sup>2</sup>].
+						<figcaption><center><b>Figure 13.</b> The Hidden Markov Model used to represent the qPCR experiment. The hidden states are X<sub>i</sub> (the copy number at each amplification cycle i) and the observed states are fluorescence intensity reads F<sub>i</sub>. The model is parameterised by θ = [X<sub>0</sub> , r, σ<sup>2</sup>].
 						</center></figcaption>
 						<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 						<img src="diagrams/inference_blackbox.svg" style="width:100%" alt="Inference diagram">
@@ -106,7 +107,7 @@
 						The model is parameterised by θ = [X<sub>0</sub> , r, σ<sup>2</sup>] (Fig. 13).
 						</p>
  						<p>
- 						The HMM representation influences the choice of inference method that accounts for transitions between states when computing the likelihood of observations for a fixed parameter θ. The pseudo-marginal Metropolis Hastings algorithm was used to perform inference on the HMM (more in <a href="inference.html#pmmh">Inference</a>).
+ 						The HMM representation influences the choice of inference method, requiring one that accounts for transitions between hidden states when computing the likelihood of observations for a fixed parameter θ. The pseudo-marginal Metropolis Hastings algorithm was used to perform inference on the HMM (more in <a href="inference.html">Inference</a>).
 	 					</p>
 	 					<p>
 						The model can be extended to account for other sources of uncertainty, by including additional states in the graphical model above. For example, the stochasticity in the pipetting procedure can be modelled by adding an extra state (more details in <a href="summary.html#two">Future Work</a>).
@@ -122,7 +123,7 @@
 				<div class="row 150%">
 					<div class="12u$ 12u$(medium)">
 						<header class="major">
-							<h2 id="estimating-alpha">Estimation of the fluorescence coefficient α</h2>
+							<h2 id="estimating-alpha" style="margin-top:-70px; padding-top:70px">Estimation of the fluorescence coefficient α</h2>
 							<p>The fluorescence coefficient α, also known as an optical calibration factor, relates the number of target molecules to fluorescence intensity:
 							<br><br>
 								<span style="margin-left:50px">F<sub>i</sub> = αX<sub>i</sub> + N(0, σ<sup>2</sup>)</span>
@@ -131,8 +132,8 @@
 						</header>
 					</div>
 					<div class="12u$ 12u$(medium)">
-						<h3 id="choice-of-model">The choice of model</h3>
-						<p>The fluorescence coefficient α can be estimated using samples where the initial copy number X<sub>0</sub> is known. The experimental data for such samples is in the form of dilution series, with initial copy numbers varying between 1,000 and 100,000 molecules. A binomial branching process, such as the one used to describe the qPCR experiment above, behaves deterministically for molecule numbers as large as the ones in the dilution series. The pseudo-marginal Metropolis Hasting inference algorithm fails for deterministic processes (detailed explanation in <a href="inference.html">Inference</a>).
+						<h3 id="choice-of-model" style="margin-top:-70px; padding-top:70px">The choice of model</h3>
+						<p>The fluorescence coefficient α can be estimated using samples where the initial copy number X<sub>0</sub> is known. The experimental data for such samples is in the form of dilution series, with initial copy numbers varying between 1,000 and 100,000 molecules. A binomial branching process, such as the one used to describe the qPCR experiment above, behaves deterministically for molecule numbers as large as the ones in the dilution series. The pseudo-marginal Metropolis Hasting inference algorithm fails for deterministic processes (detailed explanation in <a href="inference.html#deterministic-behaviour">Inference</a>).
 						</p>
 						<p>As it was found that the experiment behaves deterministically for the dilution series used in estimating α, a sigmoid curve model was considered more appropriate to represent the data.
 						</p>
@@ -175,7 +176,7 @@
 						</center></figcaption>
 					</div>
 					<div class="12u$ 12u$(medium)">
-						<h3 id="coefficient-variability">Variability in the coefficient α</h3>
+						<h3 id="coefficient-variability" style="margin-top:-70px; padding-top:70px">Variability in the coefficient α</h3>
 						<p>Since literature papers assume that the parameter α is a fixed constant known in advance, it is interesting to see what the variability of α is depending on different factors such as the qPCR primer or experimental setting.</p>
 						<p>The estimation of the fluorescence coefficient α was done on experimental data from 3 different days (16/12/2016, 02/03/2017, 10/03/2017) and with 3 different primers (BJCOII, BJ-CYB C57, BJmmMUP) used to amplify standards with known initial copy number. The estimation showed both inter- and intra-experimental variability. The adjoining figure shows the estimate value of α plotted on the log scale, with visible inter-experimental variability present on orders of magnitude of α.</p>
 						<div id="boxplot" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
@@ -184,7 +185,7 @@
 						<br>
 						<p>Reassuringly, it can be observed from the plot above that the distributions of α estimates from samples with the same primer (BJmmMUP) are comparable, although the data comes from very different experimental settings, on different days (16/12/2017 vs. 10/03/2017). More work is needed to establish whether these two distributions differ significantly in their means. However, these results indicate that the variability in α between experiments is explained by the type of primer. This supports using an α estimate in the inference for a new sample if the same primer was used on the standards for α-estimation and on the new sample.</p>
 						<div id="boxplot2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-						<figcaption><center><b>Figure 18.</b> When the same primer is used, the distribution of α does not show significat inter-experimental variability. While further work is needed to establish this, it supports the practice of using an α estimate from standards that use the same primer as the sample of interest for which X<sub>0</sub> is inferred.</sub>.
+						<figcaption><center><b>Figure 18.</b> When the same primer is used, the distribution of α does not show significat inter-experimental variability. While further work is needed to establish this, it supports the practice of using an α estimate from standards that use the same primer as the sample of interest for which X<sub>0</sub> is inferred.
 						</center></figcaption>
 					</div>
 				</div>
@@ -228,6 +229,8 @@
 					<li><a href="inference.html" class="button scrolly">Read next section</a></li>
 				</ul>
 				<ul class="copyright">
+					<li>© 2017 Daria Dicu</li>
+					<li>Imperial College London</li>
 					<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 				</ul>
 			</section>

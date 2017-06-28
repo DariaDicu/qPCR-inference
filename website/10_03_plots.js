@@ -1,4 +1,4 @@
-$.getJSON('http://localhost:8000/x0_p_joint_10_3_17.json', function (data) {
+$.getJSON('x0_p_joint_10_3_17.json', function (data) {
 	 var myChart = Highcharts.chart('10_03_x0_p_sing_results', {
 	    chart: {
 	        type: 'scatter'
@@ -61,7 +61,7 @@ $.getJSON('http://localhost:8000/x0_p_joint_10_3_17.json', function (data) {
 	});
 });
 
-$.getJSON('http://localhost:8000/x01_p_joint_10_3_17.json', function (data) {
+$.getJSON('x01_p_joint_10_3_17.json', function (data) {
 	 var myChart = Highcharts.chart('10_03_x01_p_joint_results', {
 	    chart: {
 	        type: 'scatter'
@@ -205,7 +205,7 @@ function prepare_boxplot_data(data) {
 }
 
 // Loading marginals from joint inference.
-$.getJSON('http://localhost:8000/all_marginals_10_3_17_joint_inf.json', function (data) {
+$.getJSON('all_marginals_10_3_17_joint_inf.json', function (data) {
 	 var myChart = Highcharts.chart('10_03_x0_all_marg_results', {
 	    chart: {
 	        type: 'column'
@@ -574,7 +574,7 @@ $.getJSON('http://localhost:8000/all_marginals_10_3_17_joint_inf.json', function
 	});
 });
 
-$.getJSON('http://localhost:8000/single_inf_all_marginals.json', function (data) {
+$.getJSON('single_inf_all_marginals.json', function (data) {
 	 var myChart = Highcharts.chart('10_03_x0_single_results', {
 	    title: {
 	        text: 'Marginal distribution for X<sub>0</sub> from single-well inference',
@@ -755,7 +755,7 @@ $.getJSON('http://localhost:8000/single_inf_all_marginals.json', function (data)
 });
 
 
-$.getJSON('http://localhost:8000/simulated_run_marginals.json', function (data) {
+$.getJSON('simulated_run_marginals.json', function (data) {
 	 var myChart = Highcharts.chart('simulated_x0_marginal', {
 	    chart: {
 	        type: 'column'
@@ -957,7 +957,7 @@ $.getJSON('http://localhost:8000/simulated_run_marginals.json', function (data) 
 });
 
 // BCI data.
-$.getJSON('http://localhost:8000/bci_data.json', function (data) {
+$.getJSON('bci_data.json', function (data) {
 	var myChart2 = Highcharts.chart('bci_zoomed', {
 	    title: {
 	        text: 'Confidence interval on fluorescence reads'
@@ -1030,7 +1030,7 @@ $.getJSON('http://localhost:8000/bci_data.json', function (data) {
 
 
 // Alpha dependencies.
-$.getJSON('http://localhost:8000/alpha_boxplots.json', function (data) {
+$.getJSON('alpha_boxplots.json', function (data) {
 	formatted_data = prepare_boxplot_data(data)
 	var myChart = Highcharts.chart('boxplot', {
     chart: {
@@ -1085,7 +1085,7 @@ $.getJSON('http://localhost:8000/alpha_boxplots.json', function (data) {
 
 
 // Alpha dependencies.
-$.getJSON('http://localhost:8000/different_alphas_inference.json', function (data) {
+$.getJSON('different_alphas_inference.json', function (data) {
 	var myChart = Highcharts.chart('different_alphas_posteriors_100000', {
 	    chart: {
 	        type: 'column'
@@ -1315,7 +1315,7 @@ $.getJSON('http://localhost:8000/different_alphas_inference.json', function (dat
 
 
 // Alpha dependencies.
-$.getJSON('http://localhost:8000/acf_data.json', function (data) {
+$.getJSON('acf_data.json', function (data) {
 	var myChart1 = Highcharts.chart('acf_x01', {
 	    chart: {
 	        type: 'line'
